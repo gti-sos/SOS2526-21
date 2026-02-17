@@ -1,0 +1,19 @@
+{
+  "name": "sos2526-21",
+  "version": "0.0.0",
+  "description": "**Team:**  [Ivan Arriaza Dominguez](https://github.com/ivan7112)  \r        [Daniel De La Rosa Fernandez](https://github.com/XJD5067)  \r        [María Torres Chacón](https://github.com/MariaTorresChacon)  \r **Project description:** Our project explores the relationship between religious beliefs, AIDS deaths, and cholera statistics.  \r **Repository:** [SOS2526-21]( https://github.com/gti-sos/SOS2526-21)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gti-sos/SOS2526-21.git"
+  },
+  "author": "Ivan AD, Daniel DLRF, Maria TC",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gti-sos/SOS2526-21/issues"
+  },
+  "homepage": "https://github.com/gti-sos/SOS2526-21#readme"
+}
