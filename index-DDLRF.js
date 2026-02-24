@@ -111,4 +111,6 @@ function calcularMediaMenores14(datos, codigoPais) {
             .reduce((suma, valor, i, arr) => (suma + valor/arr.length), 0)
 };
 
-console.log(calcularMediaMenores14(ejemploDatos, "AFG"));
+//console.log(calcularMediaMenores14(ejemploDatos, "AFG"));
+
+module.exports = {ejemploDatos, calcularMediaMenores14}
