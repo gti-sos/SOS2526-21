@@ -117,7 +117,7 @@ function media_muertes_colera_pais_despues_del_año(datos, pais, año){
     return filtrado.length === 0? 0 : suma_muertes / filtrado.length;
     };
 
-console.log(media_muertes_colera_pais_despues_del_año(cholera_stats, "afganistan", 2009));
+//console.log(media_muertes_colera_pais_despues_del_año(cholera_stats, "afganistan", 2009));
 
 
 

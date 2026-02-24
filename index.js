@@ -1,9 +1,11 @@
 let express = require('express');
 let cool = require('cool-ascii-faces');
+let bodyParser = require('body-parser');
 const fs = require('fs');
 const csv = require('csv-parser');
 
 const app = express();
+app.use(bodyParser.json())
 
 let PORT = process.env.PORT || 3000;
 let BASE_URL_SAMPLES = "/samples";
@@ -28,13 +30,14 @@ app.get(BASE_URL_SAMPLES + '/DDLRF',(req, res) => {
     </h1></body></html>`)
 });
 
-app.use(express.json());
 let arrayMuertes = [];
 
+//GET DATOS
 app.get(BASE_URL_API+'/aids-deaths-stats', (req, res) => {
-    res.status(200).json(arrayMuertes); 
+    res.status(200).send(JSON.stringify(arrayMuertes, null, 2)); 
 }); 
 
+//GET LOAD_INITIAL_DATA
 app.get(BASE_URL_API+'/aids-deaths-stats/loadInitialData', (req,res) => {
     if (arrayMuertes.length > 0) {
         return res.status(409).json({ error: 'Datos ya cargados' });
@@ -43,7 +46,7 @@ app.get(BASE_URL_API+'/aids-deaths-stats/loadInitialData', (req,res) => {
     let counter = 0;
     const csvData = [];
     fs.createReadStream('./data/Age_share_death.csv')
-        .pipe(csv({ headers: true })) 
+        .pipe(csv()) 
         .on('data', (row) => {
             if (counter < 15) {
                 csvData.push(row);  
@@ -52,11 +55,42 @@ app.get(BASE_URL_API+'/aids-deaths-stats/loadInitialData', (req,res) => {
         })
         .on('end', () => { 
             arrayMuertes = csvData;
-            res.status(201).json({ 
+            res.status(201).send(JSON.stringify({ 
                 message: 'Datos CSV cargados', 
                 count: arrayMuertes.length 
-            });
+            }, null, 2));
         });
+});
+//POST 1 ELEMENTO NUEVO A DATOS
+app.post(BASE_URL_API + '/aids-deaths-stats', (req, res) => {
+    arrayMuertes.push(req.body);
+    res.sendStatus(201, "CREATED");
+})
+
+//GET 1 ELEMENTO
+app.get(BASE_URL_API + '/aids-deaths-stats/:codecountry/:year', (req, res) => {
+    const dato = arrayMuertes.find(d => 
+        d.codecountry === req.params.codecountry && d.year === req.params.year
+    );
+    if (!dato) return res.status(404).send(JSON.stringify({ error: 'Dato no encontrado' }, null, 2));
+    res.status(200).send(JSON.stringify(dato, null, 2));
+});
+
+//REMOVE 1 ELEMENTO 
+app.delete(BASE_URL_API + '/aids-deaths-stats/:codecountry/:year', (req, res) => {
+    const index = arrayMuertes.findIndex(d => 
+        d.codecountry === req.params.codecountry && d.year === req.params.year
+    );
+
+    if (index === -1) return res.sendStatus(404);
+    arrayMuertes.splice(index, 1);
+    res.sendStatus(200);
+});
+
+//REMOVE TODOS
+app.delete(BASE_URL_API + '/aids-deaths-stats', (req, res) => {
+    arrayMuertes = [];
+    res.sendStatus(200);
 });
 
 
