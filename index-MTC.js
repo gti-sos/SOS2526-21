@@ -105,6 +105,9 @@ Al hacer “node index-YYY.js” se muestra el resultado del cálculo.
  */
 
 
+
+
+
 function media_muertes_colera_pais_despues_del_año(datos, pais, año){
     let filtrado = datos.filter(fila => fila.country === pais && fila.year > año);
     
@@ -115,3 +118,8 @@ function media_muertes_colera_pais_despues_del_año(datos, pais, año){
     };
 
 console.log(media_muertes_colera_pais_despues_del_año(cholera_stats, "afganistan", 2009));
+
+
+
+
+module.exports = {cholera_stats, media_muertes_colera_pais_despues_del_año};
