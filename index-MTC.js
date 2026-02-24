@@ -105,8 +105,8 @@ Al hacer “node index-YYY.js” se muestra el resultado del cálculo.
  */
 
 
-function media_muertes_colera_pais_despues_del_año(pais, año){
-    let filtrado = cholera_stats.filter(fila => fila.country === pais && fila.year > año);
+function media_muertes_colera_pais_despues_del_año(datos, pais, año){
+    let filtrado = datos.filter(fila => fila.country === pais && fila.year > año);
     
     let suma_muertes = filtrado.map(fila => fila.number_of_reported_deaths_from_cholera)
                         .reduce((a, n) => {return a+n}, 0);
@@ -114,4 +114,4 @@ function media_muertes_colera_pais_despues_del_año(pais, año){
     return filtrado.length === 0? 0 : suma_muertes / filtrado.length;
     };
 
-console.log(media_muertes_colera_pais_despues_del_año("afganistan", 2009));
+console.log(media_muertes_colera_pais_despues_del_año(cholera_stats, "afganistan", 2009));
