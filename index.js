@@ -63,7 +63,7 @@ app.get(BASE_URL_API+'/aids-deaths-stats/loadInitialData', (req,res) => {
 //--------------------------------------------------------------------------------------------
 //MARIA
 
-const {cholera_stats, media_muertes_colera_pais_despues_del_año} = requiere('./index-MTC.js');
+const {cholera_stats, media_muertes_colera_pais_despues_del_año} = require('./index-MTC.js');
 
 app.get('/samples/MTC' ,(req, res) => {
     res.send(media_muertes_colera_pais_despues_del_año(cholera_stats, "afganistan", 2009));
