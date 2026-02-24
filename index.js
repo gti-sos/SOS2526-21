@@ -29,6 +29,20 @@ app.get('/samples/DDLRF',(req, res) => {
 
 
 //--------------------------------------------------------------------------------------------
+//MARIA
+
+const {cholera_stats, media_muertes_colera_pais_despues_del_año} = requiere('./index-MTC.js');
+
+app.get('/samples/MTC' ,(req, res) => {
+    res.send(media_muertes_colera_pais_despues_del_año(cholera_stats, "afganistan", 2009));
+});
+
+
+
+
+
+//--------------------------------------------------------------------------------------------
+
 
 app.listen(PORT, () => {
     console.log(`Server running on ${PORT}`)
