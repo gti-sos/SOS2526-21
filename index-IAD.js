@@ -21,8 +21,12 @@
  object10 = {entity:"angola",code:"ago",year:2010,christian:91.57468,jews:0.002140027,muslim:0.1669055,hindu:0.013696176,buddhist:0.00385205,other:3.7618802,no_religion:4.47685}];
 //-----------------------------------
 
-let media=array.filter((object)=>object.entity="africa").map((object)=>object.jews).reduce((a,b,i,arr)=>(a+b)/arr.length);
+function average_percent_religion_country(religion,country) {
+    return array.filter((object)=>object.entity="country")
+    .map((object)=>object[religion]).reduce((a,b,i,arr)=>(a+b)/arr.length);
+}
 
-console.log(media);
+
+console.log(average_percent_religion_country("jews","africa"));
 
 
