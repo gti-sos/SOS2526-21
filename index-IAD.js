@@ -29,4 +29,4 @@ function average_percent_religion_country(religion,country) {
 
 console.log(average_percent_religion_country("jews","africa"));
 
-
+module.exports={average_percent_religion_country}
