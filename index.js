@@ -331,7 +331,7 @@ app.get(BASE_URL_API + "/cholera_stats", (req, res) => {
 
 let array_creencias=[]
 
-const average_percent_religion_country=require("./index-IAD.js");
+const {average_percent_religion_country}=require("./index-IAD.js");
 
 //SAMPLE
 app.get(BASE_URL_SAMPLES+"/IAD",(req,res)=>{
