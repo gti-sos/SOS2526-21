@@ -197,9 +197,9 @@ app.get(BASE_URL_API + "/cholera_stats/loadInitialData", (req, res) => {
 
 
 app.get(BASE_URL_API + "/cholera_stats", (req, res) => {
-        if (cholera_stats_array.length===0){ //error si no se han cargado los datos
+        /*if (cholera_stats_array.length===0){ //error si no se han cargado los datos
             return res.status(404).send(JSON.stringify("No data loaded", null, 2));
-        }
+        }*/
 
         let datos = cholera_stats_array;
 
@@ -265,7 +265,7 @@ app.get(BASE_URL_API + "/cholera_stats", (req, res) => {
             whoRegion: req.body.whoRegion
         };
         cholera_stats_array.push(nuevo);
-        res.status(201).send(JSON.stringify(nuevo, null, 2));
+        res.sendStatus(201);
 
     });
 
@@ -294,7 +294,7 @@ app.get(BASE_URL_API + "/cholera_stats", (req, res) => {
         };
 
         cholera_stats_array[index]= actualizado;
-        res.status(200).send(JSON.stringify(actualizado, null, 2));
+        res.sendStatus(200);
 
 
     });
