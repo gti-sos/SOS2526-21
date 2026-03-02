@@ -412,6 +412,12 @@ app.post(BASE_URL_API+"/religious-believes-stats",(req,res)=>{
         && req.body.no_religion)){
             return res.sendStatus(400);
         }
+
+    if (array_creencias.filter((element)=>element.entity===req.body.entity
+     && element.year===req.body.year).length>0){
+        res.sendStatus(409);
+     }
+
     array_creencias.push(req.body);
     res.sendStatus(201);
 });
