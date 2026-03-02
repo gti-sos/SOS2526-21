@@ -9,5 +9,5 @@
 - **URI**:https://sos2526-21.onrender.com
 - **API**: 
   - Iván Arriaza Domínguez (https://sos2526-21.onrender.com/api/v1/religious-believes-stats)
-  - Daniel de la Rosa Fernández (https://sos2526-21.onrender.com/api/v1//aids-deaths-stats)
+  - Daniel de la Rosa Fernández (https://sos2526-21.onrender.com/api/v1/aids-deaths-stats)
   - María Torres Chacón (https://sos2526-21.onrender.com/api/v1/cholera-stats)
