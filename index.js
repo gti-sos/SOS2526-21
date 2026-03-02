@@ -86,6 +86,9 @@ app.post(BASE_URL_API + '/aids-deaths-stats', (req, res) => {
         !req.body.death_count_hiv_aids_50_69){
             return res.sendStatus(400,"BAD REQUEST");
         }
+    if(arrayMuertes.find(d=> d.country === req.body.country &&  d.year === parseInt(req.body.year))){
+            return res.sendStatus(409, "CONFLICT")
+        }
     arrayMuertes.push(req.body);
     res.sendStatus(201, "CREATED");
 });
