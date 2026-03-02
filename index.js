@@ -378,7 +378,7 @@ app.get(BASE_URL_API+"/religious-believes-stats",(req,res)=>{
 
 //INITIAL DATA
 
-app.get(BASE_URL_API+"/religious-believes-stats/load-initial-data",(req,res)=>{
+app.get(BASE_URL_API+"/religious-believes-stats/loadInitialData",(req,res)=>{
     if(array_creencias.length>0){
         return res.sendStatus(409);
     }
