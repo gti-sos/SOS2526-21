@@ -272,7 +272,7 @@ app.get(BASE_URL_API + "/cholera_stats", (req, res) => {
     
     //post mal hecho 
     
-    app.post(BASE_URL_API+"/cholera-stats/:country/:year",(req,res)=>{
+    app.post(BASE_URL_API+"/cholera_stats/:country/:year",(req,res)=>{
         return res.sendStatus(405);
     });
 
@@ -310,7 +310,7 @@ app.get(BASE_URL_API + "/cholera_stats", (req, res) => {
 
     //put mal hecho
         
-    app.put(BASE_URL_API+"/cholera-stats",(req,res)=>{
+    app.put(BASE_URL_API+"/cholera_stats",(req,res)=>{
         return res.sendStatus(405);
     });
 
