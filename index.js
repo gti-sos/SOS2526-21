@@ -161,7 +161,7 @@ app.get('/samples/MTC' ,(req, res) => {
 
 let cholera_stats_array=[];
 
-app.get(BASE_URL_API + "/cholera_stats/loadInitialData", (req, res) => {
+app.get(BASE_URL_API + "/cholera-stats/loadInitialData", (req, res) => {
 
         if (cholera_stats_array.length>0){
             //si el servidor ya tiene el array de colera en memoria, lanza codigo de error 409 (conflict)
@@ -196,7 +196,7 @@ app.get(BASE_URL_API + "/cholera_stats/loadInitialData", (req, res) => {
 //GET de varios elementos / filtrando
 
 
-app.get(BASE_URL_API + "/cholera_stats", (req, res) => {
+app.get(BASE_URL_API + "/cholera-stats", (req, res) => {
         /*if (cholera_stats_array.length===0){ //error si no se han cargado los datos
             return res.status(404).send(JSON.stringify("No data loaded", null, 2));
         }*/
@@ -230,7 +230,7 @@ app.get(BASE_URL_API + "/cholera_stats", (req, res) => {
 
     //GET sobre 1 elemento concreto
 
-    app.get(BASE_URL_API + "/cholera_stats/:country/:year", (req, res) =>{
+    app.get(BASE_URL_API + "/cholera-stats/:country/:year", (req, res) =>{
 
         const dato = cholera_stats_array.find(d=> d.country === req.params.country 
                                                 && d.year ===parseInt(req.params.year));
@@ -244,7 +244,7 @@ app.get(BASE_URL_API + "/cholera_stats", (req, res) => {
 
     //POST
 
-    app.post(BASE_URL_API + "/cholera_stats", (req, res) =>{
+    app.post(BASE_URL_API + "/cholera-stats", (req, res) =>{
         
         if(!req.body.country || !req.body.year || !req.body.reportedCases || !req.body.reportedDeaths
             || !req.body.fatalityRate || !req.body.whoRegion
@@ -272,14 +272,14 @@ app.get(BASE_URL_API + "/cholera_stats", (req, res) => {
     
     //post mal hecho 
     
-    app.post(BASE_URL_API+"/cholera_stats/:country/:year",(req,res)=>{
+    app.post(BASE_URL_API+"/cholera-stats/:country/:year",(req,res)=>{
         return res.sendStatus(405);
     });
 
 
     //PUT
 
-    app.put(BASE_URL_API + "/cholera_stats/:country/:year", (req, res) =>{
+    app.put(BASE_URL_API + "/cholera-stats/:country/:year", (req, res) =>{
           if(!req.body.country || !req.body.year || !req.body.reportedCases || !req.body.reportedDeaths
             || !req.body.fatalityRate || !req.body.whoRegion
         ){
@@ -310,14 +310,14 @@ app.get(BASE_URL_API + "/cholera_stats", (req, res) => {
 
     //put mal hecho
         
-    app.put(BASE_URL_API+"/cholera_stats",(req,res)=>{
+    app.put(BASE_URL_API+"/cholera-stats",(req,res)=>{
         return res.sendStatus(405);
     });
 
         
     //DELETE de 1 elemento
 
-    app.delete(BASE_URL_API + "/cholera_stats/:country/:year", (req, res) => {
+    app.delete(BASE_URL_API + "/cholera-stats/:country/:year", (req, res) => {
     
         const index= cholera_stats_array.findIndex(d=> d.country === req.params.country && d.year === parseInt(req.params.year));
         if (index===-1){
@@ -331,7 +331,7 @@ app.get(BASE_URL_API + "/cholera_stats", (req, res) => {
     //DELETE de todos los elemento
     
     
-    app.delete(BASE_URL_API + "/cholera_stats", (req, res) => {
+    app.delete(BASE_URL_API + "/cholera-stats", (req, res) => {
         
         cholera_stats_array=[];
         res.status(200).send(JSON.stringify("Deleted successfully", null, 2));
