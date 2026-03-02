@@ -269,6 +269,14 @@ app.get(BASE_URL_API + "/cholera_stats", (req, res) => {
 
     });
 
+    
+    //post mal hecho 
+    
+    app.post(BASE_URL_API+"/cholera-stats/:country/:year",(req,res)=>{
+        return res.sendStatus(405);
+    });
+
+
     //PUT
 
     app.put(BASE_URL_API + "/cholera_stats/:country/:year", (req, res) =>{
@@ -299,7 +307,14 @@ app.get(BASE_URL_API + "/cholera_stats", (req, res) => {
 
     });
 
-    
+
+    //put mal hecho
+        
+    app.put(BASE_URL_API+"/cholera-stats",(req,res)=>{
+        return res.sendStatus(405);
+    });
+
+        
     //DELETE de 1 elemento
 
     app.delete(BASE_URL_API + "/cholera_stats/:country/:year", (req, res) => {
