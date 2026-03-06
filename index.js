@@ -456,7 +456,7 @@ app.put(BASE_URL_API+"/religious-believes-stats/:entity/:year",(req,res)=>{
     //Integrity check
     if(req.params.entity!==array_creencias[index].entity || 
         req.params.year!==array_creencias[index].year){
-        return res.sendStatus(401);
+        return res.sendStatus(400);
     }
 
 
