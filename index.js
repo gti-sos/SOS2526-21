@@ -1,24 +1,20 @@
 import express from 'express'
-import cool from 'cool-ascii-faces'
 import bodyParser from 'body-parser'
 import fs from 'fs'
 import csv from 'csv-parser'
+
+
 import {loadBackendApiDDLRF} from './src/backend/backApiDDLRF.js'
 
 const app = express();
 app.use(bodyParser.json())
 
 let PORT = process.env.PORT || 3000;
-let BASE_URL_SAMPLES = "/samples";
 let BASE_URL_API = "/api/v1";
 
 app.use('/about', express.static('./static/about.html'))
 
-app.get('/cool',(req, res) => {
-    res.send(`<html><body><h1>
-    ${cool()}
-    </h1></body></html>`)
-});
+app.use('/', express.static('./static/about.html'))
 
 //AQUI SE PUEDE PONER LAS TAREAS PERSONALES 
 //--------------------------------------------------------------------------------------------
@@ -26,13 +22,7 @@ app.get('/cool',(req, res) => {
 //-------
 //DANIEL
 //-------
-import {ejemploDatos, calcularMediaMenores14} from './index-DDLRF.js'
 
-app.get(BASE_URL_SAMPLES + '/DDLRF',(req, res) => {
-    res.send(`<html><body><h1> Resultado de la Media de Menores de 14 Muertos por SIDA: 
-    <h1>${calcularMediaMenores14(ejemploDatos, "AFG")}</h1>
-    </h1></body></html>`)
-});
 
 loadBackendApiDDLRF(app)
 
@@ -41,11 +31,6 @@ loadBackendApiDDLRF(app)
 //MARIA
 //-------
 
-import {cholera_stats, media_muertes_colera_pais_despues_del_año} from './index-MTC.js'
-
-app.get('/samples/MTC' ,(req, res) => {
-    res.send(media_muertes_colera_pais_despues_del_año(cholera_stats, "afganistan", 2009));
-});
 
 
 let cholera_stats_array=[];
