@@ -229,10 +229,6 @@ app.get(BASE_URL_API + "/cholera-stats", (req, res) => {
 let array_creencias=[]
 
 
-
-
-
-
 //GET
 app.get(BASE_URL_API+"/religious-believes-stats",(req,res)=>{
     let datos=array_creencias;
