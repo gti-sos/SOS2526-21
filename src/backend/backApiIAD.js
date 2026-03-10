@@ -1,8 +1,15 @@
 
+import fs from 'fs';
+import csv from 'csv-parser';
+import dataStore from 'nedb';
+let db = new dataStore();
+let BASE_URL_API = "/api/v1";
 
-function loadBackendApiIAD(){
+
+function loadBackendApiIAD(app){
 
 let array_creencias=[]
+db.insert(array_creencias);
 
 //Redirect to POSTMAN Documentation
 
