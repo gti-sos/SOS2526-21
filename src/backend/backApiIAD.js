@@ -1,51 +1,15 @@
-import express from 'express'
-import bodyParser from 'body-parser'
-import fs from 'fs'
-import csv from 'csv-parser'
 
-
-import {loadBackendApiDDLRF} from './src/backend/backApiDDLRF.js'
-<<<<<<< HEAD
-import {loadBackendApiMTC} from './src/backend/backApiMTC.js'
-=======
-import { loadBackendApiIAD } from './src/backend/backApiIAD.js'
->>>>>>> 4d25742395994d859859883f1eab42f4abf2af7b
-
-const app = express();
-app.use(bodyParser.json())
-
-let PORT = process.env.PORT || 3000;
+import fs from 'fs';
+import csv from 'csv-parser';
+import dataStore from 'nedb';
+let db = new dataStore();
 let BASE_URL_API = "/api/v1";
 
-app.use('/about', express.static('./static/about.html'))
 
-app.get('',(req,res)=>{
-    res.sendFile('./static/presentacion.html',{root:'./'});
-})
-
-
-//AQUI SE PUEDE PONER LAS TAREAS PERSONALES 
-//--------------------------------------------------------------------------------------------
-
-//-------
-//DANIEL
-//-------
-
-
-loadBackendApiDDLRF(app)
-
-//--------------------------------------------------------------------------------------------
-//-------
-//MARIA
-//-------
-
-loadBackendApiMTC(app)
-
-//--------------------------------------------------------------------------------------------------
-//IVÁN
-//--------------------------------------------------------------------------------------------------
+function loadBackendApiIAD(app){
 
 let array_creencias=[]
+db.insert(array_creencias);
 
 //Redirect to POSTMAN Documentation
 
@@ -189,10 +153,6 @@ app.delete(BASE_URL_API+"/religious-believes-stats",(req,res)=>{
     return res.send(200);
 })
 
-// FIN TAREAS PERSONAL
-//--------------------------------------------------------------------------------------------
+}
 
-
-app.listen(PORT, () => {
-    console.log(`Server running on ${PORT}`)
-});
+module.exports(loadBackendApiIAD);
