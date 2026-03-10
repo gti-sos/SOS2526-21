@@ -6,7 +6,7 @@ let db = new dataStore();
 let BASE_URL_API = "/api/v1";
 
 
-export function loadBackendApiIAD(app){
+function loadBackendApiIAD(app){
 
 let array_creencias=[]
 db.insert(array_creencias);
@@ -155,4 +155,4 @@ app.delete(BASE_URL_API+"/religious-believes-stats",(req,res)=>{
 
 }
 
-module.exports(loadBackendApiIAD);
+export {loadBackendApiIAD};
