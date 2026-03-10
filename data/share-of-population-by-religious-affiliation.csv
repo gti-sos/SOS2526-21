@@ -1,4 +1,4 @@
-Entity,Code,Year,Christians,Jews,Muslims,Hindus,Buddhists,Other,No religion
+entity,code,year,christian,jew,muslim,hindu,budhist,other,no_religion
 Afghanistan,AFG,2010,0.10022439,0.000106422,99.74918,0.00035474,0.01998632,0.121494696,0.00865241
 Afghanistan,AFG,2020,0.019379199,0.0000256593,99.86197,0.000128296,0.020000853,0.09004255,0.008456565
 Africa,OWID_AFR,2010,50.044273,0.008155441,44.846317,0.1253172,0.007438888,2.43861,2.529368
