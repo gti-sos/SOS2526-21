@@ -4,8 +4,8 @@
   "description": "**Team:**  [Ivan Arriaza Dominguez](https://github.com/ivan7112)  \r        [Daniel De La Rosa Fernandez](https://github.com/XJD5067)  \r        [María Torres Chacón](https://github.com/MariaTorresChacon)  \r **Project description:** Our project explores the relationship between religious beliefs, AIDS deaths, and cholera statistics.  \r **Repository:** [SOS2526-21]( https://github.com/gti-sos/SOS2526-21)",
   "main": "index.js",
   "scripts": {
-    "test-api-local": "npx newman run tests/api/religious-believes-stats.json -e tests/api/api-test-env-local.json && npx newman run tests/api/aids-deaths-stats.json -e tests/api/api-test-env-local.json && npx newman run tests/api/cholera-stats.json -e tests/api/api-test-env-local.json",
-    "test-api-online": "npx newman run tests/api/religious-believes-stats.json -e tests/api/api-test-env-render.json && npx newman run tests/api/aids-deaths-stats.json -e tests/api/api-test-env-render.json && npx newman run tests/api/cholera-stats.json -e tests/api/api-test-env-render.json",
+    "test-api-local": "npx newman run tests/api/test-religious-believes-stats.json -e tests/api/api-test-env-local.json && npx newman run tests/api/test-aids-deaths-stats.json -e tests/api/api-test-env-local.json && npx newman run tests/api/test-cholera-stats.json -e tests/api/api-test-env-local.json",
+    "test-api-online": "npx newman run tests/api/test-religious-believes-stats.json -e tests/api/api-test-env-render.json && npx newman run tests/api/test-aids-deaths-stats.json -e tests/api/api-test-env-render.json && npx newman run tests/api/test-cholera-stats.json -e tests/api/api-test-env-render.json",
     "test-local": "start-server-and-test start http://localhost:3000 test-api-local",
     "test-online": "start-server-and-test https://sos2526-21.onrender.com test-api-online",
     "test": "npm run test-api-local",
