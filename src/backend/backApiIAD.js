@@ -106,7 +106,7 @@ app.put(BASE_URL_API+"/religious-believes-stats/:entity/:year",(req,res)=>{
     })
     
     
-    return res.sendStatus(200);
+    res.sendStatus(200);
 });
 
 
@@ -149,7 +149,7 @@ app.delete(BASE_URL_API+"/religious-believes-stats",(req,res)=>{
     db.remove({},(err,num)=>{
         console.log(`${num} elements removed`);
     })
-    return res.sendStatus(200);
+    res.sendStatus(200);
 })
 
 }
