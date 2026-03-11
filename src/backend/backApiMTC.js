@@ -133,8 +133,8 @@ export function loadBackendApiMTC(app){
                 if (!chol_st) { 
                     return res.status(404).send(JSON.stringify("not found"));
                 }
-                
 
+                chol_st.map(c=> delete c._id);
                 res.status(200).send(JSON.stringify(chol_st, null, 2));
             })        
 

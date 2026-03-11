@@ -1,0 +1,832 @@
+{
+  "info": {
+    "_postman_id": "254c05f1-20db-4901-acd9-b69287354b36",
+    "name": "PRUEBA API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52370283",
+    "_collection_link": "https://go.postman.co/collection/52370283-254c05f1-20db-4901-acd9-b69287354b36?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "GET TODO (200 ok [])",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/cholera-stats/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "cholera-stats",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CARGAR TODO (201 loaded successfully)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/cholera-stats/LoadInitialData",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "cholera-stats",
+            "LoadInitialData"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CARGAR TODO (409 confict)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 409\", function () {\r",
+              "    pm.response.to.have.status(409);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/cholera-stats/LoadInitialData",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "cholera-stats",
+            "LoadInitialData"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET TODO (200 ok)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/cholera-stats/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "cholera-stats",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET 1 ELEMENTO (200 ok)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"country\": \"wawawawa\",\r\n\"year\": 4000,\r\n\"reportedCases\": 2,\r\n\"reportedDeaths\": 2,\r\n\"fatalityRate\": 2.0,\r\n\"whoRegion\": \"wawawawaland\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/cholera-stats/Afghanistan/2010",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "cholera-stats",
+            "Afghanistan",
+            "2010"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET FILTRANDO (200 ok)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"country\": \"wawawawa\",\r\n\"year\": 4000,\r\n\"reportedCases\": 2,\r\n\"reportedDeaths\": 2,\r\n\"fatalityRate\": 2.0,\r\n\"whoRegion\": \"wawawawaland\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/cholera-stats/?fatalityRate=0.0&from=2008&to=2011",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "cholera-stats",
+            ""
+          ],
+          "query": [
+            {
+              "key": "fatalityRate",
+              "value": "0.0"
+            },
+            {
+              "key": "from",
+              "value": "2008",
+              "type": "text"
+            },
+            {
+              "key": "to",
+              "value": "2011",
+              "type": "text"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET 1 ELEMENTO (404 not found)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {\r",
+              "    pm.response.to.have.status(404);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"country\": \"wawawawa\",\r\n\"year\": 4000,\r\n\"reportedCases\": 2,\r\n\"reportedDeaths\": 2,\r\n\"fatalityRate\": 2.0,\r\n\"whoRegion\": \"wawawawaland\"\r\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/cholera-stats/waw/300",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "cholera-stats",
+            "waw",
+            "300"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST (405 not allowed)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 405\", function () {\r",
+              "    pm.response.to.have.status(405);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"country\": \"wawa\",\r\n\"year\": 3000,\r\n\"reportedCases\": 1,\r\n\"reportedDeaths\": 1,\r\n\"fatalityRate\": 1.0,\r\n\"whoRegion\": \"wawaland\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/cholera-stats/Spain/2006",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "cholera-stats",
+            "Spain",
+            "2006"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST (201 created)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"country\": \"wawa\",\r\n\"year\": 3000,\r\n\"reportedCases\": 1,\r\n\"reportedDeaths\": 1,\r\n\"fatalityRate\": 1.0,\r\n\"whoRegion\": \"wawaland\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/cholera-stats/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "cholera-stats",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST (409 conflict)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 409\", function () {\r",
+              "    pm.response.to.have.status(409);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"country\": \"wawa\",\r\n\"year\": 3000,\r\n\"reportedCases\": 1,\r\n\"reportedDeaths\": 1,\r\n\"fatalityRate\": 1.0,\r\n\"whoRegion\": \"wawaland\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/cholera-stats/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "cholera-stats",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST (400 bad request missing fields)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"country\": \"wawa\",\r\n\"year\": 3000,\r\n\"reportedCases\": 1,\r\n\"reportedDeaths\": 1,\r\n\"fatalityRate\": 1.0\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/religious-believes-stats/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "religious-believes-stats",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT (405 not allowed)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 405\", function () {\r",
+              "    pm.response.to.have.status(405);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"country\": \"wawawawa\",\r\n\"year\": 4000,\r\n\"reportedCases\": 2,\r\n\"reportedDeaths\": 2,\r\n\"fatalityRate\": 2.0,\r\n\"whoRegion\": \"wawawawaland\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/cholera-stats/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "cholera-stats",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT (404 not found)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {\r",
+              "    pm.response.to.have.status(404);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"country\": \"wa\",\r\n\"year\": 30,\r\n\"reportedCases\": 2982734982645926985762984725698745,\r\n\"reportedDeaths\": 2235245245245245245253453434534545,\r\n\"fatalityRate\": 2352452452452452452522.345346346346,\r\n\"whoRegion\": \"wawawawaland\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/cholera-stats/wa/30",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "cholera-stats",
+            "wa",
+            "30"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT (200 actualized)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"country\": \"wawa\",\r\n\"year\": 3000,\r\n\"reportedCases\": 2982734982645926985762984725698745,\r\n\"reportedDeaths\": 2235245245245245245253453434534545,\r\n\"fatalityRate\": 2352452452452452452522.345346346346,\r\n\"whoRegion\": \"wawawawaland\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/cholera-stats/wawa/3000",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "cholera-stats",
+            "wawa",
+            "3000"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT (400 bad request missing fields)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"country\": \"wawa\",\r\n\"year\": 3000,\r\n\"reportedCases\": 2982734982645926985762984725698745,\r\n\"fatalityRate\": 2352452452452452452522.345346346346,\r\n\"whoRegion\": \"wawawawaland\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/cholera-stats/wawa/3000",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "cholera-stats",
+            "wawa",
+            "3000"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT (400 bad request unautorized)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"country\": \"wawawawa\",\r\n\"year\": 4000,\r\n\"reportedCases\": 2,\r\n\"reportedDeaths\": 2,\r\n\"fatalityRate\": 2.0,\r\n\"whoRegion\": \"wawawawaland\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/cholera-stats/wawa/3000",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "cholera-stats",
+            "wawa",
+            "3000"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE 1 ELEMENTO(404 not found)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {\r",
+              "    pm.response.to.have.status(404);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"country\": \"wawawawa\",\r\n\"year\": 4000,\r\n\"reportedCases\": 2,\r\n\"reportedDeaths\": 2,\r\n\"fatalityRate\": 2.0,\r\n\"whoRegion\": \"wawawawaland\"\r\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/cholera-stats/waw/300",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "cholera-stats",
+            "waw",
+            "300"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE 1 ELEMENTO (200 ok)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/cholera-stats/wawa/3000",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "cholera-stats",
+            "wawa",
+            "3000"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE TODO (200 ok)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"country\": \"wawa\",\r\n\"year\": 3000,\r\n\"reportedCases\": 1,\r\n\"reportedDeaths\": 1,\r\n\"fatalityRate\": 1.0,\r\n\"whoRegion\": \"wawaland\"\r\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/cholera-stats/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "cholera-stats",
+            ""
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
