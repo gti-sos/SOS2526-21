@@ -25,7 +25,7 @@ app.get(BASE_URL_API+"/religious-believes-stats",(req,res)=>{
     const limit = parseInt(req.query.limit) || 10;
     const offset = parseInt(req.query.offset) || 0;
 
-    filtro=req.query;
+    let filtro=req.query;
     delete filtro.limit;
     delete filtro.offset;
 
