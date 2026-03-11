@@ -8,6 +8,45 @@
   },
   "item": [
     {
+      "name": "DELETE LIMPIADOR (200 ok)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"country\": \"wawa\",\r\n\"year\": 3000,\r\n\"reportedCases\": 1,\r\n\"reportedDeaths\": 1,\r\n\"fatalityRate\": 1.0,\r\n\"whoRegion\": \"wawaland\"\r\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/cholera-stats/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "cholera-stats",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
       "name": "GET TODO (200 ok [])",
       "event": [
         {

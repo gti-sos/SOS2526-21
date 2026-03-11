@@ -1,7 +1,7 @@
 import fs from 'fs';
 import csv from 'csv-parser';
 import dataStore from 'nedb';
-let db = new dataStore();
+let db = new dataStore({ filename: './data/db/cholera-stats.db', autoload: true });
 let BASE_URL_API = "/api/v1";
 
 export function loadBackendApiMTC(app){
@@ -109,7 +109,7 @@ export function loadBackendApiMTC(app){
                 if(err){
                     return res.sendStatus(500);
                 }
-                
+                chol_st.map(c=> delete c._id);
                  res.status(200).send(JSON.stringify(chol_st, null, 2));
             
             });
