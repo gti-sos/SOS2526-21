@@ -2,7 +2,6 @@ import express from 'express'
 import bodyParser from 'body-parser'
 
 
-
 import {loadBackendApiDDLRF} from './src/backend/backApiDDLRF.js'
 
 import {loadBackendApiMTC} from './src/backend/backApiMTC.js'
@@ -13,7 +12,6 @@ const app = express();
 app.use(bodyParser.json())
 
 let PORT = process.env.PORT || 3000;
-let BASE_URL_API = "/api/v1";
 
 app.use('/about', express.static('./static/about.html'))
 app.use('/', express.static('./static'))

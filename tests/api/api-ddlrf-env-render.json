@@ -1,0 +1,16 @@
+{
+	"id": "cd0e90f8-1fe1-4dd3-9afb-7995b6807d24",
+	"name": "URL RENDER API DDLRF",
+	"values": [
+		{
+			"key": "BASE_URL",
+			"value": "https://sos2526-21.onrender.com",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"color": 0,
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2026-03-11T15:24:26.033Z",
+	"_postman_exported_using": "Postman/12.1.2-260311-0232"
+}

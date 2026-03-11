@@ -1,0 +1,16 @@
+{
+	"id": "85e60ce9-cbbc-4c8a-9d1e-9d1a3fec6323",
+	"name": "URL LOCAL HOST API DDLRF",
+	"values": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:3000",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"color": 240,
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2026-03-11T15:24:21.942Z",
+	"_postman_exported_using": "Postman/12.1.2-260311-0232"
+}

@@ -1,0 +1,823 @@
+{
+  "info": {
+    "_postman_id": "569d2da3-9d35-4177-ac9f-808aa9c446a2",
+    "name": "API DDLRF",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52383803",
+    "_collection_link": "https://go.postman.co/collection/52383803-569d2da3-9d35-4177-ac9f-808aa9c446a2?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "DELETE 200 OK inicio",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/aids-deaths-stats",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "aids-deaths-stats"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PRIMER GET ALL 200 OK []",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "pm.test(\"no elements\", function () {\r",
+              "    let body = pm.response.json();\r",
+              "    pm.expect(body).to.be.an('array');\r",
+              "    pm.expect(body).to.have.lengthOf(0);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/aids-deaths-stats",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "aids-deaths-stats"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "LoadInitialData 200 OK",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/aids-deaths-stats/loadInitialData",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "aids-deaths-stats",
+            "loadInitialData"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "LoadInitialData 409 CONFLICT",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 409\", function () {\r",
+              "    pm.response.to.have.status(409);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/aids-deaths-stats/loadInitialData",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "aids-deaths-stats",
+            "loadInitialData"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET ALL 200 OK [......]",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "pm.test(\"more than 0 element\", function () {\r",
+              "    let body = pm.response.json();\r",
+              "    pm.expect(body).to.be.an('array');\r",
+              "    pm.expect(body.length).to.be.above(0);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/aids-deaths-stats",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "aids-deaths-stats"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET PARAM YEAR 1990 CODECOUNTRY AFG -> 1",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "pm.test(\"only 1 element\", function () {\r",
+              "    let body = pm.response.json();\r",
+              "    pm.expect(body).to.be.an('array');\r",
+              "    pm.expect(body).to.have.lengthOf(1);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/aids-deaths-stats?year=1990&codecountry=AFG",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "aids-deaths-stats"
+          ],
+          "query": [
+            {
+              "key": "year",
+              "value": "1990"
+            },
+            {
+              "key": "codecountry",
+              "value": "AFG"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST 201 OK",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"country\": \"España\",\r\n    \"codecountry\": \"ESP\",\r\n    \"year\": 2000,\r\n    \"death_count_hiv_aids_under_5\": 10,\r\n    \"death_count_hiv_aids_70_plus\": 1,\r\n    \"death_count_hiv_aids_5_14\": 0,\r\n    \"death_count_hiv_aids_15_49\": 15,\r\n    \"death_count_hiv_aids_50_69\": 7\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/aids-deaths-stats",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "aids-deaths-stats"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST 400 BAD REQUEST",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"country\": \"España\",\r\n    \"codecountry\": \"ESP\",\r\n    \"year\": 2000,\r\n    \"death_count_hiv_aids_under_5\": 10,\r\n    \"death_count_hiv_aids_70_plus\": 1,\r\n    \"death_count_hiv_aids_15_49\": 15,\r\n    \"death_count_hiv_aids_50_69\": 7\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/aids-deaths-stats",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "aids-deaths-stats"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST 409 CONFLICT",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 409\", function () {\r",
+              "    pm.response.to.have.status(409);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"country\": \"España\",\r\n    \"codecountry\": \"ESP\",\r\n    \"year\": 2000,\r\n    \"death_count_hiv_aids_under_5\": 10,\r\n    \"death_count_hiv_aids_70_plus\": 1,\r\n    \"death_count_hiv_aids_5_14\": 0,\r\n    \"death_count_hiv_aids_15_49\": 15,\r\n    \"death_count_hiv_aids_50_69\": 7\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/aids-deaths-stats",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "aids-deaths-stats"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST 405 METHOD NOT ALLOWED",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 405\", function () {\r",
+              "    pm.response.to.have.status(405);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"country\": \"España\",\r\n    \"codecountry\": \"ESP\",\r\n    \"year\": 2000,\r\n    \"death_count_hiv_aids_under_5\": 10,\r\n    \"death_count_hiv_aids_70_plus\": 1,\r\n    \"death_count_hiv_aids_5_14\": 0,\r\n    \"death_count_hiv_aids_15_49\": 15,\r\n    \"death_count_hiv_aids_50_69\": 7\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/aids-deaths-stats/ESP/2000",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "aids-deaths-stats",
+            "ESP",
+            "2000"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT 200 OK",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"country\": \"España\",\r\n    \"codecountry\": \"ESP\",\r\n    \"year\": 2000,\r\n    \"death_count_hiv_aids_under_5\": 1000,\r\n    \"death_count_hiv_aids_70_plus\": 1,\r\n    \"death_count_hiv_aids_5_14\": 0,\r\n    \"death_count_hiv_aids_15_49\": 15,\r\n    \"death_count_hiv_aids_50_69\": 7\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/aids-deaths-stats/ESP/2000",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "aids-deaths-stats",
+            "ESP",
+            "2000"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT 400 BAD REQUEST",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"country\": \"España\",\r\n    \"codecountry\": \"ESP\",\r\n    \"year\": 2000,\r\n    \"death_count_hiv_aids_70_plus\": 1,\r\n    \"death_count_hiv_aids_5_14\": 0,\r\n    \"death_count_hiv_aids_15_49\": 15,\r\n    \"death_count_hiv_aids_50_69\": 7\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/aids-deaths-stats/ESP/2000",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "aids-deaths-stats",
+            "ESP",
+            "2000"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT 404 NOT FOUND",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {\r",
+              "    pm.response.to.have.status(404);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"country\": \"España\",\r\n    \"codecountry\": \"ESP\",\r\n    \"year\": 2000,\r\n    \"death_count_hiv_aids_under_5\": 1000,\r\n    \"death_count_hiv_aids_70_plus\": 1,\r\n    \"death_count_hiv_aids_5_14\": 0,\r\n    \"death_count_hiv_aids_15_49\": 15,\r\n    \"death_count_hiv_aids_50_69\": 7\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/aids-deaths-stats/ESP/20002222",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "aids-deaths-stats",
+            "ESP",
+            "20002222"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT 400 BAD REQUEST",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"country\": \"España\",\r\n    \"codecountry\": \"ESP\",\r\n    \"year\": 20023,\r\n    \"death_count_hiv_aids_under_5\": 1000,\r\n    \"death_count_hiv_aids_70_plus\": 1,\r\n    \"death_count_hiv_aids_5_14\": 0,\r\n    \"death_count_hiv_aids_15_49\": 15,\r\n    \"death_count_hiv_aids_50_69\": 7\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/aids-deaths-stats/ESP/2000",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "aids-deaths-stats",
+            "ESP",
+            "2000"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT 405 METHOD NOT ALLOWED",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 405\", function () {\r",
+              "    pm.response.to.have.status(405);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"country\": \"España\",\r\n    \"codecountry\": \"ESP\",\r\n    \"year\": 2000,\r\n    \"death_count_hiv_aids_under_5\": 1000,\r\n    \"death_count_hiv_aids_70_plus\": 1,\r\n    \"death_count_hiv_aids_5_14\": 0,\r\n    \"death_count_hiv_aids_15_49\": 15,\r\n    \"death_count_hiv_aids_50_69\": 7\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/aids-deaths-stats",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "aids-deaths-stats"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET INDIVIDUAL 200 OK",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "pm.test(\"El elemento devuelto coincide con los parámetros\", function () {\r",
+              "    let body = pm.response.json();\r",
+              "    pm.expect(body).to.be.an('object');\r",
+              "    pm.expect(body.codecountry).to.eql(\"ESP\");\r",
+              "    pm.expect(body.year).to.eql(2000);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/aids-deaths-stats/ESP/2000",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "aids-deaths-stats",
+            "ESP",
+            "2000"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET INDIVIDUAL 404 NOT FOUND",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {\r",
+              "    pm.response.to.have.status(404);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/aids-deaths-stats/ESP/200022",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "aids-deaths-stats",
+            "ESP",
+            "200022"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE INDIVIDUAL 200 OK",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/aids-deaths-stats/ESP/2000",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "aids-deaths-stats",
+            "ESP",
+            "2000"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE INDIVIDUAL 404 NOT FOUND",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {\r",
+              "    pm.response.to.have.status(404);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/aids-deaths-stats/ESP/2000",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "aids-deaths-stats",
+            "ESP",
+            "2000"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE 200 OK",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/v1/aids-deaths-stats",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "aids-deaths-stats"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
