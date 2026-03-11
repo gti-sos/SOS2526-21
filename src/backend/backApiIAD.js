@@ -21,22 +21,10 @@ app.get(BASE_URL_API+"/religious-believes-stats/docs",(req,res)=>{
 
 //GET
 app.get(BASE_URL_API+"/religious-believes-stats",(req,res)=>{
-    db.find({},(err,creencias)=>{
+    db.find(req.query,(err,creencias)=>{
         let datos=creencias.map(element=> {
             delete element._id;
             return element;});
-
-        if(req.query.entity){
-            datos=datos.filter((row)=>row.entity===req.query.entity);
-        }
-
-        if(req.query.year){
-            datos=datos.filter((row)=>row.year===req.query.year);
-        }
-
-        if(req.query.code){
-            datos=datos.filter((row)=>row.code===req.query.code);
-        }
 
         res.status(200).send(JSON.stringify(datos, null, 2));
 
@@ -47,9 +35,11 @@ app.get(BASE_URL_API+"/religious-believes-stats",(req,res)=>{
 //INITIAL DATA
 
 app.get(BASE_URL_API+"/religious-believes-stats/loadInitialData",(req,res)=>{
-    if(array_creencias.length>0){
-        return res.sendStatus(409);
-    }
+   
+    db.find({},(err,data)=>{
+        if(err) res.sendStatus(500);
+        if(data.length>0) res.sendStatus(409);
+    })
 
     let number_of_rows = 0;
     const csv_datos = [];
@@ -95,15 +85,7 @@ app.post(BASE_URL_API+"/religious-believes-stats/:entity/:year",(req,res)=>{
 
 //PUT 
 app.put(BASE_URL_API+"/religious-believes-stats/:entity/:year",(req,res)=>{
-
-    let index=array_creencias.findIndex(element=>element.entity===req.params.entity
-         && element.year===req.params.year);
     
-    //Search if the element exists
-    if(index===-1){
-        return res.sendStatus(404);
-    }
-
     //Check if the body is correct
     if(!(req.body.entity && req.body.code && req.body.year && req.body.christian &&
         req.body.jew && req.body.muslim && req.body.hindu && req.body.budhist && req.body.other
@@ -118,8 +100,12 @@ app.put(BASE_URL_API+"/religious-believes-stats/:entity/:year",(req,res)=>{
     }
 
 
-    //Update data
-    array_creencias[index]=req.body;
+    db.update({entity:req.params.entity,year:req.params.year}, {$set:req.body},(err,data)=>{
+        if(err) res.sendStatus(500);
+        if(data.length===0) res.sendStatus(404);
+    })
+    
+    
     return res.sendStatus(200);
 });
 
@@ -136,6 +122,10 @@ app.get(BASE_URL_API+"/religious-believes-stats/:entity/:year",(req,res)=>{
     
     db.find({entity:req.params.entity,year:req.params.year},(err,dato)=>{
         if (dato.length===0) return res.status(404, "NOT FOUND").send(JSON.stringify([], null, 2));
+        dato=dato.map(e=>{
+            delete e._id;
+            return e;
+        })
         res.status(200, "OK").send(JSON.stringify(dato, null, 2));
     })
     
