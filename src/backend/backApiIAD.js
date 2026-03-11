@@ -9,7 +9,7 @@ let BASE_URL_API = "/api/v1";
 function loadBackendApiIAD(app){
 
 let array_creencias=[]
-db.insert(array_creencias);
+db.insert(array_creencias); //Innecesario?
 
 //Redirect to POSTMAN Documentation
 
@@ -21,20 +21,27 @@ app.get(BASE_URL_API+"/religious-believes-stats/docs",(req,res)=>{
 
 //GET
 app.get(BASE_URL_API+"/religious-believes-stats",(req,res)=>{
-    let datos=array_creencias;
-    if(req.query.entity){
-        datos=datos.filter((row)=>row.entity===req.query.entity);
-    }
+    db.find({},(err,creencias)=>{
+        let datos=creencias.map(element=> {
+            delete element._id;
+            return element;});
 
-    if(req.query.year){
-        datos=datos.filter((row)=>row.year===req.query.year);
-    }
+        if(req.query.entity){
+            datos=datos.filter((row)=>row.entity===req.query.entity);
+        }
 
-    if(req.query.code){
-        datos=datos.filter((row)=>row.code===req.query.code);
-    }
+        if(req.query.year){
+            datos=datos.filter((row)=>row.year===req.query.year);
+        }
 
-    res.status(200).send(JSON.stringify(datos, null, 2)); 
+        if(req.query.code){
+            datos=datos.filter((row)=>row.code===req.query.code);
+        }
+
+        res.status(200).send(JSON.stringify(datos, null, 2));
+
+        })
+     
 });
 
 //INITIAL DATA
@@ -55,7 +62,7 @@ app.get(BASE_URL_API+"/religious-believes-stats/loadInitialData",(req,res)=>{
             }
         })
         .on('end', () => { 
-            array_creencias = csv_datos;
+            db.insert(csv_datos);
             res.sendStatus(201, "CREATED");
         });
 
@@ -70,13 +77,13 @@ app.post(BASE_URL_API+"/religious-believes-stats",(req,res)=>{
         && req.body.no_religion)){
             return res.sendStatus(400);
         }
+    
+    db.find({entity:req.body.entity,year:req.body.year},(err,dato)=>{
 
-    if (array_creencias.filter((element)=>element.entity===req.body.entity
-     && element.year===req.body.year).length>0){
-        res.sendStatus(409);
-     }
-
-    array_creencias.push(req.body);
+        if(dato.length>0) return res.sendStatus(409);
+    })
+    
+    db.insert(req.body);
     res.sendStatus(201);
 });
 
@@ -88,6 +95,7 @@ app.post(BASE_URL_API+"/religious-believes-stats/:entity/:year",(req,res)=>{
 
 //PUT 
 app.put(BASE_URL_API+"/religious-believes-stats/:entity/:year",(req,res)=>{
+
     let index=array_creencias.findIndex(element=>element.entity===req.params.entity
          && element.year===req.params.year);
     
@@ -125,23 +133,22 @@ app.put(BASE_URL_API+"/religious-believes-stats",(req,res)=>{
 //GET one specific element
 
 app.get(BASE_URL_API+"/religious-believes-stats/:entity/:year",(req,res)=>{
-    let dato=array_creencias.find(element=>element.entity===req.params.entity 
-        && element.year===req.params.year);
     
-    if (!dato) return res.status(404, "NOT FOUND").send(JSON.stringify([], null, 2));
-    res.status(200, "OK").send(JSON.stringify(dato, null, 2));
-
+    db.find({entity:req.params.entity,year:req.params.year},(err,dato)=>{
+        if (dato.length===0) return res.status(404, "NOT FOUND").send(JSON.stringify([], null, 2));
+        res.status(200, "OK").send(JSON.stringify(dato, null, 2));
+    })
+    
 });
 
 //DELETE
 
 app.delete(BASE_URL_API+"/religious-believes-stats/:entity/:year",(req,res)=>{
-    let index=array_creencias.findIndex(element=>element.entity===req.params.entity &&
-         element.year===req.params.year);
-    if(index===-1){
-        return res.sendStatus(404);
-    }
-    array_creencias.splice(index,1);
+    
+    db.remove({entity:req.params.entity,year:req.params.year},(err,num)=>{
+        if(num===0) return res.sendStatus(404);
+    })
+
     res.sendStatus(200);
     
 })
@@ -149,8 +156,10 @@ app.delete(BASE_URL_API+"/religious-believes-stats/:entity/:year",(req,res)=>{
 //ANNIHILATE DATA
 
 app.delete(BASE_URL_API+"/religious-believes-stats",(req,res)=>{
-    array_creencias=[];
-    return res.send(200);
+    db.remove({},(err,num)=>{
+        console.log(`${num} elements removed`);
+    })
+    return res.sendStatus(200);
 })
 
 }
