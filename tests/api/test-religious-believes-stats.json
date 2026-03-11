@@ -8,6 +8,40 @@
   },
   "item": [
     {
+      "name": "DESTROY DATA Inicial",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/religious-believes-stats",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "religious-believes-stats"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
       "name": "GET",
       "event": [
         {
