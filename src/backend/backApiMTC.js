@@ -3,11 +3,17 @@ import csv from 'csv-parser';
 import dataStore from 'nedb';
 let db = new dataStore({ filename: './data/db/cholera-stats.db', autoload: true });
 let BASE_URL_API = "/api/v1";
+let DOCS_URL= "";
 
 export function loadBackendApiMTC(app){
 
     let cholera_stats_array=[];
     
+
+    app.get(BASE_URL_API + "/cholera-stats/docs", (res, req)=>{
+        res.redirect(DOCS_URL);
+    })
+
 
     app.get(BASE_URL_API + "/cholera-stats/loadInitialData", (req, res) => {
             
