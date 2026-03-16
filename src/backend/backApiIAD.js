@@ -35,7 +35,7 @@ app.get(BASE_URL_API+"/religious-believes-stats",(req,res)=>{
             return element;});
         
             
-            datos = datos.slice(offset, offset + limit);
+        datos = datos.slice(offset, offset + limit);
 
         res.status(200).send(JSON.stringify(datos, null, 2));
 
@@ -56,7 +56,7 @@ app.get(BASE_URL_API+"/religious-believes-stats/loadInitialData",(req,res)=>{
         fs.createReadStream('./data/share-of-population-by-religious-affiliation.csv')
             .pipe(csv()) 
             .on('data', (row) => {
-                if (number_of_rows < 10) {
+                if (number_of_rows < 30) {
                     csv_datos.push(row);  
                     number_of_rows++;
                 }
