@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 {"country":"Afghanistan","year":2016,"reportedCases":677,"reportedDeaths":5,"fatalityRate":0.7,"whoRegion":"Eastern Mediterranean","_id":"Py7bPRvTjsxYVbLO"}
 {"country":"Afghanistan","year":2015,"reportedCases":58064,"reportedDeaths":8,"fatalityRate":0.01,"whoRegion":"Eastern Mediterranean","_id":"oo8nfvayf3WxED8V"}
 {"country":"Afghanistan","year":2014,"reportedCases":45481,"reportedDeaths":4,"fatalityRate":0,"whoRegion":"Eastern Mediterranean","_id":"wnM4St4yaOn2tLmP"}
@@ -4985,3 +4987,4 @@
 {"$$deleted":true,"_id":"zz1irpZgHm2waZH0"}
 {"$$deleted":true,"_id":"zziWNg6xVO1JRN7h"}
 {"$$deleted":true,"_id":"zzqp2lrNN8DyfBbx"}
+>>>>>>> 5c461484799b1983515d5e34d585b1a96ca6fb47

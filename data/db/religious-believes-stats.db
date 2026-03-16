@@ -1,3 +1,68 @@
+<<<<<<< HEAD
+{"entity":"Afghanistan","code":"AFG","year":"2010","christian":"0.10022439","jew":"0.000106422","muslim":"99.74918","hindu":"0.00035474","budhist":"0.01998632","other":"0.121494696","no_religion":"0.00865241","_id":"jUCRThezirha8znm"}
+{"entity":"Afghanistan","code":"AFG","year":"2020","christian":"0.019379199","jew":"0.0000256593","muslim":"99.86197","hindu":"0.000128296","budhist":"0.020000853","other":"0.09004255","no_religion":"0.008456565","_id":"xdbV4bdHYlb6ZbZQ"}
+{"entity":"Africa","code":"OWID_AFR","year":"2010","christian":"50.044273","jew":"0.008155441","muslim":"44.846317","hindu":"0.1253172","budhist":"0.007438888","other":"2.43861","no_religion":"2.529368","_id":"JwvZAAoJq0j3aFks"}
+{"entity":"Africa","code":"OWID_AFR","year":"2020","christian":"50.922043","jew":"0.0040311515","muslim":"44.76618","hindu":"0.10642564","budhist":"0.006977514","other":"2.0160115","no_religion":"2.1779282","_id":"Feyiyq8iTwFCrxTo"}
+{"entity":"Albania","code":"ALB","year":"2010","christian":"20.28347","jew":"0.009593685","muslim":"70.1529","hindu":"0","budhist":"0","other":"0.016603233","no_religion":"9.537429","_id":"wrvoPRJ6advYQNrf"}
+{"entity":"Albania","code":"ALB","year":"2020","christian":"17.815659","jew":"0.010049576","muslim":"74.507225","hindu":"0.000707935","budhist":"0.000158218","other":"0.013315931","no_religion":"7.6528873","_id":"gE35COGGVMYT0dlq"}
+{"entity":"Algeria","code":"DZA","year":"2010","christian":"0.2906793","jew":"0.000151956","muslim":"98.57146","hindu":"0","budhist":"0.014109504","other":"0.038876127","no_religion":"1.0847238","_id":"pF8bui5TercIWz8T"}
+{"entity":"Algeria","code":"DZA","year":"2020","christian":"0.29498956","jew":"0.000129986","muslim":"98.38235","hindu":"0","budhist":"0.015000784","other":"0.04132855","no_religion":"1.2662071","_id":"13yvijyvhZTN2Zdg"}
+{"entity":"Angola","code":"AGO","year":"2010","christian":"91.57468","jew":"0.002140027","muslim":"0.1669055","hindu":"0.013696176","budhist":"0.00385205","other":"3.7618802","no_religion":"4.47685","_id":"Dg0PJaVkMNCouZaT"}
+{"entity":"Angola","code":"AGO","year":"2020","christian":"93.04471","jew":"0.001196584","muslim":"0.255656","hindu":"0.009273528","budhist":"0.002393168","other":"0.5719677","no_religion":"6.114808","_id":"gr5FNiueCs4vrUm3"}
+{"entity":"Argentina","code":"ARG","year":"2010","christian":"88.07093","jew":"0.44282106","muslim":"1.0000821","hindu":"0.002481744","budhist":"0.02914833","other":"0.7270309","no_religion":"9.727509","_id":"3C9Jfjjxxctwae3h"}
+{"entity":"Argentina","code":"ARG","year":"2020","christian":"88.45394","jew":"0.38497812","muslim":"0.92919636","hindu":"0.002573854","budhist":"0.031062234","other":"0.9653383","no_religion":"9.232909","_id":"F1WRfqFVA7B42hl2"}
+{"entity":"Armenia","code":"ARM","year":"2010","christian":"97.53247","jew":"0.003394095","muslim":"0.023529492","hindu":"0.004751734","budhist":"0.006788191","other":"1.2229218","no_religion":"1.2061422","_id":"b4ZWXozS6B9oBWaa"}
+{"entity":"Armenia","code":"ARM","year":"2020","christian":"97.31269","jew":"0.003564289","muslim":"0.26675764","hindu":"0.007485007","budhist":"0.010692867","other":"1.2209328","no_religion":"1.1778806","_id":"zEnANOpK06ddzWu4"}
+{"entity":"Aruba","code":"ABW","year":"2010","christian":"82.22213","jew":"0.35254142","muslim":"0.17938739","hindu":"0.24914916","budhist":"0.47836637","other":"10.906172","no_religion":"5.612252","_id":"2bXORe6Ft1pDGXvg"}
+{"entity":"Aruba","code":"ABW","year":"2020","christian":"81.42007","jew":"0.35426697","muslim":"0.33776018","hindu":"0.2814668","budhist":"0.5441692","other":"11.188284","no_religion":"5.8739867","_id":"qM88mdxoq3EODmXR"}
+{"entity":"Asia","code":"OWID_ASI","year":"2010","christian":"5.567058","jew":"0.13750742","muslim":"27.143242","hindu":"24.65098","budhist":"7.9192686","other":"2.5827856","no_religion":"31.999157","_id":"o7O3FgBaoxhIinBq"}
+{"entity":"Asia","code":"OWID_ASI","year":"2020","christian":"5.37461","jew":"0.1462927","muslim":"28.832275","hindu":"24.938011","budhist":"6.730119","other":"2.3998618","no_religion":"31.578829","_id":"jkqmMevv6AMDWnw5"}
+{"entity":"Asia-Pacific (Pew)","code":"PEW_APA","year":"2010","christian":"6.138703","jew":"0.004394813","muslim":"24.763258","hindu":"25.278584","budhist":"8.146677","other":"2.6490867","no_religion":"33.0193","_id":"5OMWTqwY0hE5GRZX"}
+{"entity":"Asia-Pacific (Pew)","code":"PEW_APA","year":"2020","christian":"5.9153156","jew":"0.004071864","muslim":"26.132376","hindu":"25.67132","budhist":"6.955449","other":"2.476142","no_religion":"32.845325","_id":"AVeJRv2aA2jEYfxC"}
+{"entity":"Australia","code":"AUS","year":"2010","christian":"67.118286","jew":"0.49647224","muslim":"2.475813","hindu":"1.4443375","budhist":"2.7270718","other":"0.8793402","no_religion":"24.858683","_id":"Y96qPlPqmbc8RBHT"}
+{"entity":"Australia","code":"AUS","year":"2020","christian":"46.750423","jew":"0.4204121","muslim":"3.5031474","hindu":"2.963423","budhist":"2.6115515","other":"1.4070219","no_religion":"42.34402","_id":"dAAf0H3ZppIrLI7o"}
+{"entity":"Austria","code":"AUT","year":"2010","christian":"80.43659","jew":"0.16190322","muslim":"5.3830957","hindu":"0.087822534","budhist":"0.22099462","other":"0.20432314","no_religion":"13.505267","_id":"U05H7JkOvA4kqi63"}
+{"entity":"Austria","code":"AUT","year":"2020","christian":"68.1907","jew":"0.060347393","muslim":"8.302758","hindu":"0.11324697","budhist":"0.29699627","other":"0.6385594","no_religion":"22.397392","_id":"HNbobQrnnsRGmv9e"}
+{"entity":"Azerbaijan","code":"AZE","year":"2010","christian":"1.6387202","jew":"0.15987027","muslim":"97.122185","hindu":"0.008335858","budhist":"0.002489931","other":"0","no_religion":"1.0683964","_id":"ZWvFxpBzRmIBKAdo"}
+{"entity":"Azerbaijan","code":"AZE","year":"2020","christian":"0.4196731","jew":"0.084269956","muslim":"94.72726","hindu":"0.006806061","budhist":"0.002041818","other":"0","no_religion":"4.7599525","_id":"8pQMcu0e9PYCHpHs"}
+{"entity":"Bahamas","code":"BHS","year":"2010","christian":"97.49794","jew":"0.05577285","muslim":"0.089345306","hindu":"0.12499024","budhist":"0","other":"0.31615686","no_religion":"1.9157947","_id":"9LJ6ItHWX7UmABjO"}
+{"entity":"Bahamas","code":"BHS","year":"2020","christian":"97.5894","jew":"0.049463592","muslim":"0.08583479","hindu":"0.12642616","budhist":"0","other":"0.29199135","no_religion":"1.8568815","_id":"LjETUatqZbgpq806"}
+{"entity":"Bahrain","code":"BHR","year":"2010","christian":"15.718696","jew":"0.016314505","muslim":"70.21779","hindu":"12.881372","budhist":"0.1828378","other":"0.61476016","no_religion":"0.3682299","_id":"gSr7xEEpgK68hNke"}
+{"entity":"Bahrain","code":"BHR","year":"2020","christian":"13.67351","jew":"0.014348853","muslim":"74.02147","hindu":"11.205845","budhist":"0.15959714","other":"0.6051561","no_religion":"0.32007417","_id":"ACBZRJyvdqqzFiGh"}
+{"entity":"wawa","code":"WA","year":"2010","christian":"0.10022439","jew":"0.000106422","muslim":"99.74918","hindu":"0.00035474","budhist":"0.01998632","other":"0.121494696","no_religion":"0.00865241","_id":"rcveHstzRBOHQIxZ"}
+{"entity":"wawa","code":"WA","year":"2010","christian":"666666666","jew":"0","muslim":"99.74918","hindu":"0.00035474","budhist":"0.01998632","other":"0.121494696","no_religion":"0.00865241","_id":"rcveHstzRBOHQIxZ"}
+{"$$deleted":true,"_id":"rcveHstzRBOHQIxZ"}
+{"$$deleted":true,"_id":"13yvijyvhZTN2Zdg"}
+{"$$deleted":true,"_id":"2bXORe6Ft1pDGXvg"}
+{"$$deleted":true,"_id":"3C9Jfjjxxctwae3h"}
+{"$$deleted":true,"_id":"5OMWTqwY0hE5GRZX"}
+{"$$deleted":true,"_id":"8pQMcu0e9PYCHpHs"}
+{"$$deleted":true,"_id":"9LJ6ItHWX7UmABjO"}
+{"$$deleted":true,"_id":"ACBZRJyvdqqzFiGh"}
+{"$$deleted":true,"_id":"AVeJRv2aA2jEYfxC"}
+{"$$deleted":true,"_id":"Dg0PJaVkMNCouZaT"}
+{"$$deleted":true,"_id":"F1WRfqFVA7B42hl2"}
+{"$$deleted":true,"_id":"Feyiyq8iTwFCrxTo"}
+{"$$deleted":true,"_id":"HNbobQrnnsRGmv9e"}
+{"$$deleted":true,"_id":"JwvZAAoJq0j3aFks"}
+{"$$deleted":true,"_id":"LjETUatqZbgpq806"}
+{"$$deleted":true,"_id":"U05H7JkOvA4kqi63"}
+{"$$deleted":true,"_id":"Y96qPlPqmbc8RBHT"}
+{"$$deleted":true,"_id":"ZWvFxpBzRmIBKAdo"}
+{"$$deleted":true,"_id":"b4ZWXozS6B9oBWaa"}
+{"$$deleted":true,"_id":"dAAf0H3ZppIrLI7o"}
+{"$$deleted":true,"_id":"gE35COGGVMYT0dlq"}
+{"$$deleted":true,"_id":"gSr7xEEpgK68hNke"}
+{"$$deleted":true,"_id":"gr5FNiueCs4vrUm3"}
+{"$$deleted":true,"_id":"jUCRThezirha8znm"}
+{"$$deleted":true,"_id":"jkqmMevv6AMDWnw5"}
+{"$$deleted":true,"_id":"o7O3FgBaoxhIinBq"}
+{"$$deleted":true,"_id":"pF8bui5TercIWz8T"}
+{"$$deleted":true,"_id":"qM88mdxoq3EODmXR"}
+{"$$deleted":true,"_id":"wrvoPRJ6advYQNrf"}
+{"$$deleted":true,"_id":"xdbV4bdHYlb6ZbZQ"}
+{"$$deleted":true,"_id":"zEnANOpK06ddzWu4"}
+=======
 {"entity":"Afghanistan","code":"AFG","year":"2010","christian":"0.10022439","jew":"0.000106422","muslim":"99.74918","hindu":"0.00035474","budhist":"0.01998632","other":"0.121494696","no_religion":"0.00865241","_id":"qw6vvovqu5bOYTzM"}
 {"entity":"Afghanistan","code":"AFG","year":"2020","christian":"0.019379199","jew":"0.0000256593","muslim":"99.86197","hindu":"0.000128296","budhist":"0.020000853","other":"0.09004255","no_religion":"0.008456565","_id":"1iPmcVPwwKIt1oFg"}
 {"entity":"Africa","code":"OWID_AFR","year":"2010","christian":"50.044273","jew":"0.008155441","muslim":"44.846317","hindu":"0.1253172","budhist":"0.007438888","other":"2.43861","no_religion":"2.529368","_id":"wr5JkD1Wjb7oSKwG"}
@@ -61,6 +126,7 @@
 {"$$deleted":true,"_id":"wr5JkD1Wjb7oSKwG"}
 {"$$deleted":true,"_id":"xobzrKVmx8xweo0K"}
 {"$$deleted":true,"_id":"zSTBEZTRsNx9THp8"}
+<<<<<<< HEAD
 {"entity":"Afghanistan","code":"AFG","year":"2010","christian":"0.10022439","jew":"0.000106422","muslim":"99.74918","hindu":"0.00035474","budhist":"0.01998632","other":"0.121494696","no_religion":"0.00865241","_id":"Tr0scFk3t4Dquxwy"}
 {"entity":"Afghanistan","code":"AFG","year":"2020","christian":"0.019379199","jew":"0.0000256593","muslim":"99.86197","hindu":"0.000128296","budhist":"0.020000853","other":"0.09004255","no_religion":"0.008456565","_id":"0suI7PXWCfGAH3yI"}
 {"entity":"Africa","code":"OWID_AFR","year":"2010","christian":"50.044273","jew":"0.008155441","muslim":"44.846317","hindu":"0.1253172","budhist":"0.007438888","other":"2.43861","no_religion":"2.529368","_id":"TOL4IrRCfgpwb18E"}
@@ -250,3 +316,6 @@
 {"$$deleted":true,"_id":"tZa4Nd9OYhQxc6mn"}
 {"$$deleted":true,"_id":"yGTMTvN9Etl3fHvW"}
 {"$$deleted":true,"_id":"zab0i8qNwzXPMx5s"}
+=======
+>>>>>>> 5c461484799b1983515d5e34d585b1a96ca6fb47
+>>>>>>> 14a1e05a4435c6df2121a4e7d4d235683a7e2fc8
