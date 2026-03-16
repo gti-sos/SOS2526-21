@@ -114,6 +114,130 @@
       "response": []
     },
     {
+      "name": "Initial Data 409",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 409\", function () {\r",
+              "    pm.response.to.have.status(409);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/religious-believes-stats/loadInitialData",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "religious-believes-stats",
+            "loadInitialData"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET 200",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"GET devuelve array con elementos\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.be.an('array');\r",
+              "    pm.expect(jsonData.length).to.be.above(0);\r",
+              "});\r",
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/religious-believes-stats/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "religious-believes-stats",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET 200 Query",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"GET devuelve array con 1 elemento\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.be.an('array');\r",
+              "    pm.expect(jsonData).to.have.lengthOf(1);\r",
+              "});\r",
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/religious-believes-stats?year=2010&entity=Argentina",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "religious-believes-stats"
+          ],
+          "query": [
+            {
+              "key": "year",
+              "value": "2010"
+            },
+            {
+              "key": "entity",
+              "value": "Argentina"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
       "name": "GET 1 Elemento",
       "event": [
         {
@@ -404,6 +528,51 @@
       "response": []
     },
     {
+      "name": "PUT 404",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {\r",
+              "    pm.response.to.have.status(404);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"entity\": \"elWeso\",\r\n\"code\": \"WA\",\r\n\"year\": \"3000\",\r\n\"christian\": \"666666666\",\r\n\"jew\": \"0\",\r\n\"muslim\": \"99.74918\",\r\n\"hindu\": \"0.00035474\",\r\n\"budhist\": \"0.01998632\",\r\n\"other\": \"0.121494696\",\r\n\"no_religion\": \"0.00865241\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/religious-believes-stats/elWeso/3000",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "religious-believes-stats",
+            "elWeso",
+            "3000"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
       "name": "PUT 400",
       "event": [
         {
@@ -426,6 +595,51 @@
         "body": {
           "mode": "raw",
           "raw": "{\r\n\"entity\": \"Wawardo\",\r\n\"code\": \"WA\",\r\n\"year\": \"2030\",\r\n\"christian\": \"666666666\",\r\n\"jew\": \"0\",\r\n\"muslim\": \"99.74918\",\r\n\"hindu\": \"0.00035474\",\r\n\"budhist\": \"0.01998632\",\r\n\"other\": \"0.121494696\",\r\n\"no_religion\": \"0.00865241\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/religious-believes-stats/wawa/2010",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "religious-believes-stats",
+            "wawa",
+            "2010"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT 400 2",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"laWawa\": \"Wawardo\",\r\n\"ElWawa\": \"WA\",\r\n\"year\": \"2030\",\r\n\"christian\": \"666666666\",\r\n\"jew\": \"0\",\r\n\"muslim\": \"99.74918\",\r\n\"hindu\": \"0.00035474\",\r\n\"budhist\": \"0.01998632\",\r\n\"other\": \"0.121494696\",\r\n\"no_religion\": \"0.00865241\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -523,6 +737,42 @@
             "religious-believes-stats",
             "wawa",
             "2010"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE 404",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {\r",
+              "    pm.response.to.have.status(404);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/religious-believes-stats/ElWeso/950",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "religious-believes-stats",
+            "ElWeso",
+            "950"
           ]
         }
       },
