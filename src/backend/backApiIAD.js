@@ -30,12 +30,13 @@ app.get(BASE_URL_API+"/religious-believes-stats",(req,res)=>{
     delete filtro.offset;
 
     db.find(filtro,(err,creencias)=>{
+        if(err) res.sendStatus(500);
         let datos=creencias.map(element=> {
             delete element._id;
             return element;});
         
             
-            datos = datos.slice(offset, offset + limit);
+        datos = datos.slice(offset, offset + limit);
 
         res.status(200).send(JSON.stringify(datos, null, 2));
 
@@ -56,7 +57,7 @@ app.get(BASE_URL_API+"/religious-believes-stats/loadInitialData",(req,res)=>{
         fs.createReadStream('./data/share-of-population-by-religious-affiliation.csv')
             .pipe(csv()) 
             .on('data', (row) => {
-                if (number_of_rows < 10) {
+                if (number_of_rows < 30) {
                     csv_datos.push(row);  
                     number_of_rows++;
                 }
@@ -82,6 +83,7 @@ app.post(BASE_URL_API+"/religious-believes-stats",(req,res)=>{
         }
     
     db.find({entity:req.body.entity,year:req.body.year},(err,dato)=>{
+        if(err) res.sendStatus(500);
 
         if(dato.length>0) return res.sendStatus(409);
         db.insert(req.body);
@@ -136,6 +138,7 @@ app.put(BASE_URL_API+"/religious-believes-stats",(req,res)=>{
 app.get(BASE_URL_API+"/religious-believes-stats/:entity/:year",(req,res)=>{
     
     db.find({entity:req.params.entity,year:req.params.year},(err,dato)=>{
+        if(err) res.sendStatus(500);
         if (dato.length===0) return res.status(404, "NOT FOUND").send(JSON.stringify([], null, 2));
         dato=dato.map(e=>{
             delete e._id;
@@ -151,6 +154,7 @@ app.get(BASE_URL_API+"/religious-believes-stats/:entity/:year",(req,res)=>{
 app.delete(BASE_URL_API+"/religious-believes-stats/:entity/:year",(req,res)=>{
     
     db.remove({entity:req.params.entity,year:req.params.year},(err,num)=>{
+        if(err) res.sendStatus(500);
         if(num===0) return res.sendStatus(404);
         res.sendStatus(200);
     })
@@ -163,6 +167,7 @@ app.delete(BASE_URL_API+"/religious-believes-stats/:entity/:year",(req,res)=>{
 
 app.delete(BASE_URL_API+"/religious-believes-stats",(req,res)=>{
     db.remove({},{multi:true},(err,num)=>{
+        if(err) res.sendStatus(500);
         console.log(`${num} elements removed`);
         res.sendStatus(200);
     })
