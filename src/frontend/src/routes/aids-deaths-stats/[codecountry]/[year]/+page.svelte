@@ -1,10 +1,10 @@
 <script>
+	import { page } from '$app/state';
 	import { dev } from '$app/environment';
 	import { onMount } from 'svelte';
-	// @ts-ignore
-	let datos = $state([]);
-	let BASE_API = '/api/v1/aids-deaths-stats';
-	let result = $state(0);
+
+	let codecountry = page.params.codecountry;
+	let year = page.params.year;
 
 	let newCountry = $state('paísEjemplo');
 	let newCodeCountry = $state('codigoPaísEjemplo');
@@ -15,45 +15,29 @@
 	let newDeath_count_hiv_aids_15_49 = $state(0);
 	let newDeath_count_hiv_aids_50_69 = $state(0);
 
+	let result = $state(0);
+
+	let BASE_API = '/api/v1/aids-deaths-stats';
 	if (dev) {
 		BASE_API = 'http://localhost:3000' + BASE_API;
 	}
-	// @ts-ignore
 	async function getDatos() {
-		const res = await fetch(BASE_API, {
+		const res = await fetch(BASE_API + `/${codecountry}/${year}`, {
 			method: 'GET'
 		});
 		const data = await res.json();
-		datos = data;
-	}
-	// @ts-ignore
-	async function deleteContact(codecountry, year) {
-		if (confirm('¿Estás seguro de que quieres borrar este elemento?')) {
-			console.log('DELETE: ' + codecountry + ', ' + year);
-			const res = await fetch(BASE_API + `/${codecountry}/${year}`, {
-				method: 'DELETE'
-			});
-			result = await res.status;
-			if (res.status == 200) {
-				getDatos();
-			}
-		}
-	}
-	async function deleteContacts() {
-		if (confirm('¿Estás seguro de que quieres borrar toda la base de datos?')) {
-			console.log('DELETE ALL');
-			const res = await fetch(BASE_API, {
-				method: 'DELETE'
-			});
-			result = await res.status;
-			if (res.status == 200) {
-				getDatos();
-			}
-		}
+		newCountry = data.country;
+		newCodeCountry = data.codecountry;
+		newYear = data.year;
+		newDeath_count_hiv_aids_under_5 = data.death_count_hiv_aids_under_5;
+		newDeath_count_hiv_aids_70_plus = data.death_count_hiv_aids_70_plus;
+		newDeath_count_hiv_aids_5_14 = data.death_count_hiv_aids_5_14;
+		newDeath_count_hiv_aids_15_49 = data.death_count_hiv_aids_15_49;
+		newDeath_count_hiv_aids_50_69 = data.death_count_hiv_aids_50_69;
 	}
 
-	async function añadirContact() {
-		console.log('INSERTE');
+	async function editarDato() {
+		console.log('EDITAR');
 		let newDato = {
 			country: newCountry,
 			codecountry: newCodeCountry,
@@ -64,15 +48,15 @@
 			death_count_hiv_aids_15_49: newDeath_count_hiv_aids_15_49,
 			death_count_hiv_aids_50_69: newDeath_count_hiv_aids_50_69
 		};
-		const res = await fetch(BASE_API, {
-			method: 'POST',
+		const res = await fetch(BASE_API + `/${codecountry}/${year}`, {
+			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(newDato)
 		});
 		result = await res.status;
-		if (res.status == 201) {
+		if (res.status == 200) {
 			getDatos();
 		}
 	}
@@ -82,7 +66,7 @@
 	});
 </script>
 
-<h1>aids-deaths-stats</h1>
+<p>Detalles del elemento: {codecountry}, {year}</p>
 
 <table>
 	<thead>
@@ -99,52 +83,22 @@
 		</tr>
 	</thead>
 	<tbody>
-		{#each datos as dato (dato.codecountry + dato.year)}
-			<tr>
-				<td> {dato.country} </td>
-				<td> {dato.codecountry} </td>
-				<td> {dato.year} </td>
-				<td> {dato.death_count_hiv_aids_under_5} </td>
-				<td> {dato.death_count_hiv_aids_70_plus} </td>
-				<td> {dato.death_count_hiv_aids_5_14} </td>
-				<td> {dato.death_count_hiv_aids_15_49} </td>
-				<td> {dato.death_count_hiv_aids_50_69} </td>
-				<td
-					><button
-						onclick={() => {
-							deleteContact(dato.codecountry, dato.year);
-						}}>ELIMINAR</button
-					></td
-				>
-				<td
-					><button><a href="/aids-deaths-stats/{dato.codecountry}/{dato.year}">EDITAR</a></button
-					></td
-				>
-			</tr>
-		{/each}
 		<tr>
-			<td><input type="text" bind:value={newCountry} /> </td>
-			<td><input type="text" bind:value={newCodeCountry} /></td>
-			<td><input type="number" bind:value={newYear} /></td>
+			<td><input type="text" readonly bind:value={newCountry} /> </td>
+			<td><input type="text" readonly bind:value={newCodeCountry} /></td>
+			<td><input type="number" readonly bind:value={newYear} /></td>
 			<td><input type="number" bind:value={newDeath_count_hiv_aids_under_5} min="0" /></td>
 			<td><input type="number" bind:value={newDeath_count_hiv_aids_70_plus} min="0" /></td>
 			<td><input type="number" bind:value={newDeath_count_hiv_aids_5_14} min="0" /></td>
 			<td><input type="number" bind:value={newDeath_count_hiv_aids_15_49} min="0" /></td>
 			<td><input type="number" bind:value={newDeath_count_hiv_aids_50_69} min="0" /></td>
-			<td><button onclick={añadirContact}>AÑADIR</button></td>
+			<td><button onclick={editarDato}>EDITAR</button></td>
 		</tr>
 	</tbody>
 </table>
 
+<td><button><a href="/aids-deaths-stats">VOLVER</a></button></td>
+
 {#if result != 0}
 	<h4>Resultado de la operación: {result}</h4>
 {/if}
-
-<button onclick={deleteContacts}>ELIMINAR TODO</button>
-
-<style>
-	td,
-	th {
-		padding: 10px;
-	}
-</style>
