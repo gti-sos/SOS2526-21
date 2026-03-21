@@ -9,7 +9,7 @@
       <div class="submenu">
         <a href="/religious-believes-stats">Religious Believes</a>
         <a href="/aids-deaths-stats">AIDS Deaths</a>
-        <a href="/cholera-stats">Cholera</a>
+        <a href="/cholera-stats">Cholera Stats</a>
       </div>
     </div>
 
