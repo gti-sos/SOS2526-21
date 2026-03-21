@@ -145,7 +145,7 @@ app.get(BASE_URL_API+"/religious-believes-stats/:entity/:year",(req,res)=>{
             delete e._id;
             return e;
         })
-        res.status(200, "OK").send(JSON.stringify(dato, null, 2));
+        res.status(200, "OK").send(JSON.stringify(dato[0], null, 2));
     })
     
 });
