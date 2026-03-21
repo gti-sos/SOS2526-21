@@ -15,12 +15,26 @@
 	let newDeath_count_hiv_aids_15_49 = $state(0);
 	let newDeath_count_hiv_aids_50_69 = $state(0);
 
+	let estados={
+        "200": "La operación fue un éxito",
+        "201": "Creado correctamente",
+        "409": "Conflicto en la base de datos, ya existen",
+        "405": "No puedes realizar esa operación",
+        "500": "Error interno en el servidor",
+        "404": "El recurso no existe",
+        "400": "Incompatibilidad en los datos enviados"
+    }
+	let filtro = "";
+
 	if (dev) {
 		BASE_API = 'http://localhost:3000' + BASE_API;
 	}
+
+	
+
 	// @ts-ignore
 	async function getDatos() {
-		const res = await fetch(BASE_API, {
+		const res = await fetch(BASE_API+filtro, {
 			method: 'GET'
 		});
 		const data = await res.json();
@@ -137,7 +151,7 @@
 </table>
 
 {#if result != 0}
-	<h4>Resultado de la operación: {result}</h4>
+	<h4>Resultado de la operación: {estados[result]}</h4>
 {/if}
 
 <button onclick={deleteContacts}>ELIMINAR TODO</button>

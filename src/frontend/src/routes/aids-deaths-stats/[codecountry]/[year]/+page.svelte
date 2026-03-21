@@ -17,6 +17,16 @@
 
 	let result = $state(0);
 
+	let estados={
+        "200": "La operación fue un éxito",
+        "201": "Creado correctamente",
+        "409": "Conflicto en la base de datos, ya existen",
+        "405": "No puedes realizar esa operación",
+        "500": "Error interno en el servidor",
+        "404": "El recurso no existe",
+        "400": "Incompatibilidad en los datos enviados"
+    }
+
 	let BASE_API = '/api/v1/aids-deaths-stats';
 	if (dev) {
 		BASE_API = 'http://localhost:3000' + BASE_API;
@@ -66,7 +76,7 @@
 	});
 </script>
 
-<p>Detalles del elemento: {codecountry}, {year}</p>
+<p>Detalles del elemento: </p>
 
 <table>
 	<thead>
@@ -100,5 +110,5 @@
 <td><button><a href="/aids-deaths-stats">VOLVER</a></button></td>
 
 {#if result != 0}
-	<h4>Resultado de la operación: {result}</h4>
+	<h4>Resultado de la operación: {estados[result]}</h4>
 {/if}
