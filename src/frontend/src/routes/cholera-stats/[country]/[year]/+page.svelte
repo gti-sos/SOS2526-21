@@ -73,9 +73,6 @@ onMount(async () =>  {getCholeraStat(); }); //que se carga al iniciar la pagina
 
 <h1>cholera-stats</h1>  
 
-<p>country param: {country} | year param: {year}</p>
-<p>updatedCountry: {updatedCountry} | updatedYear: {updatedYear}</p>
-
 {#if resultStatus == 200 || resultStatus == 201}
 <h3>Status code: {resultStatus}</h3>
 <h3>Operación realizada con éxito</h3>
