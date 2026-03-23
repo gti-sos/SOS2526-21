@@ -17,7 +17,7 @@
 
 
     // @ts-ignore
-    let creencias=$state([]);
+    let creencias=$state({});
     let codigo_status=$state(0);
     // @ts-ignore
     let newPais=$state(entity);
@@ -136,21 +136,21 @@
                         <td><button onclick={editDato}>Actualizar</button></td>
                     </tr>
 
-                    {#each creencias as dato}
+                    
                     <tr>
-                        <td>{dato.entity}</td>
-                        <td>{dato.code}</td>
-                        <td>{dato.year}</td> 
-                        <td>{dato.christian}</td>
-                        <td>{dato.jew}</td>
-                        <td>{dato.muslim}</td> 
-                        <td>{dato.hindu}</td> 
-                        <td>{dato.budhist}</td>
-                        <td>{dato.other}</td>
-                        <td>{dato.no_religion}</td>
+                        <td>{creencias.entity}</td>
+                        <td>{creencias.code}</td>
+                        <td>{creencias.year}</td> 
+                        <td>{creencias.christian}</td>
+                        <td>{creencias.jew}</td>
+                        <td>{creencias.muslim}</td> 
+                        <td>{creencias.hindu}</td> 
+                        <td>{creencias.budhist}</td>
+                        <td>{creencias.other}</td>
+                        <td>{creencias.no_religion}</td>
                         
                     </tr>
-                    {/each}
+                    
 
                 </tbody>
                 
