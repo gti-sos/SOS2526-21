@@ -97,11 +97,11 @@
 			<td><input type="text" readonly bind:value={newCountry} /> </td>
 			<td><input type="text" readonly bind:value={newCodeCountry} /></td>
 			<td><input type="number" readonly bind:value={newYear} /></td>
-			<td><input type="number" bind:value={newDeath_count_hiv_aids_under_5} min="0" /></td>
-			<td><input type="number" bind:value={newDeath_count_hiv_aids_70_plus} min="0" /></td>
-			<td><input type="number" bind:value={newDeath_count_hiv_aids_5_14} min="0" /></td>
-			<td><input type="number" bind:value={newDeath_count_hiv_aids_15_49} min="0" /></td>
-			<td><input type="number" bind:value={newDeath_count_hiv_aids_50_69} min="0" /></td>
+			<td><input type="number" bind:value={newDeath_count_hiv_aids_under_5} min="0" required/></td>
+			<td><input type="number" bind:value={newDeath_count_hiv_aids_70_plus} min="0" required/></td>
+			<td><input type="number" bind:value={newDeath_count_hiv_aids_5_14} min="0" required/></td>
+			<td><input type="number" bind:value={newDeath_count_hiv_aids_15_49} min="0" required/></td>
+			<td><input type="number" bind:value={newDeath_count_hiv_aids_50_69} min="0" required/></td>
 			<td><button onclick={editarDato}>EDITAR</button></td>
 		</tr>
 	</tbody>
