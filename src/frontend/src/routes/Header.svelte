@@ -15,7 +15,7 @@
 
     <a href="/apis">APIs</a>
     <a href="/docs">Documentación</a>
-    <a href="https://github.com/orgs/gti-sos/teams/sos2526-21" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://github.com/gti-sos/SOS2526-21" target="_blank" rel="noopener">GitHub</a>
   </nav>
 </div>
 
