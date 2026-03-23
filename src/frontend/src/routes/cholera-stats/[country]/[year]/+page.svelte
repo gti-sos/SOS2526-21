@@ -110,7 +110,7 @@ onMount(async () =>  {getCholeraStat(); }); //que se carga al iniciar la pagina
     <thead>
         <tr>
             <th>Pais</th>
-            <th>año</th>
+            <th>Año</th>
             <th>Casos reportados</th>
             <th>Muertes reportadas</th>
             <th>Ratio de fatalidad</th>
@@ -122,10 +122,10 @@ onMount(async () =>  {getCholeraStat(); }); //que se carga al iniciar la pagina
         <tr>
             <td><input bind:value= {updatedCountry} disabled/></td>
             <td><input type="number" bind:value= {updatedYear} disabled/></td>
-            <td><input type="number" bind:value= {updatedReportedCases} /></td>
-            <td><input type="number" bind:value= {updatedReportedDeaths} /></td>
-            <td><input type="number" bind:value= {updatedFatalityRates} /></td>
-            <td><input  bind:value= {updatedWhoRegion} /></td>
+            <td><input type="number" bind:value= {updatedReportedCases}/></td>
+            <td><input type="number" bind:value= {updatedReportedDeaths}/></td>
+            <td><input type="number" bind:value= {updatedFatalityRates}/></td>
+            <td><input  bind:value= {updatedWhoRegion}/></td>
             <td><button onclick={UpdateCholeraStat}>ACTUALIZAR</button></td>
         </tr>
     </tbody>
