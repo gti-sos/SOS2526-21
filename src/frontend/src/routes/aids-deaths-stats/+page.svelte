@@ -14,6 +14,12 @@
 	let newDeath_count_hiv_aids_5_14 = $state(0);
 	let newDeath_count_hiv_aids_15_49 = $state(0);
 	let newDeath_count_hiv_aids_50_69 = $state(0);
+let filterCountry = $state('');
+let filterYear = $state('');
+let filterRegion = $state('');
+let filterFrom = $state('');
+let filterTo = $state('');
+
 
 	let estados={
         "200": "La operación fue un éxito",

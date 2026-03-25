@@ -11,6 +11,13 @@ let newReportedCases = $state('0');
 let newReportedDeaths = $state('0');
 let newFatalityRates = $state('0.0');
 let newWhoRegion = $state('RegionEjemplo');
+let filterCountry = $state('');
+let filterYear = $state('');
+let filterRegion = $state('');
+let filterReportedCases = $state('');
+let filterReportedDeaths = $state('');
+let filterFrom = $state('');
+let filterTo = $state('');
 
 
 
@@ -21,11 +28,17 @@ if (dev)
 
     // @ts-ignore
     async function getCholeraStats()  {
-        const res = await fetch(API, {method : "GET"});
+        let url = API + '?';
+        if(filterCountry) url += `country=${filterCountry}&`;
+        if(filterYear)    url += `year=${filterYear}&`;
+        if(filterRegion)  url += `region=${filterRegion}&`;
+        if(filterReportedCases)  url += `region=${filterReportedCases}&`;
+        if(filterReportedDeaths)  url += `region=${filterReportedDeaths}&`;
+        if(filterFrom)    url += `from=${filterFrom}&`;
+        if(filterTo)      url += `to=${filterTo}&`;
+        const res = await fetch(url, {method: "GET"});
         const data = await res.json();
-        cholera_stats = data;
-
-
+        cholera_stats=data;
     }
 
     // @ts-ignore
@@ -119,6 +132,7 @@ onMount(async () =>  {getCholeraStats(); }); //que se carga al iniciar la pagina
 </div>
 {/if}
 
+
 <style>
   .alert {
     padding: 10px 16px;
@@ -135,6 +149,11 @@ onMount(async () =>  {getCholeraStats(); }); //que se carga al iniciar la pagina
     color: #721c24;
     border: 1px solid #f5c6cb;
   }
+  .empty {
+    background-color: #d7dbf8;
+    color: #143b88;
+    border: 1px solid #d7dbf8;
+  }
 </style>
 
 <h5>Haga click en el país para actualizar datos de la estadística</h5>
@@ -146,8 +165,23 @@ onMount(async () =>  {getCholeraStats(); }); //que se carga al iniciar la pagina
 <br>
 <br>
 <br>
+<h3>FILTROS DE BÚSQUEDA</h3>
+<input placeholder="País" bind:value={filterCountry} />
+<input placeholder="Año" type="number" bind:value={filterYear} />
+<input placeholder="Casos reportados" type="number" bind:value={filterReportedCases} />
+<input placeholder="Muertes reportadas" type="number" bind:value={filterReportedDeaths} />
+<input placeholder="Región" bind:value={filterRegion} />
+<input placeholder="Desde" type="number" bind:value={filterFrom} />
+<input placeholder="Hasta" type="number" bind:value={filterTo} />
+<button onclick={getCholeraStats}>BUSCAR</button>
+<button onclick={() => {
+    filterCountry=''; filterYear=''; filterRegion=''; filterFrom=''; filterTo='';
+    getCholeraStats();
+}}>LIMPIAR FILTROS</button>
 
-
+<br>
+<br>
+<h3>CREACIÓN DE ESTADISTICA</h3>
 <table>
     <thead>
         <tr>
@@ -183,6 +217,11 @@ onMount(async () =>  {getCholeraStats(); }); //que se carga al iniciar la pagina
 
         {/each}
     </tbody>
-
 </table>
 
+{#if cholera_stats.length==0}
+    <p ></p>
+    <div class="alert empty">
+    <strong>¡VAYA!</strong> — No se encontraron estadisticas con esos campos.
+    </div>
+{/if}
