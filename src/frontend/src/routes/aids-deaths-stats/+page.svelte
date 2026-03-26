@@ -6,107 +6,127 @@
 	let BASE_API = '/api/v1/aids-deaths-stats';
 	let result = $state(0);
 
-	let newCountry = $state('paísEjemplo');
-	let newCodeCountry = $state('codigoPaísEjemplo');
-	let newYear = $state(1111);
-	let newDeath_count_hiv_aids_under_5 = $state(0);
-	let newDeath_count_hiv_aids_70_plus = $state(0);
-	let newDeath_count_hiv_aids_5_14 = $state(0);
-	let newDeath_count_hiv_aids_15_49 = $state(0);
-	let newDeath_count_hiv_aids_50_69 = $state(0);
-let filterCountry = $state('');
-let filterYear = $state('');
-let filterRegion = $state('');
-let filterFrom = $state('');
-let filterTo = $state('');
+	let newCountry = $state('');
+	let newCodeCountry = $state('');
+	let newYear = $state(null);
+	let newDeath_count_hiv_aids_under_5 = $state(null);
+	let newDeath_count_hiv_aids_70_plus = $state(null);
+	let newDeath_count_hiv_aids_5_14 = $state(null);
+	let newDeath_count_hiv_aids_15_49 = $state(null);
+	let newDeath_count_hiv_aids_50_69 = $state(null);
 
+	let filterCountry = $state('');
+	let filterCodeCountry = $state('');
+	let filterYear = $state('');
+	let filterFrom = $state('');
+	let filterTo = $state('');
+	let filterUnder5 = $state('');
+	let filter70Plus = $state('');
+	let filter5_14 = $state('');
+	let filter15_49 = $state('');
+	let filter50_69 = $state('');
 
-	let estados={
-        "200": "La operación fue un éxito",
-        "201": "Creado correctamente",
-        "409": "Conflicto en la base de datos, ya existen",
-        "405": "No puedes realizar esa operación",
-        "500": "Error interno en el servidor",
-        "404": "El recurso no existe",
-        "400": "Incompatibilidad en los datos enviados"
-    }
+	let estados = {
+		'200': 'La operación fue un éxito',
+		'201': 'Creado correctamente',
+		'409': 'Conflicto en la base de datos, ya existen',
+		'405': 'No puedes realizar esa operación',
+		'500': 'Error interno en el servidor',
+		'404': 'El recurso no existe',
+		'400': 'Incompatibilidad en los datos enviados'
+	};
 
 	let limit = $state(10);
 	let offset = $state(0);
-
-	let filtro = $state("");
-	
-	function aplicarFiltro() {
-    	filtro = limit != 10 ? `?limit=${limit}` : '';
-    	getDatos();
-	}
-
+	let filtro = $state('');
 
 	if (dev) {
 		BASE_API = 'http://localhost:3000' + BASE_API;
 	}
 
-	
+	function aplicarFiltro() {
+		filtro = `?limit=${limit}&offset=${offset}`;
+		if (filterCountry.trim()) filtro += `&country=${filterCountry.trim()}`;
+		if (filterCodeCountry.trim()) filtro += `&codecountry=${filterCodeCountry.trim()}`;
+		if (filterYear) filtro += `&year=${filterYear}`;
+		if (filterFrom) filtro += `&from=${filterFrom}`;
+		if (filterTo) filtro += `&to=${filterTo}`;
+		if (filterUnder5 !== '') filtro += `&death_count_hiv_aids_under_5=${filterUnder5}`;
+		if (filter70Plus !== '') filtro += `&death_count_hiv_aids_70_plus=${filter70Plus}`;
+		if (filter5_14 !== '') filtro += `&death_count_hiv_aids_5_14=${filter5_14}`;
+		if (filter15_49 !== '') filtro += `&death_count_hiv_aids_15_49=${filter15_49}`;
+		if (filter50_69 !== '') filtro += `&death_count_hiv_aids_50_69=${filter50_69}`;
+		getDatos();
+	}
+
+	function limpiarFiltros() {
+		filterCountry = '';
+		filterCodeCountry = '';
+		filterYear = '';
+		filterFrom = '';
+		filterTo = '';
+		filterUnder5 = '';
+		filter70Plus = '';
+		filter5_14 = '';
+		filter15_49 = '';
+		filter50_69 = '';
+		limit = 10;
+		offset = 0;
+		filtro = '';
+		getDatos();
+	}
 
 	// @ts-ignore
 	async function getDatos() {
-		const res = await fetch(BASE_API+filtro, {
-			method: 'GET'
-		});
+		const res = await fetch(BASE_API + filtro, { method: 'GET' });
 		const data = await res.json();
 		datos = data;
 	}
+
 	// @ts-ignore
 	async function deleteContact(codecountry, year) {
 		if (confirm('¿Estás seguro de que quieres borrar este elemento?')) {
 			console.log('DELETE: ' + codecountry + ', ' + year);
-			const res = await fetch(BASE_API + `/${codecountry}/${year}`, {
-				method: 'DELETE'
-			});
+			const res = await fetch(BASE_API + `/${codecountry}/${year}`, { method: 'DELETE' });
 			result = await res.status;
-			if (res.status == 200) {
-				getDatos();
-			}
+			if (res.status == 200) getDatos();
 		}
 	}
+
 	async function deleteContacts() {
 		if (confirm('¿Estás seguro de que quieres borrar toda la base de datos?')) {
 			console.log('DELETE ALL');
-			const res = await fetch(BASE_API, {
-				method: 'DELETE'
-			});
+			const res = await fetch(BASE_API, { method: 'DELETE' });
 			result = await res.status;
-			if (res.status == 200) {
-				getDatos();
-			}
+			if (res.status == 200) getDatos();
 		}
 	}
 
-	async function añadirContact() {
-		if (!newCountry.trim() || !newCodeCountry.trim()) {
-			result = 400
-			return;
-		}
+	async function loadInitialData() {
+		console.log('LOAD INITIAL DATA');
+		const res = await fetch(BASE_API + '/loadInitialData', { method: 'GET' });
+		result = await res.status;
+		if (res.status == 201) getDatos();
+	}
 
+	async function añadirContact() {
+		if (!newCountry.trim() || !newCodeCountry.trim()) { 
+			result = 400; return; 
+		}
 		const campos = [
-			newYear,
-			newDeath_count_hiv_aids_under_5,
-			newDeath_count_hiv_aids_70_plus,
-			newDeath_count_hiv_aids_5_14,
-			newDeath_count_hiv_aids_15_49,
+			newYear, 
+			newDeath_count_hiv_aids_under_5, 
+			newDeath_count_hiv_aids_70_plus, 
+			newDeath_count_hiv_aids_5_14, 
+			newDeath_count_hiv_aids_15_49, 
 			newDeath_count_hiv_aids_50_69
 		];
-
-		if (campos.some(c => c === null)) {
-			result = 400
-			return;
+		if (campos.some((c) => c === null)) {
+			result = 400; return; 
 		}
-
 		console.log('INSERTE');
 		let newDato = {
-			country: newCountry,
-			codecountry: newCodeCountry,
-			year: newYear,
+			country: newCountry, codecountry: newCodeCountry, year: newYear,
 			death_count_hiv_aids_under_5: newDeath_count_hiv_aids_under_5,
 			death_count_hiv_aids_70_plus: newDeath_count_hiv_aids_70_plus,
 			death_count_hiv_aids_5_14: newDeath_count_hiv_aids_5_14,
@@ -115,95 +135,383 @@ let filterTo = $state('');
 		};
 		const res = await fetch(BASE_API, {
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
+			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(newDato)
 		});
 		result = await res.status;
 		if (res.status == 201) {
-			getDatos();
-		}
+			newCountry = '';
+			newCodeCountry = '';
+			newYear = null;
+			newDeath_count_hiv_aids_under_5 = null;
+			newDeath_count_hiv_aids_70_plus = null;
+			newDeath_count_hiv_aids_5_14 = null;
+			newDeath_count_hiv_aids_15_49 = null;
+			newDeath_count_hiv_aids_50_69 = null;
+			getDatos()
+		};
 	}
 
 	onMount(async () => {
-		getDatos();
+		getDatos(); 
 	});
 </script>
 
-<h1>aids-deaths-stats</h1>
+<div class="page">
+	<div class="header">
+		<h1>Estadíssticas: Muertes por SIDA</h1>
+		<button class="btn btn-secondary" onclick={loadInitialData}>⬇ Cargar datos iniciales</button>
+	</div>
 
-<table>
-	<thead>
-		<tr>
-			<th>País</th>
-			<th>Codigo del País</th>
-			<th>Año</th>
-			<th>Menores de 5 años</th>
-			<th>Mayores de 70 años</th>
-			<th>Entre 5 y 14 años</th>
-			<th>Entre 15 y 49 años</th>
-			<th>Entre 50 y 69 años</th>
-			<th>Acción</th>
-		</tr>
-	</thead>
-	<tbody>
-		{#each datos as dato (dato.codecountry + dato.year)}
-			<tr>
-				<td> {dato.country} </td>
-				<td> {dato.codecountry} </td>
-				<td> {dato.year} </td>
-				<td> {dato.death_count_hiv_aids_under_5} </td>
-				<td> {dato.death_count_hiv_aids_70_plus} </td>
-				<td> {dato.death_count_hiv_aids_5_14} </td>
-				<td> {dato.death_count_hiv_aids_15_49} </td>
-				<td> {dato.death_count_hiv_aids_50_69} </td>
-				<td
-					><button
-						onclick={() => {
-							deleteContact(dato.codecountry, dato.year);
-						}}>ELIMINAR</button
-					></td
-				>
-				<td
-					><button><a href="/aids-deaths-stats/{dato.codecountry}/{dato.year}">EDITAR</a></button
-					></td
-				>
-			</tr>
-		{/each}
-		<tr>
-			<td><input type="text" bind:value={newCountry}  /> </td>
-			<td><input type="text" bind:value={newCodeCountry} /></td>
-			<td><input type="number" bind:value={newYear} /></td>
-			<td><input type="number" bind:value={newDeath_count_hiv_aids_under_5} min="0" /></td>
-			<td><input type="number" bind:value={newDeath_count_hiv_aids_70_plus} min="0" /></td>
-			<td><input type="number" bind:value={newDeath_count_hiv_aids_5_14} min="0" /></td>
-			<td><input type="number" bind:value={newDeath_count_hiv_aids_15_49} min="0" /></td>
-			<td><input type="number" bind:value={newDeath_count_hiv_aids_50_69} min="0" /></td>
-			<td><button onclick={añadirContact}>AÑADIR</button></td>
-		</tr>
-	</tbody>
-</table>
+	<!-- FILTROS -->
+	<section class="card">
+		<h2 class="section-title">Filtros</h2>
+		<div class="filtros-grid">
+			<div class="field">
+				<label>País</label>
+				<input type="text" bind:value={filterCountry} placeholder="Ej: Spain" />
+			</div>
+			<div class="field">
+				<label>Código país</label>
+				<input type="text" bind:value={filterCodeCountry} placeholder="Ej: ESP" />
+			</div>
+			<div class="field">
+				<label>Año exacto</label>
+				<input type="number" bind:value={filterYear} placeholder="Ej: 2000" />
+			</div>
+			<div class="field">
+				<label>Año desde</label>
+				<input type="number" bind:value={filterFrom} placeholder="Ej: 1990" />
+			</div>
+			<div class="field">
+				<label>Año hasta</label>
+				<input type="number" bind:value={filterTo} placeholder="Ej: 2010" />
+			</div>
+			<div class="field">
+				<label>Muertes &lt;5 años</label>
+				<input type="number" bind:value={filterUnder5} min="0" placeholder="Ej: 0"/>
+			</div>
+			<div class="field">
+				<label>Muertes &gt;70 años</label>
+				<input type="number" bind:value={filter70Plus} min="0" placeholder="Ej: 0"/>
+			</div>
+			<div class="field">
+				<label>Muertes 5–14 años</label>
+				<input type="number" bind:value={filter5_14} min="0" placeholder="Ej: 0"/>
+			</div>
+			<div class="field">
+				<label>Muertes 15–49 años</label>
+				<input type="number" bind:value={filter15_49} min="0" placeholder="Ej: 0"/>
+			</div>
+			<div class="field">
+				<label>Muertes 50–69 años</label>
+				<input type="number" bind:value={filter50_69} min="0" placeholder="Ej: 0"/>
+			</div>
+			<div class="field">
+				<label>Límite</label>
+				<input type="number" bind:value={limit} min="1" placeholder="Ej: 10"/>
+			</div>
+			<div class="field">
+				<label>Offset</label>
+				<input type="number" bind:value={offset} min="0" placeholder="Ej: 0"/>
+			</div>
+		</div>
+		<div class="filtros-actions">
+			<button class="btn btn-primary" onclick={aplicarFiltro}>🔍 Aplicar filtros</button>
+			<button class="btn btn-ghost" onclick={limpiarFiltros}>✕ Limpiar</button>
+		</div>
+	</section>
 
-{#if result != 0}
-	<h4>Resultado de la operación: {estados[result]}</h4>
-{/if}
+	<!-- RESULTADO -->
+	{#if result != 0}
+		<div class="result-banner" class:success={result == 200 || result == 201} class:error={result >= 400}>
+			{estados[result]}
+		</div>
+	{/if}
 
-<button onclick={deleteContacts}>ELIMINAR TODO</button>
+	<!-- TABLA -->
+	<section class="card table-card">
+		<div class="table-wrapper">
+			<table>
+				<thead>
+					<tr>
+						<th>País</th>
+						<th>Código</th>
+						<th>Año</th>
+						<th>&lt;5 años</th>
+						<th>&gt;70 años</th>
+						<th>5–14 años</th>
+						<th>15–49 años</th>
+						<th>50–69 años</th>
+						<th colspan="2">Acción</th>
+					</tr>
+				</thead>
+				<tbody>
+					{#each datos as dato (dato.codecountry + dato.year)}
+						<tr>
+							<td>{dato.country}</td>
+							<td><span class="badge">{dato.codecountry}</span></td>
+							<td>{dato.year}</td>
+							<td>{dato.death_count_hiv_aids_under_5}</td>
+							<td>{dato.death_count_hiv_aids_70_plus}</td>
+							<td>{dato.death_count_hiv_aids_5_14}</td>
+							<td>{dato.death_count_hiv_aids_15_49}</td>
+							<td>{dato.death_count_hiv_aids_50_69}</td>
+							<td>
+								<button class="btn-icon danger" 
+									onclick={() => 
+										deleteContact(dato.codecountry, dato.year)
+									}
+								>Borrar 🗑</button>
+							</td>
+							<td>
+								<a class="btn-icon" href="/aids-deaths-stats/{dato.codecountry}/{dato.year}"> Editar ✏️</a>
+							</td>
+						</tr>
+					{/each}
+					<!-- FILA AÑADIR -->
+					<tr class="add-row">
+						<td><input type="text" bind:value={newCountry} placeholder="País" /></td>
+						<td><input type="text" bind:value={newCodeCountry} placeholder="Código" /></td>
+						<td><input type="number" bind:value={newYear} placeholder="Año" min="1900" /></td>
+						<td><input type="number" bind:value={newDeath_count_hiv_aids_under_5} placeholder="0" min="0" /></td>
+						<td><input type="number" bind:value={newDeath_count_hiv_aids_70_plus} placeholder="0" min="0" /></td>
+						<td><input type="number" bind:value={newDeath_count_hiv_aids_5_14} placeholder="0" min="0" /></td>
+						<td><input type="number" bind:value={newDeath_count_hiv_aids_15_49} placeholder="0" min="0" /></td>
+						<td><input type="number" bind:value={newDeath_count_hiv_aids_50_69} placeholder="0" min="0" /></td>
+						<td colspan="2"><button class="btn btn-primary" onclick={añadirContact}>+ Añadir</button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</section>
 
-<h3>Filtros: </h3>
-<div class="card-limit">
-  <h2>Número de datos: </h2>
-  <input type="number" bind:value={limit} min="1"/>
+	<div class="bottom-actions">
+		<button class="btn btn-danger" onclick={deleteContacts}>🗑 Eliminar todo</button>
+	</div>
 </div>
-<div class="card-offset">
-  <h2>Desplazamiento (no terminado): </h2>
-  <input type="number" bind:value={offset} min="0"/>
-</div>
-<button onclick={aplicarFiltro}>Aplicar</button>
+
 <style>
-	td,
+	/* ── Variables ── */
+	:global(body) {
+		margin: 0;
+		background: #f7f6f3;
+		font-family: 'Segoe UI', system-ui, sans-serif;
+		color: #1a1a2e;
+	}
+
+	.page {
+		max-width: 1400px;
+		margin: 0 auto;
+		padding: 1.5rem;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	/* ── Header ── */
+	.header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	h1 {
+		margin: 0;
+		font-size: 1.6rem;
+		font-weight: 700;
+		color: #1a1a2e;
+	}
+
+	/* ── Cards ── */
+	.card {
+		background: #fff;
+		border-radius: 10px;
+		border: 1px solid #e2e8f0;
+		padding: 1rem 1.25rem;
+		box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+	}
+
+	.section-title {
+		margin: 0 0 0.75rem;
+		font-size: 0.95rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		color: #64748b;
+	}
+
+	/* ── Filtros ── */
+	.filtros-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+		gap: 0.6rem;
+	}
+
+	.field {
+		display: flex;
+		flex-direction: column;
+		gap: 0.2rem;
+	}
+
+	.field label {
+		font-size: 0.72rem;
+		font-weight: 600;
+		color: #64748b;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+	}
+
+	.field input {
+		padding: 0.35rem 0.5rem;
+		border: 1px solid #cbd5e1;
+		border-radius: 6px;
+		font-size: 0.82rem;
+		background: #f8fafc;
+		transition: border-color 0.15s;
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	.field input:focus {
+		outline: none;
+		border-color: #3b82f6;
+		background: #fff;
+	}
+
+	.filtros-actions {
+		display: flex;
+		gap: 0.5rem;
+		margin-top: 0.75rem;
+	}
+
+	/* ── Tabla ── */
+	.table-card {
+		padding: 0;
+		overflow: hidden;
+	}
+
+	.table-wrapper {
+		overflow-x: auto;
+		width: 100%;
+	}
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 0.82rem;
+		white-space: nowrap;
+	}
+
+	thead tr {
+		background: #f1f5f9;
+		border-bottom: 2px solid #e2e8f0;
+	}
+
 	th {
-		padding: 10px;
+		padding: 0.6rem 0.75rem;
+		text-align: left;
+		font-size: 0.72rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		color: #64748b;
+	}
+
+	tbody tr {
+		border-bottom: 1px solid #f1f5f9;
+		transition: background 0.1s;
+	}
+
+	tbody tr:hover {
+		background: #f8fafc;
+	}
+
+	td {
+		padding: 0.45rem 0.75rem;
+		color: #334155;
+	}
+
+	.add-row td {
+		background: #fafafa;
+		padding: 0.4rem 0.5rem;
+	}
+
+	.add-row input {
+		width: 100%;
+		padding: 0.3rem 0.4rem;
+		border: 1px solid #cbd5e1;
+		border-radius: 5px;
+		font-size: 0.8rem;
+		box-sizing: border-box;
+		background: #fff;
+	}
+
+	/* ── Badge ── */
+	.badge {
+		background: #e0f2fe;
+		color: #0369a1;
+		padding: 0.15rem 0.4rem;
+		border-radius: 4px;
+		font-size: 0.75rem;
+		font-weight: 600;
+	}
+
+	/* ── Botones ── */
+	.btn {
+		padding: 0.4rem 0.9rem;
+		border: none;
+		border-radius: 6px;
+		font-size: 0.82rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: opacity 0.15s, transform 0.1s;
+	}
+
+	.btn:active { transform: scale(0.97); }
+
+	.btn-primary  { background: #3b82f6; color: #fff; }
+	.btn-primary:hover { background: #2563eb; }
+
+	.btn-secondary { background: #e2e8f0; color: #334155; }
+	.btn-secondary:hover { background: #cbd5e1; }
+
+	.btn-ghost { background: transparent; color: #64748b; border: 1px solid #cbd5e1; }
+	.btn-ghost:hover { background: #f1f5f9; }
+
+	.btn-danger { background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; }
+	.btn-danger:hover { background: #fca5a5; }
+
+	.btn-icon {
+		background: none;
+		border: none;
+		cursor: pointer;
+		font-size: 1rem;
+		padding: 0.2rem 0.3rem;
+		border-radius: 4px;
+		transition: background 0.1s;
+		text-decoration: none;
+	}
+
+	.btn-icon:hover { background: #f1f5f9; }
+	.btn-icon.danger:hover { background: #fee2e2; }
+
+	/* ── Result banner ── */
+	.result-banner {
+		padding: 0.6rem 1rem;
+		border-radius: 8px;
+		font-size: 0.85rem;
+		font-weight: 500;
+	}
+
+	.result-banner.success { background: #dcfce7; color: #16a34a; border: 1px solid #bbf7d0; }
+	.result-banner.error   { background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; }
+
+	/* ── Bottom ── */
+	.bottom-actions {
+		display: flex;
+		justify-content: flex-end;
 	}
 </style>
