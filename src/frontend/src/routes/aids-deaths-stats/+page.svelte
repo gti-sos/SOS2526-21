@@ -157,6 +157,11 @@
 	});
 </script>
 
+<svelte:head>
+  <title>AIDs Deaths Stats</title>
+</svelte:head>
+
+
 <div class="page">
 	<div class="header">
 		<h1>Estadíssticas: Muertes por SIDA</h1>
@@ -248,7 +253,7 @@
 				</thead>
 				<tbody>
 					{#each datos as dato (dato.codecountry + dato.year)}
-						<tr>
+						<tr data-testid="dataRow">
 							<td>{dato.country}</td>
 							<td><span class="badge">{dato.codecountry}</span></td>
 							<td>{dato.year}</td>

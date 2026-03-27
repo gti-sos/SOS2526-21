@@ -1,3 +1,7 @@
+<svelte:head>
+  <title>Grupo 21 API</title>
+</svelte:head>
+
 <div class="navbar">
   <span class="title">SOS2526-21</span>
 
