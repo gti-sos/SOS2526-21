@@ -229,7 +229,7 @@ onMount(async () =>  {getCholeraStats(); }); //que se carga al iniciar la pagina
                 <td> {cholera_stat.reportedDeaths} </td>
                 <td>{cholera_stat.fatalityRate} </td>
                 <td>{cholera_stat.whoRegion}</td>
-                <td><button onclick={() => deleteCholeraStat(cholera_stat.country, cholera_stat.year)}>BORRAR</button></td>
+                <td><button data-testid={`${cholera_stat.country}-${cholera_stat.year}`} onclick={() => deleteCholeraStat(cholera_stat.country, cholera_stat.year)}>BORRAR</button></td>
              </tr>
 
         {/each}

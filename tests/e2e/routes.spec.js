@@ -34,7 +34,7 @@ test('aids frontend show list', async ({ page }) => {
 //----------------------------------------------------------------------------------------------------------------------------
 
 
-test('cholera stats frontend shows cholera list', async ({ page }) => {
+test('Load initial data of cholera stats', async ({ page }) => {
     await page.goto(app);
     await page.hover('.dropdown');
     await page.getByRole('link', {name: 'Cholera'}).click();
@@ -47,7 +47,7 @@ test('cholera stats frontend shows cholera list', async ({ page }) => {
 }); 
 
 
-test('cholera stat creation', async ({ page }) => {
+test('Create one cholera stat', async ({ page }) => {
     
     await page.goto(app);
     await page.hover('.dropdown');
@@ -56,7 +56,7 @@ test('cholera stat creation', async ({ page }) => {
     const choleraCount= await page.getByTestId('choleraRow').count();
 
     
-    await page.getByTestId('countryInput').fill('Pais prueba');
+    await page.getByTestId('countryInput').fill('PaisPrueba');
     await page.getByTestId('yearInput').fill('3000');
     await page.getByTestId('reportedCasesInput').fill('2');
     await page.getByTestId('reportedDeathsInput').fill('1');
@@ -73,18 +73,18 @@ test('cholera stat creation', async ({ page }) => {
     .toHaveCount(choleraCount + 1);
 
 
-    await expect(page.getByText('Pais prueba')).toBeVisible();
+    await expect(page.getByText('PaisPrueba')).toBeVisible();
     await expect(page.getByText('3000', { exact: true })).toBeVisible();
 
 }); 
 
 
-test('cholera stat filter', async ({ page }) => {
+test('filter cholera stats', async ({ page }) => {
     await page.goto(app);
     await page.hover('.dropdown');
     await page.getByRole('link', {name: 'Cholera'}).click();
     
-    await page.getByPlaceholder('País').fill('Pais prueba');
+    await page.getByPlaceholder('País').fill('PaisPrueba');
     await page.getByPlaceholder('Año').fill('3000');
     await page.getByPlaceholder('Casos reportados').fill('2');
     await page.getByPlaceholder('Muertes reportadas').fill('1');
@@ -99,19 +99,19 @@ test('cholera stat filter', async ({ page }) => {
 
     expect(choleraCount).toBe(1);
 
-    await expect(page.getByText('Pais prueba')).toBeVisible();
+    await expect(page.getByText('PaisPrueba')).toBeVisible();
     await expect(page.getByText('3000', { exact: true })).toBeVisible();
     
 }); 
 
 
-test('cholera stat edit', async ({ page }) => {
+test('Edit one cholera stat', async ({ page }) => {
     
     await page.goto(app);
     await page.hover('.dropdown');
     await page.getByRole('link', {name: 'Cholera'}).click();
     
-    await page.getByRole('link', {name: 'Pais prueba'}).click(); 
+    await page.getByRole('link', {name: 'PaisPrueba'}).click(); 
 
     await page.getByTestId('reportedCasesInput').fill('2');
     await page.getByTestId('reportedDeathsInput').fill('1');
@@ -131,7 +131,21 @@ test('cholera stat edit', async ({ page }) => {
 
 
 
-test('Delete cholera stats', async ({ page }) => {
+
+//ARREGLAR IDENTIFICADOR NO FUNCIONA
+test('Delete one cholera stat', async ({ page }) => {
+    await page.goto(app);
+    await page.hover('.dropdown');
+    await page.getByRole('link', {name: 'Cholera'}).click();    
+
+    await page.getByTestId('PaisPrueba-3000').click();
+
+    await expect(page.getByTestId('PaisPrueba-3000')).not.toBeVisible();
+
+});
+
+
+test('Delete all cholera stats', async ({ page }) => {
     await page.goto(app);
     await page.hover('.dropdown');
     await page.getByRole('link', {name: 'Cholera'}).click();
