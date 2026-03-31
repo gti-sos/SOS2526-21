@@ -53,8 +53,9 @@ test('cholera stat creation', async ({ page }) => {
     await page.hover('.dropdown');
     await page.getByRole('link', {name: 'Cholera'}).click();
    
-    const choleraCount1= await page.getByTestId('choleraRow').count();
+    const choleraCount= await page.getByTestId('choleraRow').count();
 
+    
     await page.getByTestId('countryInput').fill('Pais prueba');
     await page.getByTestId('yearInput').fill('3000');
     await page.getByTestId('reportedCasesInput').fill('2');
@@ -62,17 +63,19 @@ test('cholera stat creation', async ({ page }) => {
     await page.getByTestId('fatalityRateInput').fill('0.5');
     await page.getByTestId('regionInput').fill('Region prueba');
 
-
+    
     await page.getByRole('button', {name: 'INSERTAR'}).click() ;
 
-    const choleraCount2= await page.getByTestId('choleraRow').count();
     
-    
+    //espera las cholerarow suficientes para que sea choleraCount + 1, es decir, que comprueba que se agrego una row mas.
+
+    await expect(page.getByTestId('choleraRow'))
+    .toHaveCount(choleraCount + 1);
+
 
     await expect(page.getByText('Pais prueba')).toBeVisible();
-    await expect(page.getByText('3000')).toBeVisible();
+    await expect(page.getByText('3000', { exact: true })).toBeVisible();
 
-    expect(choleraCount2-choleraCount1).toBe(1);
 }); 
 
 
@@ -84,13 +87,57 @@ test('cholera stat filter', async ({ page }) => {
     await page.getByPlaceholder('País').fill('Pais prueba');
     await page.getByPlaceholder('Año').fill('3000');
     await page.getByPlaceholder('Casos reportados').fill('2');
-    await page.getByPlaceholder('Casos reportados').fill('1');
-    await page.getByPlaceholder('Muertes reportadas').fill('0.5');
+    await page.getByPlaceholder('Muertes reportadas').fill('1');
+    await page.getByPlaceholder('Ratio de fatalidad').fill('0.5');
     await page.getByPlaceholder('Región').fill('Region prueba');
     await page.getByPlaceholder('Desde').fill('2999');
     await page.getByPlaceholder('Hasta').fill('3001');
 
     await page.getByRole('button', {name: 'BUSCAR'}).click();
-    
+
     const choleraCount= await page.getByTestId('choleraRow').count();
+
+    expect(choleraCount).toBe(1);
+
+    await expect(page.getByText('Pais prueba')).toBeVisible();
+    await expect(page.getByText('3000', { exact: true })).toBeVisible();
+    
+}); 
+
+
+test('cholera stat edit', async ({ page }) => {
+    
+    await page.goto(app);
+    await page.hover('.dropdown');
+    await page.getByRole('link', {name: 'Cholera'}).click();
+    
+    await page.getByRole('link', {name: 'Pais prueba'}).click(); 
+
+    await page.getByTestId('reportedCasesInput').fill('2');
+    await page.getByTestId('reportedDeathsInput').fill('1');
+    await page.getByTestId('fatalityRateInput').fill('0.5');
+    await page.getByTestId('regionInput').fill('Region prueba actualizada');
+
+
+    await page.getByRole('button', {name: 'ACTUALIZAR'}).click() ;
+    
+    await page.goBack();
+
+    
+    await expect(page.getByText('Region prueba actualizada')).toBeVisible();
+
+
+}); 
+
+
+
+test('Delete cholera stats', async ({ page }) => {
+    await page.goto(app);
+    await page.hover('.dropdown');
+    await page.getByRole('link', {name: 'Cholera'}).click();
+    await page.getByRole('button', {name: 'BORRAR TODO'}).click();
+    //espera a que almenos cargue una fila por que tengo demasiadas filas y no espera a que carguen para contar
+    //await page.waitForSelector('[data-testid="choleraRow"]');
+    const choleraCount= await page.getByTestId('choleraRow').count();
+    expect(choleraCount).toBe(0);
 }); 

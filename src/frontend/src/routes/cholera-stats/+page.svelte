@@ -16,6 +16,7 @@ let filterYear = $state('');
 let filterRegion = $state('');
 let filterReportedCases = $state('');
 let filterReportedDeaths = $state('');
+let filterFatalityRate = $state('');
 let filterFrom = $state('');
 let filterTo = $state('');
 
@@ -32,8 +33,9 @@ if (dev)
         if(filterCountry) url += `country=${filterCountry}&`;
         if(filterYear)    url += `year=${filterYear}&`;
         if(filterRegion)  url += `region=${filterRegion}&`;
-        if(filterReportedCases)  url += `region=${filterReportedCases}&`;
-        if(filterReportedDeaths)  url += `region=${filterReportedDeaths}&`;
+        if(filterReportedCases)  url += `reportedCases=${filterReportedCases}&`;
+        if(filterReportedDeaths)  url += `reportedDeaths=${filterReportedDeaths}&`;
+        if(filterFatalityRate)  url += `fatalityRate=${filterFatalityRate}&`;
         if(filterFrom)    url += `from=${filterFrom}&`;
         if(filterTo)      url += `to=${filterTo}&`;
         const res = await fetch(url, {method: "GET"});
@@ -184,6 +186,7 @@ onMount(async () =>  {getCholeraStats(); }); //que se carga al iniciar la pagina
 <input placeholder="Año" type="number" bind:value={filterYear} />
 <input placeholder="Casos reportados" type="number" bind:value={filterReportedCases} />
 <input placeholder="Muertes reportadas" type="number" bind:value={filterReportedDeaths} />
+<input placeholder="Ratio de fatalidad" type="number" step="0.01" bind:value={filterFatalityRate} />
 <input placeholder="Región" bind:value={filterRegion} />
 <input placeholder="Desde" type="number" bind:value={filterFrom} />
 <input placeholder="Hasta" type="number" bind:value={filterTo} />
@@ -214,7 +217,7 @@ onMount(async () =>  {getCholeraStats(); }); //que se carga al iniciar la pagina
             <td><input data-testid="yearInput" type="number" bind:value= {newYear} /></td>
             <td><input data-testid="reportedCasesInput" type="number" bind:value= {newReportedCases} /></td>
             <td><input data-testid="reportedDeathsInput" type="number" bind:value= {newReportedDeaths} /></td>
-            <td><input data-testid="fatalityRateInput" type="number" bind:value= {newFatalityRates} /></td>
+            <td><input data-testid="fatalityRateInput" type="number" step="0.01" bind:value= {newFatalityRates} /></td>
             <td><input data-testid="regionInput" bind:value= {newWhoRegion} /></td>
             <td><button onclick={InsertCholeraStat}>INSERTAR</button></td>
         </tr>
