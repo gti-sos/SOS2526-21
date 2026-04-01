@@ -34,14 +34,17 @@ export function loadBackendApiMTC(app){
                 const csvData= [];
                 fs.createReadStream("./data/cholera_stats.csv")
                 .pipe(csv()) //lee primera linea de cabezera (asociación clave:valor)
-                .on("data",(row)=> {csvData.push({  // "data" -> evento por cada una nueva fila
+                .on("data",(row)=> {
+                    if(csvData.length < 20){
+                    csvData.push({  // "data" -> evento por cada una nueva fila
                     country: row["Country"],
                     year: parseInt(row["Year"]),
                     reportedCases: parseInt(row["Number of reported cases of cholera"]),
                     reportedDeaths: parseInt(row["Number of reported deaths from cholera"]),
                     fatalityRate: parseFloat(row["Cholera case fatality rate"]),
                     whoRegion: row["WHO Region"]
-                    }) ;
+                    });
+                }
                 })
                 .on("end", () => { // "end" -> salta cuando ya no quedan mas filas
                     db.insert(csvData, (err, new_data)=>{
