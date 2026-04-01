@@ -123,23 +123,23 @@
 		<div class="form-grid">
 			<div class="field">
 				<label>Menores de 5 años</label>
-				<input type="number" bind:value={newDeath_count_hiv_aids_under_5} min="0" />
+				<input data-testid="under5Input" type="number" bind:value={newDeath_count_hiv_aids_under_5} min="0" />
 			</div>
 			<div class="field">
 				<label>Entre 5 y 14 años</label>
-				<input type="number" bind:value={newDeath_count_hiv_aids_5_14} min="0" />
+				<input data-testid="5-14Input" type="number" bind:value={newDeath_count_hiv_aids_5_14} min="0" />
 			</div>
 			<div class="field">
 				<label>Entre 15 y 49 años</label>
-				<input type="number" bind:value={newDeath_count_hiv_aids_15_49} min="0" />
+				<input data-testid="15-49Input" type="number" bind:value={newDeath_count_hiv_aids_15_49} min="0" />
 			</div>
 			<div class="field">
 				<label>Entre 50 y 69 años</label>
-				<input type="number" bind:value={newDeath_count_hiv_aids_50_69} min="0" />
+				<input data-testid="50-69Input" type="number" bind:value={newDeath_count_hiv_aids_50_69} min="0" />
 			</div>
 			<div class="field">
 				<label>Mayores de 70 años</label>
-				<input type="number" bind:value={newDeath_count_hiv_aids_70_plus} min="0" />
+				<input data-testid="plus70Input" type="number" bind:value={newDeath_count_hiv_aids_70_plus} min="0" />
 			</div>
 		</div>
 

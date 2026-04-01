@@ -16,6 +16,7 @@ let filterYear = $state('');
 let filterRegion = $state('');
 let filterReportedCases = $state('');
 let filterReportedDeaths = $state('');
+let filterFatalityRate = $state('');
 let filterFrom = $state('');
 let filterTo = $state('');
 
@@ -32,14 +33,23 @@ if (dev)
         if(filterCountry) url += `country=${filterCountry}&`;
         if(filterYear)    url += `year=${filterYear}&`;
         if(filterRegion)  url += `region=${filterRegion}&`;
-        if(filterReportedCases)  url += `region=${filterReportedCases}&`;
-        if(filterReportedDeaths)  url += `region=${filterReportedDeaths}&`;
+        if(filterReportedCases)  url += `reportedCases=${filterReportedCases}&`;
+        if(filterReportedDeaths)  url += `reportedDeaths=${filterReportedDeaths}&`;
+        if(filterFatalityRate)  url += `fatalityRate=${filterFatalityRate}&`;
         if(filterFrom)    url += `from=${filterFrom}&`;
         if(filterTo)      url += `to=${filterTo}&`;
         const res = await fetch(url, {method: "GET"});
         const data = await res.json();
         cholera_stats=data;
     }
+
+     async function getInitdata()  {    
+        const res = await fetch(API + '/loadInitialData', {method: "GET"});
+        resultStatus = await res.status;
+        if(resultStatus == 201 || resultStatus == 409)
+            getCholeraStats();
+    }
+
 
     // @ts-ignore
     async function deleteCholeraStat(country, year){
@@ -113,7 +123,12 @@ onMount(async () =>  {getCholeraStats(); }); //que se carga al iniciar la pagina
 
 </script>
 
+<svelte:head>
+  <title>Cholera Stats</title>
+</svelte:head>
+
 <h1>Estadísticas del cólera</h1>  
+
 
 
 {#if resultStatus == 200 || resultStatus == 201}
@@ -160,6 +175,7 @@ onMount(async () =>  {getCholeraStats(); }); //que se carga al iniciar la pagina
 
 <br>
 
+<button onclick={getInitdata}> CARGAR DATOS </button>
 <button onclick={deleteCholeraStats}>BORRAR TODO</button>
 
 <br>
@@ -170,6 +186,7 @@ onMount(async () =>  {getCholeraStats(); }); //que se carga al iniciar la pagina
 <input placeholder="Año" type="number" bind:value={filterYear} />
 <input placeholder="Casos reportados" type="number" bind:value={filterReportedCases} />
 <input placeholder="Muertes reportadas" type="number" bind:value={filterReportedDeaths} />
+<input placeholder="Ratio de fatalidad" type="number" step="0.01" bind:value={filterFatalityRate} />
 <input placeholder="Región" bind:value={filterRegion} />
 <input placeholder="Desde" type="number" bind:value={filterFrom} />
 <input placeholder="Hasta" type="number" bind:value={filterTo} />
@@ -196,23 +213,23 @@ onMount(async () =>  {getCholeraStats(); }); //que se carga al iniciar la pagina
     </thead>
     <tbody>
         <tr>
-            <td><input bind:value= {newCountry} /></td>
-            <td><input type="number" bind:value= {newYear} /></td>
-            <td><input type="number" bind:value= {newReportedCases} /></td>
-            <td><input type="number" bind:value= {newReportedDeaths} /></td>
-            <td><input type="number" bind:value= {newFatalityRates} /></td>
-            <td><input bind:value= {newWhoRegion} /></td>
+            <td><input data-testid="countryInput" bind:value= {newCountry} /></td>
+            <td><input data-testid="yearInput" type="number" bind:value= {newYear} /></td>
+            <td><input data-testid="reportedCasesInput" type="number" bind:value= {newReportedCases} /></td>
+            <td><input data-testid="reportedDeathsInput" type="number" bind:value= {newReportedDeaths} /></td>
+            <td><input data-testid="fatalityRateInput" type="number" step="0.01" bind:value= {newFatalityRates} /></td>
+            <td><input data-testid="regionInput" bind:value= {newWhoRegion} /></td>
             <td><button onclick={InsertCholeraStat}>INSERTAR</button></td>
         </tr>
         {#each cholera_stats as cholera_stat (`${cholera_stat.country}-${cholera_stat.year}`)}
-            <tr>
+            <tr data-testid="choleraRow">
                 <td><a href="cholera-stats/{cholera_stat.country}/{cholera_stat.year}">{cholera_stat.country}</a></td>
                 <td>{cholera_stat.year}</td>
                 <td>{cholera_stat.reportedCases} </td>
                 <td> {cholera_stat.reportedDeaths} </td>
                 <td>{cholera_stat.fatalityRate} </td>
                 <td>{cholera_stat.whoRegion}</td>
-                <td><button onclick={() => deleteCholeraStat(cholera_stat.country, cholera_stat.year)}>BORRAR</button></td>
+                <td><button data-testid={`${cholera_stat.country}-${cholera_stat.year}`} onclick={() => deleteCholeraStat(cholera_stat.country, cholera_stat.year)}>BORRAR</button></td>
              </tr>
 
         {/each}

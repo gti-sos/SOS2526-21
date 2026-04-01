@@ -84,7 +84,7 @@
 	}
 
 	// @ts-ignore
-	async function deleteContact(codecountry, year) {
+	async function deleteDato(codecountry, year) {
 		if (confirm('¿Estás seguro de que quieres borrar este elemento?')) {
 			console.log('DELETE: ' + codecountry + ', ' + year);
 			const res = await fetch(BASE_API + `/${codecountry}/${year}`, { method: 'DELETE' });
@@ -93,7 +93,7 @@
 		}
 	}
 
-	async function deleteContacts() {
+	async function deleteDatos() {
 		if (confirm('¿Estás seguro de que quieres borrar toda la base de datos?')) {
 			console.log('DELETE ALL');
 			const res = await fetch(BASE_API, { method: 'DELETE' });
@@ -109,7 +109,7 @@
 		if (res.status == 201) getDatos();
 	}
 
-	async function añadirContact() {
+	async function añadirDato() {
 		if (!newCountry.trim() || !newCodeCountry.trim()) { 
 			result = 400; return; 
 		}
@@ -174,51 +174,51 @@
 		<div class="filtros-grid">
 			<div class="field">
 				<label>País</label>
-				<input type="text" bind:value={filterCountry} placeholder="Ej: Spain" />
+				<input data-testid="filterCountry" type="text" bind:value={filterCountry} placeholder="Ej: Spain" />
 			</div>
 			<div class="field">
 				<label>Código país</label>
-				<input type="text" bind:value={filterCodeCountry} placeholder="Ej: ESP" />
+				<input data-testid="filterCodeCountry" type="text" bind:value={filterCodeCountry} placeholder="Ej: ESP" />
 			</div>
 			<div class="field">
 				<label>Año exacto</label>
-				<input type="number" bind:value={filterYear} placeholder="Ej: 2000" />
+				<input data-testid="filterYear" type="number" bind:value={filterYear} placeholder="Ej: 2000" />
 			</div>
 			<div class="field">
 				<label>Año desde</label>
-				<input type="number" bind:value={filterFrom} placeholder="Ej: 1990" />
+				<input data-testid="filterFrom" type="number" bind:value={filterFrom} placeholder="Ej: 1990" />
 			</div>
 			<div class="field">
 				<label>Año hasta</label>
-				<input type="number" bind:value={filterTo} placeholder="Ej: 2010" />
+				<input data-testid="filterTo" type="number" bind:value={filterTo} placeholder="Ej: 2010" />
 			</div>
 			<div class="field">
 				<label>Muertes &lt;5 años</label>
-				<input type="number" bind:value={filterUnder5} min="0" placeholder="Ej: 0"/>
+				<input data-testid="filterUnder5" type="number" bind:value={filterUnder5} min="0" placeholder="Ej: 0"/>
 			</div>
 			<div class="field">
 				<label>Muertes &gt;70 años</label>
-				<input type="number" bind:value={filter70Plus} min="0" placeholder="Ej: 0"/>
+				<input data-testid="filter70Plus" type="number" bind:value={filter70Plus} min="0" placeholder="Ej: 0"/>
 			</div>
 			<div class="field">
 				<label>Muertes 5–14 años</label>
-				<input type="number" bind:value={filter5_14} min="0" placeholder="Ej: 0"/>
+				<input data-testid="filter5-14" type="number" bind:value={filter5_14} min="0" placeholder="Ej: 0"/>
 			</div>
 			<div class="field">
 				<label>Muertes 15–49 años</label>
-				<input type="number" bind:value={filter15_49} min="0" placeholder="Ej: 0"/>
+				<input data-testid="filter15-49" type="number" bind:value={filter15_49} min="0" placeholder="Ej: 0"/>
 			</div>
 			<div class="field">
 				<label>Muertes 50–69 años</label>
-				<input type="number" bind:value={filter50_69} min="0" placeholder="Ej: 0"/>
+				<input data-testid="filter50-69" type="number" bind:value={filter50_69} min="0" placeholder="Ej: 0"/>
 			</div>
 			<div class="field">
 				<label>Límite</label>
-				<input type="number" bind:value={limit} min="1" placeholder="Ej: 10"/>
+				<input data-testid="filterLimit" type="number" bind:value={limit} min="1" placeholder="Ej: 10"/>
 			</div>
 			<div class="field">
 				<label>Offset</label>
-				<input type="number" bind:value={offset} min="0" placeholder="Ej: 0"/>
+				<input data-testid="filterOffset" type="number" bind:value={offset} min="0" placeholder="Ej: 0"/>
 			</div>
 		</div>
 		<div class="filtros-actions">
@@ -265,7 +265,7 @@
 							<td>
 								<button class="btn-icon danger" 
 									onclick={() => 
-										deleteContact(dato.codecountry, dato.year)
+										deleteDato(dato.codecountry, dato.year)
 									}
 								>Borrar 🗑</button>
 							</td>
@@ -276,15 +276,15 @@
 					{/each}
 					<!-- FILA AÑADIR -->
 					<tr class="add-row">
-						<td><input type="text" bind:value={newCountry} placeholder="País" /></td>
-						<td><input type="text" bind:value={newCodeCountry} placeholder="Código" /></td>
-						<td><input type="number" bind:value={newYear} placeholder="Año" min="1900" /></td>
-						<td><input type="number" bind:value={newDeath_count_hiv_aids_under_5} placeholder="0" min="0" /></td>
-						<td><input type="number" bind:value={newDeath_count_hiv_aids_70_plus} placeholder="0" min="0" /></td>
-						<td><input type="number" bind:value={newDeath_count_hiv_aids_5_14} placeholder="0" min="0" /></td>
-						<td><input type="number" bind:value={newDeath_count_hiv_aids_15_49} placeholder="0" min="0" /></td>
-						<td><input type="number" bind:value={newDeath_count_hiv_aids_50_69} placeholder="0" min="0" /></td>
-						<td colspan="2"><button class="btn btn-primary" onclick={añadirContact}>+ Añadir</button></td>
+						<td><input data-testid="paisInput" type="text" bind:value={newCountry} placeholder="País" /></td>
+						<td><input data-testid="codigoPaisInput" type="text" bind:value={newCodeCountry} placeholder="Código" /></td>
+						<td><input data-testid="añoInput" type="number" bind:value={newYear} placeholder="Año" min="1900" /></td>
+						<td><input data-testid="under5Input" type="number" bind:value={newDeath_count_hiv_aids_under_5} placeholder="0" min="0" /></td>
+						<td><input data-testid="plus70Input" type="number" bind:value={newDeath_count_hiv_aids_70_plus} placeholder="0" min="0" /></td>
+						<td><input data-testid="5-14Input" type="number" bind:value={newDeath_count_hiv_aids_5_14} placeholder="0" min="0" /></td>
+						<td><input data-testid="15-49Input" type="number" bind:value={newDeath_count_hiv_aids_15_49} placeholder="0" min="0" /></td>
+						<td><input data-testid="50-69Input" type="number" bind:value={newDeath_count_hiv_aids_50_69} placeholder="0" min="0" /></td>
+						<td colspan="2"><button class="btn btn-primary" onclick={añadirDato}>+ Añadir</button></td>
 					</tr>
 				</tbody>
 			</table>
@@ -292,7 +292,7 @@
 	</section>
 
 	<div class="bottom-actions">
-		<button class="btn btn-danger" onclick={deleteContacts}>🗑 Eliminar todo</button>
+		<button class="btn btn-danger" onclick={deleteDatos}>🗑 Eliminar todo</button>
 	</div>
 </div>
 

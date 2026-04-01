@@ -40,17 +40,6 @@
     width: 100%;
   }
 
-  .tag {
-    font-family: monospace;
-    font-size: 0.75rem;
-    color: #fff;
-    background: #1a1a1a;
-    display: inline-block;
-    padding: 0.25rem 0.6rem;
-    border-radius: 4px;
-    margin: 0 0 1.25rem 0;
-  }
-
   h1 {
     font-size: 1.6rem;
     font-weight: 600;
