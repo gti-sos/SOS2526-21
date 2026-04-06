@@ -125,7 +125,7 @@ export function loadBackendApiMTC(app){
 
                     //paginacion
                     const limit = parseInt(req.query.limit) || chol_st.length;
-                    const offset = parseInt(req.query.offset) || 20;
+                    const offset = parseInt(req.query.offset) || 0;
                     chol_st = chol_st.slice(offset, offset + limit);
 
                 res.status(200).send(JSON.stringify(chol_st, null, 2));
