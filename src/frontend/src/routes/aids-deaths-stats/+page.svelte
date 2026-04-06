@@ -37,7 +37,7 @@
 	};
 
 	let limit = $state(10);
-	let offset = $state(0);
+	let pagina = $state(0);
 	let filtro = $state('');
 
 	if (dev) {
@@ -45,6 +45,7 @@
 	}
 
 	async function aplicarFiltro() {
+		let offset = limit * pagina
 		filtro = `?limit=${limit}&offset=${offset}`;
 		if (filterCountry.trim()) filtro += `&country=${filterCountry.trim()}`;
 		if (filterCodeCountry.trim()) filtro += `&codecountry=${filterCodeCountry.trim()}`;
@@ -71,7 +72,7 @@
 		filter15_49 = '';
 		filter50_69 = '';
 		limit = 10;
-		offset = 0;
+		pagina = 0;
 		filtro = '';
 		await getDatos();
 	}
@@ -217,8 +218,8 @@
 				<input data-testid="filterLimit" type="number" bind:value={limit} min="1" placeholder="Ej: 10"/>
 			</div>
 			<div class="field">
-				<label>Adelanto</label>
-				<input data-testid="filterOffset" type="number" bind:value={offset} min="0" placeholder="Ej: 0"/>
+				<label>Pagina</label>
+				<input data-testid="filterOffset" type="number" bind:value={pagina} min="0" placeholder="Ej: 0"/>
 			</div>
 		</div>
 		<div class="filtros-actions">
