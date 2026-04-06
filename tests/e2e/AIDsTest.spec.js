@@ -14,14 +14,13 @@ test('aids frontend delete all, loadinitialdata and show list', async ({ page })
     const waitIniciales = page.waitForResponse(res => res.url().includes('aids-deaths-stats') && res.request().method() === 'GET' && res.status() === 201);
     await page.getByRole('button', {name: 'iniciales'}).click();
     await waitIniciales;
+    await expect(page.getByTestId('dataRow').first()).toBeVisible(); 
     const dataRowsCount = await page.getByTestId('dataRow').count();
     expect(dataRowsCount).toBeGreaterThan(0);
     const waitEliminarTodo2 = page.waitForResponse(res =>res.url().includes('aids-deaths-stats') && res.request().method() === 'DELETE' && res.status() === 200);
     await page.getByRole('button', {name: 'Eliminar todo'}).click();
     await waitEliminarTodo2;
-    const dataRowsCount2 = await page.getByTestId('dataRow').count();
-    expect(dataRowsCount2).toBe(0);
-  
+    await expect(page.getByTestId('dataRow')).toHaveCount(0); 
 });
 
 test('aids frontend insert ESPAÑA on the list', async ({ page }) => {
@@ -41,8 +40,7 @@ test('aids frontend insert ESPAÑA on the list', async ({ page }) => {
     const waitAñadir = page.waitForResponse(res => res.url().includes('aids-deaths-stats') && res.request().method() === 'POST' && res.status() === 201);
     await page.getByRole('button', {name: 'Añadir'}).click();
     await waitAñadir;
-    const dataRowsCount2 = await page.getByTestId('dataRow').count();
-    expect(dataRowsCount2).toBe(dataRowsCount1 + 1);
+    await expect(page.getByTestId('dataRow')).toHaveCount(dataRowsCount1 + 1); 
     const newRow = page.getByTestId('dataRow').filter({ hasText: 'España' });
     await expect(newRow).toContainText('ESP');
     await expect(newRow).toContainText('2020');

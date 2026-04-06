@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+test.describe.configure({ mode: 'serial' });
 let app = "http://localhost:3000";
 
 test('main page has right title', async ({page}) => {

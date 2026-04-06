@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test';
-
 test.describe.configure({ mode: 'serial' });
 let app = "http://localhost:3000/religious-believes-stats";
 

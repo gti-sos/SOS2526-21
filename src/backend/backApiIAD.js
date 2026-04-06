@@ -5,7 +5,7 @@ import dataStore from 'nedb';
 let db = new dataStore({filename: './data/db/religious-believes-stats.db', autoload: true});
 let BASE_URL_API = "/api/v1";
 
-
+//comentario serio
 function loadBackendApiIAD(app){
 
 let array_creencias=[]

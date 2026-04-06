@@ -2,6 +2,7 @@
 //----------------------------FRONT CHOLERA TESTS-----------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------
 import { test, expect } from '@playwright/test';
+test.describe.configure({ mode: 'serial' });
 let app = "http://localhost:3000";
 
 test('Load initial data of cholera stats', async ({ page }) => {
