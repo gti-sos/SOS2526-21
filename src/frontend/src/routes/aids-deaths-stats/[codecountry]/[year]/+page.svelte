@@ -74,11 +74,11 @@
 			body: JSON.stringify(newDato)
 		});
 		result = await res.status;
-		if (res.status == 200) getDatos();
+		if (res.status == 200) await getDatos();
 	}
 
 	onMount(async () => {
-		getDatos();
+		await getDatos();
 	});
 </script>
 

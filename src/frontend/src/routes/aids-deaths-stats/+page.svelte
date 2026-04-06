@@ -44,7 +44,7 @@
 		BASE_API = 'http://localhost:3000' + BASE_API;
 	}
 
-	function aplicarFiltro() {
+	async function aplicarFiltro() {
 		filtro = `?limit=${limit}&offset=${offset}`;
 		if (filterCountry.trim()) filtro += `&country=${filterCountry.trim()}`;
 		if (filterCodeCountry.trim()) filtro += `&codecountry=${filterCodeCountry.trim()}`;
@@ -56,10 +56,10 @@
 		if (filter5_14 !== '') filtro += `&death_count_hiv_aids_5_14=${filter5_14}`;
 		if (filter15_49 !== '') filtro += `&death_count_hiv_aids_15_49=${filter15_49}`;
 		if (filter50_69 !== '') filtro += `&death_count_hiv_aids_50_69=${filter50_69}`;
-		getDatos();
+		await getDatos();
 	}
 
-	function limpiarFiltros() {
+	async function limpiarFiltros() {
 		filterCountry = '';
 		filterCodeCountry = '';
 		filterYear = '';
@@ -73,7 +73,7 @@
 		limit = 10;
 		offset = 0;
 		filtro = '';
-		getDatos();
+		await getDatos();
 	}
 
 	// @ts-ignore
@@ -89,7 +89,7 @@
 			console.log('DELETE: ' + codecountry + ', ' + year);
 			const res = await fetch(BASE_API + `/${codecountry}/${year}`, { method: 'DELETE' });
 			result = await res.status;
-			if (res.status == 200) getDatos();
+			if (res.status == 200) await getDatos();
 		}
 	}
 
@@ -98,7 +98,7 @@
 			console.log('DELETE ALL');
 			const res = await fetch(BASE_API, { method: 'DELETE' });
 			result = await res.status;
-			if (res.status == 200) getDatos();
+			if (res.status == 200) await getDatos();
 		}
 	}
 
@@ -106,7 +106,7 @@
 		console.log('LOAD INITIAL DATA');
 		const res = await fetch(BASE_API + '/loadInitialData', { method: 'GET' });
 		result = await res.status;
-		if (res.status == 201) getDatos();
+		if (res.status == 201) await getDatos();
 	}
 
 	async function añadirDato() {
@@ -148,12 +148,12 @@
 			newDeath_count_hiv_aids_5_14 = null;
 			newDeath_count_hiv_aids_15_49 = null;
 			newDeath_count_hiv_aids_50_69 = null;
-			getDatos()
+			await getDatos()
 		};
 	}
 
 	onMount(async () => {
-		getDatos(); 
+		await getDatos(); 
 	});
 </script>
 
