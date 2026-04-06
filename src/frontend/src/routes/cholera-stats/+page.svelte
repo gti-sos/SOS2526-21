@@ -34,9 +34,9 @@ if (dev)
         if(filterCountry) url += `country=${filterCountry}&`;
         if(filterYear) url += `year=${filterYear}&`;
         if(filterRegion) url += `region=${filterRegion}&`;
-        if(filterReportedCases) url += `reportedCases=${filterReportedCases}&`;
-        if(filterReportedDeaths) url += `reportedDeaths=${filterReportedDeaths}&`;
-        if(filterFatalityRate) url += `fatalityRate=${filterFatalityRate}&`;
+        if(filterReportedCases !== '') url += `reportedCases=${filterReportedCases}&`; // por que interpreta el 0 como campo vacion(usar !== '')
+        if(filterReportedDeaths !== '') url += `reportedDeaths=${filterReportedDeaths}&`;
+        if(filterFatalityRate !== '') url += `fatalityRate=${filterFatalityRate}&`;
         if(filterFrom) url += `from=${filterFrom}&`;
         if(filterTo) url += `to=${filterTo}&`;
         url += `offset=${filterOffset}&`;
@@ -203,14 +203,15 @@ if (dev)
 <input placeholder="País" bind:value={filterCountry} />
 <input placeholder="Año" type="number" bind:value={filterYear} />
 <input placeholder="Casos reportados" type="number" bind:value={filterReportedCases} />
-<input placeholder="Muertes reportadas" type="number" bind:value={filterReportedDeaths} />
+<input placeholder="Muertes reportadas" type="number" bind:value={(filterReportedDeaths)} />
 <input placeholder="Ratio de fatalidad" type="number" step="0.01" bind:value={filterFatalityRate} />
 <input placeholder="Región" bind:value={filterRegion} />
 <input placeholder="Desde" type="number" bind:value={filterFrom} />
 <input placeholder="Hasta" type="number" bind:value={filterTo} />
 <button onclick={getCholeraStats}>BUSCAR</button>
 <button onclick={() => {
-    filterCountry=''; filterYear=''; filterRegion=''; filterFrom=''; filterTo='';
+    filterCountry=''; filterYear=''; filterRegion=''; filterReportedCases= ''; filterReportedDeaths= ''; 
+    filterFatalityRate=''; filterFrom=''; filterTo='';
     getCholeraStats();
 }}>LIMPIAR FILTROS</button>
 
