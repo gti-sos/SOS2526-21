@@ -117,6 +117,7 @@ if (dev)
         
     }
 
+//push
 
 
 onMount(async () =>  {getCholeraStats(); }); //que se carga al iniciar la pagina
@@ -170,6 +171,8 @@ onMount(async () =>  {getCholeraStats(); }); //que se carga al iniciar la pagina
     border: 1px solid #d7dbf8;
   }
 </style>
+
+
 
 
 <h5>Haga click en el país para actualizar datos de la estadística</h5>
