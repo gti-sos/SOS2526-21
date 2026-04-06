@@ -19,7 +19,9 @@ let filterReportedDeaths = $state('');
 let filterFatalityRate = $state('');
 let filterFrom = $state('');
 let filterTo = $state('');
-let filterOffset=$state(0)  ;
+let filterOffset=$state(0);
+let filterLimit= $state(10);
+
 let API = "/api/v1/cholera-stats";
 
 if (dev)
@@ -38,7 +40,7 @@ if (dev)
         if(filterFrom) url += `from=${filterFrom}&`;
         if(filterTo) url += `to=${filterTo}&`;
         url += `offset=${filterOffset}&`;
-        url += `limit=${LIMIT}&`;
+        url += `limit=${filterLimit}&`;
         const res = await fetch(url, {method: "GET"});
         const data = await res.json();
         cholera_stats=data;
@@ -123,15 +125,14 @@ if (dev)
     onMount(async () =>  {getCholeraStats(); }); //que se carga al iniciar la pagina
 
 
-    const LIMIT = 10;
 
     async function incrementaOffset(){
-        filterOffset += LIMIT;
+        filterOffset += filterLimit;
         getCholeraStats();
     }
 
     async function decrementaOffset(){
-        if(filterOffset >= LIMIT) filterOffset -= LIMIT;
+        if(filterOffset >= filterLimit) filterOffset -= filterLimit;
         getCholeraStats();
     }
 
@@ -217,9 +218,18 @@ if (dev)
 <br>
 <h3>CREACIÓN DE ESTADISTICA</h3>
 
+<br>    
 <div>
-        <button onclick={decrementaOffset}>Anterior</button>
-        <button onclick={incrementaOffset}>Siguiente</button>
+
+    <p>INTRODUZCA EL LIMITE DE FILAS QUE SE MOSTRARAN EN CADA PAGINA:</p>
+    <input type="number" bind:value={filterLimit} />
+    <button onclick={getCholeraStats}>APLICAR LÍMITE</button>
+    
+    <br>
+    
+    <br>
+    <button onclick={decrementaOffset}>ANTERIOR</button>
+    <button onclick={incrementaOffset}>SIGUIENTE</button>
 </div>
 <table>
     <thead>
