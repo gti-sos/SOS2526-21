@@ -217,7 +217,7 @@
 				<input data-testid="filterLimit" type="number" bind:value={limit} min="1" placeholder="Ej: 10"/>
 			</div>
 			<div class="field">
-				<label>Offset</label>
+				<label>Adelanto</label>
 				<input data-testid="filterOffset" type="number" bind:value={offset} min="0" placeholder="Ej: 0"/>
 			</div>
 		</div>
