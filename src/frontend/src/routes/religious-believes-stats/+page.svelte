@@ -38,6 +38,7 @@
     let filtroBudista=$state("");
     let filtroOtro=$state("");
     let filtroNoreligion=$state("");
+    let filtroLimite=$state("");
     //Explicación Códigos de Estado
 
     // @ts-ignore
@@ -57,7 +58,9 @@
 
 //-------------FUNCIONES------------------------------------------------------------------------------------
     async function getCreencias(query=""){
+
         let res=await fetch(BASE_API+`?limit=10&&offset=${offset}`+query,{method:'GET'}); //Añado limit para que se muestren todos los datos cargados, creo es más intuitivo hasta que se implemente pegainacion en el frontend
+    
         const data=await res.json();
         creencias=data;
         codigo_status=res.status;
@@ -78,6 +81,7 @@
         if (filtroBudista) url+=`&budhist=${filtroBudista}`;
         if (filtroOtro) url+=`&other=${filtroOtro}`;
         if (filtroNoreligion) url+=`&no_religion=${filtroNoreligion}`;
+        //if (filtroLimite) url+=`&limit=${filtroLimite}`;
 
         console.log(url);
 
