@@ -172,6 +172,8 @@ onMount(async () =>  {getCholeraStats(); }); //que se carga al iniciar la pagina
 </style>
 
 
+
+
 <h5>Haga click en el país para actualizar datos de la estadística</h5>
 
 <br>
