@@ -3,6 +3,9 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import {handler} from './src/frontend/build/handler.js'
 import {loadBackendApiDDLRF} from './src/backend/backApiDDLRF.js'
+import {loadBackendApiDDLRFv2} from './src/backend/backApiDDLRFv2.js'
+import { loadAuth } from './src/backend/auth.js' 
+import { loadOAuthDDLRF } from './src/backend/oauthDDLRF.js';
 
 import {loadBackendApiMTC} from './src/backend/backApiMTC.js'
 
@@ -21,9 +24,12 @@ let PORT = process.env.PORT || 3000;
 //DANIEL
 //-------
 
+loadAuth(app) 
+loadOAuthDDLRF(app);
 
 loadBackendApiDDLRF(app)
 
+loadBackendApiDDLRFv2(app)
 //--------------------------------------------------------------------------------------------
 //-------
 //MARIA

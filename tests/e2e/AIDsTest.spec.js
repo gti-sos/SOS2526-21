@@ -5,7 +5,7 @@ let app = "http://localhost:3000";
 test('aids frontend delete all, loadinitialdata and show list', async ({ page }) => {
     await page.goto(app);
     await page.hover('.dropdown');
-    await page.getByRole('link', {name: 'AIDS'}).click();
+    await page.getByRole('link', {name: 'AIDS Deaths', exact:true}).click();
     await expect(page).toHaveTitle(/AIDs/);
     page.on('dialog', dialog => dialog.accept());
     const waitEliminarTodo = page.waitForResponse(res => res.url().includes('aids-deaths-stats') && res.request().method() === 'DELETE' && res.status() === 200);
@@ -26,7 +26,7 @@ test('aids frontend delete all, loadinitialdata and show list', async ({ page })
 test('aids frontend insert ESPAÑA on the list', async ({ page }) => {
     await page.goto(app);
     await page.hover('.dropdown');
-    await page.getByRole('link', {name: 'AIDS'}).click();
+    await page.getByRole('link', {name: 'AIDS Deaths', exact:true}).click();
     await expect(page).toHaveTitle(/AIDs/);
     const dataRowsCount1 = await page.getByTestId('dataRow').count();
     await page.getByTestId('paisInput').fill('España');
@@ -50,7 +50,7 @@ test('aids frontend insert ESPAÑA on the list', async ({ page }) => {
 test('aids frontend edit ESPAÑA from list', async ({ page }) => {
     await page.goto(app);
     await page.hover('.dropdown');
-    await page.getByRole('link', {name: 'AIDS'}).click();
+    await page.getByRole('link', {name: 'AIDS Deaths', exact:true}).click();
     await expect(page).toHaveTitle(/AIDs/);
     const newRow = page.getByTestId('dataRow').filter({ hasText: 'ESP' });
     await newRow.getByRole('link', { name: 'Editar' }).click();
@@ -75,7 +75,7 @@ test('aids frontend edit ESPAÑA from list', async ({ page }) => {
 test('aids frontend search ESPAÑA from list', async ({ page }) => {
     await page.goto(app);
     await page.hover('.dropdown');
-    await page.getByRole('link', {name: 'AIDS'}).click();
+    await page.getByRole('link', {name: 'AIDS Deaths', exact:true}).click();
     await expect(page).toHaveTitle(/AIDs/);
     const newRow = page.getByTestId('dataRow').filter({ hasText: 'ESP' });
     await page.getByTestId('filterCountry').fill('España');
@@ -99,7 +99,7 @@ test('aids frontend search ESPAÑA from list', async ({ page }) => {
 test('aids frontend delete ESPAÑA from list', async ({ page }) => {
     await page.goto(app);
     await page.hover('.dropdown');
-    await page.getByRole('link', {name: 'AIDS'}).click();
+    await page.getByRole('link', {name: 'AIDS Deaths', exact:true}).click();
     await expect(page).toHaveTitle(/AIDs/);
     const newRow = page.getByTestId('dataRow').filter({ hasText: 'ESP' });
     page.on('dialog', dialog => dialog.accept());
