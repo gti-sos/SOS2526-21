@@ -13,7 +13,7 @@
     "test-religious-believes-stats": "npx newman run tests/api/test-religious-believes-stats.json -e tests/api/api-test-env-local.json",
     "test-aids-deaths-stats": "npx newman run tests/api/test-aids-deaths-stats.json -e tests/api/api-ddlrf-env-local.json",
     "test-cholera-stats": "npx newman run tests/api/test-cholera-stats.json -e tests/api/api-test-env-local.json",
-    "build": "cd src/frontend && npm run build",
+    "build": "cd src/frontend && npm run build && cd .. && cd frontend-react && npm run build",
     "dev-front": "cd src/frontend && npm run dev -- --open"
   },
   "repository": {

@@ -5,11 +5,18 @@ import {handler} from './src/frontend/build/handler.js'
 import {loadBackendApiDDLRF} from './src/backend/backApiDDLRF.js'
 import {loadBackendApiDDLRFv2} from './src/backend/backApiDDLRFv2.js'
 import { loadAuth } from './src/backend/auth.js' 
+import { createServer } from 'vite'
+
 import { loadOAuthDDLRF } from './src/backend/oauthDDLRF.js';
 
 import {loadBackendApiMTC} from './src/backend/backApiMTC.js'
 
 import { loadBackendApiIAD } from './src/backend/backApiIAD.js'
+
+import path from 'path'      
+import { fileURLToPath } from 'url' 
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 app.use(cors());
@@ -45,6 +52,12 @@ loadBackendApiIAD(app);
 
 // FIN TAREAS PERSONAL
 //--------------------------------------------------------------------------------------------
+
+app.use('/react', express.static(path.join(__dirname, 'src/frontend-react/dist')))
+
+app.get('/react/{*path}', (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/frontend-react/dist/index.html'))
+})
 
 app.use(handler)
 
