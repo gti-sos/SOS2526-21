@@ -32,10 +32,10 @@ export function loadOAuthDDLRF(app) {
     );
 
     app.get('/api/v2/auth/github/callback',
-        passport.authenticate('github', { failureRedirect: '/aids-deaths-stats' }),
+        passport.authenticate('github', { failureRedirect: '/aids-deaths-stats-opcional' }),
         (req, res) => {
             const token = jwt.sign({ username: req.user.username }, SECRET, { expiresIn: '1h' });
-            res.redirect(`/aids-deaths-stats?token=${token}`);
+            res.redirect(`/aids-deaths-stats-opcional?token=${token}`);
         }
     );
 }

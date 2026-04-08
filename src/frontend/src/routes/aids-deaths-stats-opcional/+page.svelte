@@ -256,7 +256,7 @@
 
 <div class="page">
 	<div class="header">
-		<h1>Estadíssticas: Muertes por SIDA</h1>
+		<h1>Estadísticas: Muertes por SIDA</h1>
 		<button class="btn btn-secondary" onclick={loadInitialData}>⬇ Cargar datos iniciales</button>
 	</div>
 
@@ -401,7 +401,7 @@
 								>Borrar 🗑</button>
 							</td>
 							<td>
-								<a class="btn-icon" href="/aids-deaths-stats/{dato.codecountry}/{dato.year}"> Editar ✏️</a>
+								<a class="btn-icon" href="/aids-deaths-stats-opcional/{dato.codecountry}/{dato.year}"> Editar ✏️</a>
 							</td>
 						</tr>
 					{/each}

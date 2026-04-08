@@ -89,7 +89,7 @@
 <div class="page">
 	<div class="header">
 		<div class="header-left">
-			<a href="/aids-deaths-stats" class="back-link">← Volver</a>
+			<a href="/aids-deaths-stats-opcional" class="back-link">← Volver</a>
 			<h1>Editar Registro</h1>
 		</div>
 		<div class="header-meta">
@@ -149,7 +149,7 @@
 
 		<div class="form-actions">
 			<button class="btn btn-primary" onclick={editarDato}>✏️ Guardar cambios</button>
-			<a href="/aids-deaths-stats" class="btn btn-ghost">✕ Cancelar</a>
+			<a href="/aids-deaths-stats-opcional" class="btn btn-ghost">✕ Cancelar</a>
 		</div>
 	</section>
 </div>
