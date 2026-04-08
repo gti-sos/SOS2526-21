@@ -8,6 +8,11 @@ jobs:
         uses: actions/checkout@v6
       - name: Install dependencies      
         run: npm ci
+      - name: Install frontend-react dependencies
+        run: npm ci
+        working-directory: src/frontend-react
+      - name: Build frontend
+        run: npm run build
       - name: Build frontend
         run: npm run build
       - name: Test
