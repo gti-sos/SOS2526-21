@@ -1,0 +1,30 @@
+# Dependencias locales (se reinstalan dentro del contenedor)
+node_modules
+src/frontend/node_modules
+src/frontend-react/node_modules
+
+# Builds locales (se regeneran en el stage builder)
+src/frontend/build
+src/frontend-react/dist
+
+# Git y CI
+.git
+.github
+.gitignore
+
+# Tests
+tests
+test-results
+playwright-report
+playwright.config.js
+
+# Logs y temporales
+*.log
+npm-debug.log*
+.env
+.env.*
+!.env.example
+
+# Editor
+.vscode
+.idea

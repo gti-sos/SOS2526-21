@@ -5,7 +5,6 @@ import {handler} from './src/frontend/build/handler.js'
 import {loadBackendApiDDLRF} from './src/backend/backApiDDLRF.js'
 import {loadBackendApiDDLRFv2} from './src/backend/backApiDDLRFv2.js'
 import { loadAuth } from './src/backend/auth.js' 
-import { createServer } from 'vite'
 
 import { loadOAuthDDLRF } from './src/backend/oauthDDLRF.js';
 
