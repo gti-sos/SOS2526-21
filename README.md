@@ -1,5 +1,5 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/gti-sos/SOS2526-21/badge.svg)](https://snyk.io/test/github/gti-sos/SOS2526-21)[![Docker Build & Push](https://github.com/gti-sos/SOS2526-21/actions/workflows/docker.yml/badge.svg)](https://github.com/gti-sos/SOS2526-21/actions/workflows/docker.yml)
-[![Docker Image](https://img.shields.io/docker/v/xjd5067/sos2526-21-app?label=docker&logo=docker)](https://hub.docker.com/r/xjd5067/sos2526-21-app)
+[![Docker Image](https://img.shields.io/docker/pulls/xjd5067/sos2526-21-app?label=docker&logo=docker)](https://hub.docker.com/r/xjd5067/sos2526-21-app)
 ## SOS2526-21
 
 - **Team**
