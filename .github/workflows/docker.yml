@@ -9,7 +9,7 @@ on:
       - main
 
 env:
-  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/sos2526-app
+  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/sos2526-21-app
 
 jobs:
   build-and-push:
