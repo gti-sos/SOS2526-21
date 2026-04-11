@@ -8,7 +8,7 @@ let app = "http://localhost:3000";
 test('Load initial data of cholera stats', async ({ page }) => {
     await page.goto(app);
     await page.hover('.dropdown');
-    await page.getByRole('link', {name: 'Cholera'}).click();
+    await page.getByRole('link', {name: 'Cholera', exact: true}).click();
     await expect(page).toHaveTitle('Cholera Stats');
     await page.getByRole('button', {name: 'CARGAR DATOS'}).click();
     //espera a que almenos cargue una fila por que tengo demasiadas filas y no espera a que carguen para contar
@@ -25,7 +25,7 @@ test('Create one cholera stat', async ({ page }) => {
     
     await page.goto(app);
     await page.hover('.dropdown');
-    await page.getByRole('link', {name: 'Cholera'}).click();
+    await page.getByRole('link', {name: 'Cholera', exact: true}).click();
    
     const choleraCount= await page.getByTestId('choleraRow').count();
 
@@ -60,7 +60,7 @@ test('Create one cholera stat', async ({ page }) => {
 test('filter cholera stats', async ({ page }) => {
     await page.goto(app);
     await page.hover('.dropdown');
-    await page.getByRole('link', {name: 'Cholera'}).click();
+    await page.getByRole('link', {name: 'Cholera', exact: true}).click();
     
     await page.getByPlaceholder('País').fill('PaisPrueba');
     await page.getByPlaceholder('Año').fill('3000');
@@ -87,7 +87,7 @@ test('Edit one cholera stat', async ({ page }) => {
     
     await page.goto(app);
     await page.hover('.dropdown');
-    await page.getByRole('link', {name: 'Cholera'}).click();
+    await page.getByRole('link', {name: 'Cholera', exact: true}).click();
     
     await page.getByRole('link', {name: 'PaisPrueba'}).click(); 
 
@@ -113,7 +113,7 @@ test('Edit one cholera stat', async ({ page }) => {
 test('Delete one cholera stat', async ({ page }) => {
     await page.goto(app);
     await page.hover('.dropdown');
-    await page.getByRole('link', {name: 'Cholera'}).click();    
+    await page.getByRole('link', {name: 'Cholera', exact: true}).click();    
 
     await page.getByTestId('PaisPrueba-3000').click();
 
@@ -125,7 +125,7 @@ test('Delete one cholera stat', async ({ page }) => {
 test('Delete all cholera stats', async ({ page }) => {
     await page.goto(app);
     await page.hover('.dropdown');
-    await page.getByRole('link', {name: 'Cholera'}).click();
+    await page.getByRole('link', {name: 'Cholera', exact: true}).click();
     await page.getByRole('button', {name: 'BORRAR TODO'}).click();
     const choleraCount= await page.getByTestId('choleraRow').count();
     expect(choleraCount).toBe(0);
