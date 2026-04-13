@@ -3,7 +3,7 @@ import fs from 'fs';
 import csv from 'csv-parser';
 import { verifyToken } from './auth.js';
 
-const MONGO_URI = "mongodb+srv://martorcha_db_user:Root192837465@clustercholstats.tygf3vi.mongodb.net/?appName=ClusterCholStats";
+const MONGO_URI = "mongodb+srv://martorcha_db_user:tai@clustercholstats.tygf3vi.mongodb.net/?appName=ClusterCholStats";
 
 const conn = mongoose.createConnection(MONGO_URI);
 conn.on('connected', () => console.log('Conectado a MongoDB Atlas'));
