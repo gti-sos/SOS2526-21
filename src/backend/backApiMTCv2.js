@@ -5,9 +5,9 @@ import { verifyToken } from './auth.js';
 
 const MONGO_URI = "mongodb+srv://martorcha_db_user:Root192837465@clustercholstats.tygf3vi.mongodb.net/?appName=ClusterCholStats";
 
-mongoose.connect(MONGO_URI)
-    .then(() => console.log('Conectado a MongoDB Atlas'))
-    .catch(err => console.error('Error conectando a MongoDB:', err));
+const conn = mongoose.createConnection(MONGO_URI);
+conn.on('connected', () => console.log('Conectado a MongoDB Atlas'));
+conn.on('error', (err) => console.error('Error conectando a MongoDB:', err));
 
 const choleraSchema = new mongoose.Schema({
     country:        { type: String, required: true },
@@ -18,7 +18,7 @@ const choleraSchema = new mongoose.Schema({
     whoRegion:      { type: String, required: true }
 }, { versionKey: false });
 
-const db = mongoose.model('Cholera', choleraSchema, 'cholera-stats');
+const db = conn.model('Cholera', choleraSchema, 'cholera-stats');
 
 let BASE_URL_API = "/api/v2";
 let DOCS_URL = "https://documenter.getpostman.com/view/52370283/2sBXiesZo6";

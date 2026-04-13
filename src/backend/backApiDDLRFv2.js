@@ -5,9 +5,9 @@ import { verifyToken } from './auth.js';
 
 const MONGO_URI = "mongodb://dandefer_db_user:admin@ac-vi8mdkd-shard-00-00.v5zket3.mongodb.net:27017,ac-vi8mdkd-shard-00-01.v5zket3.mongodb.net:27017,ac-vi8mdkd-shard-00-02.v5zket3.mongodb.net:27017/?ssl=true&replicaSet=atlas-3k2bfz-shard-0&authSource=admin&appName=aidsCluster";
 
-mongoose.connect(MONGO_URI)
-    .then(() => console.log('Conectado a MongoDB Atlas'))
-    .catch(err => console.error('Error conectando a MongoDB:', err));
+const conn = mongoose.createConnection(MONGO_URI);
+conn.on('connected', () => console.log('Conectado a MongoDB Atlas'));
+conn.on('error', (err) => console.error('Error conectando a MongoDB:', err));
 
 
 const muerteSchema = new mongoose.Schema({
@@ -21,7 +21,7 @@ const muerteSchema = new mongoose.Schema({
     death_count_hiv_aids_50_69:     { type: Number, required: true }
 }, { versionKey: false });
 
-const db = mongoose.model('Muerte', muerteSchema, 'muertes'); 
+const db = conn.model('Muerte', muerteSchema, 'muertes'); 
 
 let BASE_URL_API = "/api/v2";
 let DOC_URL = "https://documenter.getpostman.com/view/52383803/2sBXiesEAR";
