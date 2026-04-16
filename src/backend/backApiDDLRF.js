@@ -80,7 +80,7 @@ export function loadBackendApiDDLRF(app){
             fs.createReadStream('./data/Age_share_death.csv')
                 .pipe(csv()) 
                 .on('data', (row) => {
-                    if (counter < 15) {
+                    if (counter < 6330) {
                         csvData.push({
                         country:                        row.country,
                         codecountry:                    row.codecountry,
