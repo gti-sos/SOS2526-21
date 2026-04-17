@@ -22,6 +22,16 @@
       </div>
     </div>
 
+    <div class="dropdown">
+      <a href="#">Analytics</a>
+      <div class="submenu">
+        <a href="/analytics">Analytics</a>
+        <a href="/analytics/religious-believes-stats">Analytics - Religious Believes</a>
+        <a href="/analytics/aids-deaths-stats">Analytics - AIDS Deaths</a>
+        <a href="/analytics/cholera-stats">Analytics - Cholera</a>
+      </div>
+    </div>
+
     <a href="/apis">APIs</a>
     <a href="/docs">Documentación</a>
     <a href="https://github.com/gti-sos/SOS2526-21" target="_blank" rel="noopener">GitHub</a>
