@@ -1,136 +1,156 @@
 <script>
-    import Highcharts from "highcharts";
-    import Sunburst from "highcharts/modules/sunburst";
+    import Highcharts from 'highcharts';
     import { dev } from '$app/environment';
     import { onMount } from 'svelte';
-    Sunburst(Highcharts);
 
+    let paises = [];
+    let casosReportados = [];
+    let muertesReportadas = [];
+    let ratiosFatalidad = [];
+    let regiones = [];
+    let todosLosPaises = [];
 
-    let myData = $state([]);
-    let selectedYear = $state('2016');
-    let selectedMetric = $state('reportedCases');
-    let availableYears = $state([]);
+    let chart;
+    let metricaSeleccionada = $state('reportedCases');
+    let añoSeleccionado = $state(2016);
+    let ListaAños = $state([]);
+    let minAño = $state(2000);
+    let maxAño = $state(2022);
 
-    let API = '/api/v1/cholera-stats';
-    if (dev) API = 'http://localhost:3000/api/v1/cholera-stats';
+    let BASE_URL = '/api/v1/cholera-stats';
+    if (dev) BASE_URL = 'http://localhost:3000/api/v1/cholera-stats';
 
-    function buildSunburstData(data, year, metric) {
-        const filtered = data.filter(d => d.year === parseInt(year) && d[metric] != null && d[metric] > 0);
-
-        // agrupar por región
-        const regions = {};
-        filtered.forEach(d => {
-            if (!regions[d.whoRegion]) regions[d.whoRegion] = {};
-            regions[d.whoRegion][d.country] = (regions[d.whoRegion][d.country] || 0) + d[metric];
-        });
-
-        const sunData = [{ id: 'root', parent: '', name: 'total' }];
-
-        Object.entries(regions).forEach(([region, countries]) => {
-            const regionId = region.replace(/\s+/g, '_');
-            sunData.push({ id: regionId, parent: 'root', name: region });
-
-            Object.entries(countries).forEach(([country, value]) => {
-                const countryId = regionId + '_' + country.replace(/\s+/g, '_');
-                sunData.push({ id: countryId, parent: regionId, name: country, value });
-            });
-        });
-
-        return sunData;
+    async function getAños() {
+        const res = await fetch(BASE_URL + '?limit=100');
+        const data = await res.json();
+        const todos = [...new Set(data.map(d => d.year))].sort();
+        ListaAños = todos;
+        minAño = todos[0];
+        maxAño = todos[todos.length - 1];
+        añoSeleccionado = todos[0];
     }
 
-    function renderChart(data, year, metric) {
-        const sunData = buildSunburstData(data, year, metric);
+    async function getTodosLosPaises() {
+        const res = await fetch(BASE_URL + '?limit=1000');
+        const data = await res.json();
+        todosLosPaises = [...new Set(data.map(d => d.country))].sort();
+    }
 
-        const metricLabels = {
-            reportedCases: 'Casos reportados',
-            reportedDeaths: 'Muertes reportadas',
-            fatalityRate: 'Ratio de fatalidad'
-        };
+    async function getDatos(year) {
+        const res = await fetch(BASE_URL + `?year=${year}&limit=1000`);
+        const data = await res.json();
+        paises = data.map(d => d.country);
+        casosReportados = data.map(d => d.reportedCases);
+        muertesReportadas = data.map(d => d.reportedDeaths);
+        ratiosFatalidad = data.map(d => d.fatalityRate);
+        regiones = data.map(d => d.whoRegion);
+    }
 
-        Highcharts.chart('container', {
-            chart: { height: 600 },
-            colors: ['#ffffff01'].concat(Highcharts.getOptions().colors),
-            title: { text: `Cólera ${year} — ${metricLabels[metric]}` },
-            subtitle: { text: 'Fuente: WHO Cholera Dataset' },
-            series: [{
-                type: 'sunburst',
-                data: sunData,
-                name: 'Root',
-                allowTraversingTree: true,
-                borderRadius: 3,
-                cursor: 'pointer',
-                dataLabels: {
-                    format: '{point.name}',
-                    filter: { property: 'innerArcLength', operator: '>', value: 16 }
-                },
-                levels: [
-                    { level: 1, levelIsConstant: false, dataLabels: { filter: { property: 'outerArcLength', operator: '>', value: 64 } } },
-                    { level: 2, colorByPoint: true },
-                    { level: 3, colorVariation: { key: 'brightness', to: -1 } },
-                    { level: 4, colorVariation: { key: 'brightness', to: 1 } }
-                ]
-            }],
-            tooltip: {
-                headerFormat: '',
-                pointFormat: '<b>{point.name}</b>: <b>{point.value}</b>'
-            }
+    function getDatosChart() {
+        let valores;
+        if (metricaSeleccionada === 'reportedCases') valores = casosReportados;
+        else if (metricaSeleccionada === 'reportedDeaths') valores = muertesReportadas;
+        else valores = ratiosFatalidad;
+
+        return todosLosPaises.map(pais => {
+            const idx = paises.indexOf(pais);
+            return idx !== -1
+                ? { y: valores[idx] || 0, region: regiones[idx] || '' }
+                : { y: 0, region: '' };
         });
+    }
+
+    async function update() {
+        await getDatos(añoSeleccionado);
+        chart.setTitle({ text: `Cólera ${añoSeleccionado}` });
+        chart.series[0].setData(getDatosChart(), true);
+    }
+
+    async function onRangeChange(e) {
+        const año = Number(e.target.value);
+        const cercano = ListaAños.reduce((prev, curr) =>
+            Math.abs(curr - año) < Math.abs(prev - año) ? curr : prev
+        );
+        añoSeleccionado = cercano;
+        await update();
     }
 
     onMount(async () => {
-        const res = await fetch(API + '?limit=10000');
-        myData = await res.json();
+        await getAños();
+        await getTodosLosPaises();
+        await getDatos(añoSeleccionado);
 
-        // extraer años disponibles
-        const years = [...new Set(myData.map(d => d.year))].sort((a, b) => b - a);
-        availableYears = years.map(y => String(y));
-        selectedYear = availableYears[0];
-
-        renderChart(myData, selectedYear, selectedMetric);
+        chart = Highcharts.chart('container', {
+            chart: { animation: { duration: 300 }, marginRight: 50 },
+            title: { text: `Cólera ${añoSeleccionado}`, align: 'left' },
+            legend: { enabled: false },
+            xAxis: { categories: todosLosPaises },
+            yAxis: { opposite: true, title: { text: null } },
+            tooltip: {
+                formatter: function() {
+                    return `<b>${this.x}</b><br/>
+                            Región: ${this.point.region}<br/>
+                            Valor: ${Highcharts.numberFormat(this.y, 0)}`;
+                }
+            },
+            plotOptions: {
+                series: {
+                        animation: false,
+                        groupPadding: 0,
+                        pointPadding: 0.1,
+                        borderWidth: 0,
+                        colorByPoint: true,
+                        type: 'bar',
+                        dataLabels: { enabled: true }
+                    }
+            },
+            series: [{
+                type: 'bar',
+                name: String(añoSeleccionado),
+                data: getDatosChart()
+            }]
+        });
     });
-
-    function actualizar() {
-        renderChart(myData, selectedYear, selectedMetric);
-    }
 </script>
 
-
-<h1>Estadísticas del Cólera — Sunburst</h1>
-
-<div>
-    <label>Año:
-        <select bind:value={selectedYear} onchange={actualizar}>
-            {#each availableYears as year}
-                <option value={year}>{year}</option>
-            {/each}
-        </select>
+<div class="controls">
+    <label>Año: <strong>{añoSeleccionado}</strong>
+        <input
+            type="range"
+            value={añoSeleccionado}
+            min={minAño}
+            max={maxAño}
+            onchange={onRangeChange}
+        />
     </label>
 
     <label>Métrica:
-        <select bind:value={selectedMetric} onchange={actualizar}>
+        <select bind:value={metricaSeleccionada} onchange={update}>
             <option value="reportedCases">Casos reportados</option>
             <option value="reportedDeaths">Muertes reportadas</option>
             <option value="fatalityRate">Ratio de fatalidad</option>
         </select>
     </label>
-
-    <button onclick={actualizar}>ACTUALIZAR</button>
 </div>
 
-<figure class="highcharts-figure">
-    <div id="container"></div>
-</figure>
+<div id="container"></div>
 
 <style>
-#container {
-    height: 600px;
-    width: 100%;
-}
+    .controls {
+        max-width: 1000px;
+        margin: 1em auto;
+        display: flex;
+        gap: 2em;
+        align-items: center;
+    }
 
-.highcharts-figure {
-    min-width: 320px;
-    max-width: 100%;
-    margin: 1em auto;
-}
+    input[type="range"] {
+        width: 300px;
+    }
+
+    #container {
+        height: 1800px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
 </style>
