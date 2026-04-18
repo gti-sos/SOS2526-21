@@ -30,6 +30,9 @@
         <a href="/analytics/aids-deaths-stats">Analytics - AIDS Deaths</a>
         <a href="/analytics/cholera-stats">Analytics - Cholera</a>
       </div>
+    
+    
+    
     </div>
 
     <a href="/apis">APIs</a>

@@ -35,7 +35,6 @@ export function loadBackendApiMTC(app){
                 fs.createReadStream("./data/cholera_stats.csv")
                 .pipe(csv()) //lee primera linea de cabezera (asociación clave:valor)
                 .on("data",(row)=> {
-                    if(csvData.length < 20){ //carga solo 20 filas
                     csvData.push({  // "data" -> evento por cada una nueva fila
                     country: row["Country"],
                     year: parseInt(row["Year"]),
@@ -45,8 +44,10 @@ export function loadBackendApiMTC(app){
                     whoRegion: row["WHO Region"]
                     });
                 }
-                })
+                )
                 .on("end", () => { // "end" -> salta cuando ya no quedan mas filas
+                     // mezclar aleatoriamente y coger 20
+                    const shuffled = csvData.sort(() => Math.random() - 0.5).slice(0, 20);
                     db.insert(csvData, (err, new_data)=>{
                         if(err){
                             return res.sendStatus(500, "Error reading csv");
