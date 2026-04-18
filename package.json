@@ -30,6 +30,7 @@
   "dependencies": {
     "@auth0/auth0-spa-js": "^2.18.3",
     "@vitejs/plugin-react": "^6.0.1",
+    "auth0": "^5.7.0",
     "bcrypt": "^6.0.0",
     "body-parser": "^2.2.2",
     "cors": "^2.8.6",
@@ -41,7 +42,9 @@
     "mongoose": "^9.4.1",
     "nedb": "^1.8.0",
     "passport": "^0.7.0",
-    "passport-github2": "^0.1.12"
+    "passport-github2": "^0.1.12",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",
