@@ -1,6 +1,10 @@
 <script>
+    import Highcharts from "highcharts";
+    import Sunburst from "highcharts/modules/sunburst";
     import { dev } from '$app/environment';
     import { onMount } from 'svelte';
+    Sunburst(Highcharts);
+
 
     let myData = $state([]);
     let selectedYear = $state('2016');
@@ -20,7 +24,7 @@
             regions[d.whoRegion][d.country] = (regions[d.whoRegion][d.country] || 0) + d[metric];
         });
 
-        const sunData = [{ id: 'root', parent: '', name: 'World' }];
+        const sunData = [{ id: 'root', parent: '', name: 'total' }];
 
         Object.entries(regions).forEach(([region, countries]) => {
             const regionId = region.replace(/\s+/g, '_');
@@ -91,12 +95,6 @@
     }
 </script>
 
-<svelte:head>
-    <title>Cholera Stats - Gráfica</title>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/sunburst.js"></script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-</svelte:head>
 
 <h1>Estadísticas del Cólera — Sunburst</h1>
 
