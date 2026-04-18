@@ -174,9 +174,9 @@ import Highcharts from "highcharts";
                     id="anio"
                     type="number"
                     min="1990"
-                    max="2016"
+                    max="2019"
                     bind:value={filtro}
-                    placeholder="1990 - 2016"
+                    placeholder="1990 - 2019"
                 />
                 {#if filtroError}
                     <span class="error">{filtroError}</span>
@@ -194,10 +194,22 @@ import Highcharts from "highcharts";
     <section class="chart-container">
         <div id="container"></div>
     </section>
+    
+    <section class="card">
+        <h2 class="section-title">Mapa</h2>
 
+        <div class="filtros-actions" id="mapa-boton">
+            <button  class="btn btn-primary" onclick={() => window.location.href='/analytics/aids-deaths-stats/map'}>
+                🗺️ Mapa
+            </button>
+            
+        </div>
+    </section>
 </div>
 
 <style>
+    
+
     :global(body) {
         margin: 0;
         background: #f7f6f3;
@@ -316,5 +328,10 @@ import Highcharts from "highcharts";
     #container {
         width: 100%;
         height: 80vh;
+    }
+
+    #mapa-boton {
+        display: flex;
+        justify-content: center;
     }
 </style>
