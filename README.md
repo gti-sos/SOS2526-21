@@ -15,4 +15,4 @@
   - (https://sos2526-21.onrender.com/api/v1/aids-deaths-stats/docs) (Developed by Daniel de la Rosa Fernández)
   
   - (https://sos2526-21.onrender.com/api/v1/cholera-stats/docs) (Developed by María Torres Chacón)     
-      
+         
