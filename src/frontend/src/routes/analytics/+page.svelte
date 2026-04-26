@@ -5,6 +5,7 @@
 	// @ts-ignore
 	let BASE_API = '/api/v1';
     let datosDDLRF = $state();
+	let datosMTC = $state();
     let filtro = $state("Afghanistan");
     let chart = $state(); 
     let paises = [
@@ -40,8 +41,14 @@
 
     async function aplicarFiltro() {
 		await getDatosDDLRF();
+		await getDatosMTC();
         chart.series[1].setData(datosDDLRF);
+        chart.series[2].setData(datosMTC);
+		
 	}
+
+	
+
 
     async function getDatosDDLRF() {
 		const res = await fetch(BASE_API + `/aids-deaths-stats?country=${filtro}&from=2000&to=2016&limit=17`, { method: 'GET' });
@@ -61,9 +68,27 @@
         datosDDLRF = aux;
 	}
 
-    onMount(async () => {
-        await getDatosDDLRF(); 
 
+	async function getDatosMTC(){
+		const res = await fetch(BASE_API + `/cholera-stats?country=${filtro}&from=2000&to=2016&limit=17`, { method: 'GET' });
+		
+		const data = await res.json();
+
+		data.sort((a, b) => a.year - b.year);
+		let reported_cases= [];
+		for (let d of data){
+			reported_cases.push(d.reportedCases);
+		} 
+		datosMTC= reported_cases;
+
+	}
+
+
+    onMount(async () => {
+		await getDatosDDLRF();   
+   		await getDatosMTC();
+		console.log('SIDA:', datosDDLRF);
+    	console.log('Colera:', datosMTC);
         chart = Highcharts.chart('container', {
         chart: {
             type: 'column'
@@ -138,10 +163,9 @@
         },{
             name: 'Casos de colera',
             color: 'rgba(0,255,0,.9)',
-            data: [0, 80, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0 ,100 ,0],
+            data: datosMTC,
             tooltip: {
-                valuePrefix: '$',
-                valueSuffix: ' M'
+                valueSuffix: ' Casos'
             },
             pointPadding: 0.3,
             pointPlacement: 0.2,
