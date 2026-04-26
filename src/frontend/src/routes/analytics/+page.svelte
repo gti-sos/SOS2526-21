@@ -75,11 +75,11 @@
 		const data = await res.json();
 
 		data.sort((a, b) => a.year - b.year);
-		let reported_cases= [];
+		let reported_deaths= [];
 		for (let d of data){
-			reported_cases.push(d.reportedCases);
+			reported_deaths.push(d.reportedDeaths);
 		} 
-		datosMTC= reported_cases;
+		datosMTC= reported_deaths;
 
 	}
 
@@ -94,7 +94,7 @@
             type: 'column'
         },
         title: {
-            text: 'Análisis entre: casos de colera - muertes por SIDA - creencias religiosas'
+            text: 'Análisis entre: muertes por colera - muertes por SIDA - creencias religiosas'
         },
         xAxis: {
             categories: [
@@ -161,11 +161,11 @@
             pointPlacement: 0.2,
             yAxis: 1
         },{
-            name: 'Casos de colera',
+            name: 'muertes por colera',
             color: 'rgba(0,255,0,.9)',
             data: datosMTC,
             tooltip: {
-                valueSuffix: ' Casos'
+                valueSuffix: ' Personas'
             },
             pointPadding: 0.3,
             pointPlacement: 0.2,

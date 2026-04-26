@@ -55,8 +55,8 @@
         return todosLosPaises.map(pais => {
             const idx = paises.indexOf(pais);
             return idx !== -1
-                ? { y: valores[idx] || 0, region: regiones[idx] || '' }
-                : { y: 0, region: '' };
+                ? { y: valores[idx] || 0, region: regiones[idx] || '', name: pais }  
+        : { y: 0, region: '', name: pais }
         });
     }
 
@@ -88,7 +88,7 @@
             yAxis: { opposite: true, title: { text: null } },
             tooltip: {
                 formatter: function() {
-                    return `<b>${this.x}</b><br/>
+                    return `<b>${this.point.name}</b><br/>
                             Región: ${this.point.region}<br/>
                             Valor: ${Highcharts.numberFormat(this.y, 0)}`;
                 }
