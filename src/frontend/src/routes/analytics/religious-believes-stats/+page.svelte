@@ -129,7 +129,3 @@ chart= Highcharts.chart('container', {
 <div id="container"></div>
 
 
-
-<style>
-@import url('https://code.highcharts.com/css/highcharts.css');
-</style>

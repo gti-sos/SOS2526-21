@@ -58,7 +58,7 @@ app.get(BASE_URL_API+"/religious-believes-stats/loadInitialData",(req,res)=>{
         fs.createReadStream('./data/share-of-population-by-religious-affiliation.csv')
             .pipe(csv()) 
             .on('data', (row) => {
-                if (number_of_rows < 30) {
+                if (number_of_rows < 429) {
                     csv_datos.push(row);  
                     number_of_rows++;
                 }
