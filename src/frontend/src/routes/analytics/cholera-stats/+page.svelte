@@ -44,7 +44,8 @@
         muertesReportadas = data.map(d => d.reportedDeaths);
         ratiosFatalidad = data.map(d => d.fatalityRate);
         regiones = data.map(d => d.whoRegion);
-    }
+    }  
+    //p
 
     function getDatosChart() {
         let valores;
