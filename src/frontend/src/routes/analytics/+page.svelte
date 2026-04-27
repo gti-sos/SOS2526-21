@@ -6,6 +6,7 @@
 	let BASE_API = '/api/v1';
     let datosDDLRF = $state();
 	let datosMTC = $state();
+	let datosIAD=$state();
     let filtro = $state("Afghanistan");
     let chart = $state(); 
     let paises = [
@@ -42,8 +43,10 @@
     async function aplicarFiltro() {
 		await getDatosDDLRF();
 		await getDatosMTC();
+		await getDatosIAD();
         chart.series[1].setData(datosDDLRF);
         chart.series[2].setData(datosMTC);
+		chart.series[3].setData(datosIAD);
 		
 	}
 
@@ -83,10 +86,17 @@
 
 	}
 
+	async function getDatosIAD(){
+		const res=await fetch(BASE_API+`/religious-believes-stats?entity=${filtro}&year=2010`,{method:'GET'});
+		const data=await res.json();
+		datosIAD=data;
+	}
+
 
     onMount(async () => {
 		await getDatosDDLRF();   
    		await getDatosMTC();
+		await getDatosIAD();
 		console.log('SIDA:', datosDDLRF);
     	console.log('Colera:', datosMTC);
         chart = Highcharts.chart('container', {
@@ -144,7 +154,7 @@
         series: [{
             name: 'Creyentes',
             color: 'rgba(126,86,134,1)',
-            data: [0, 80, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0 ,100 ,0],
+            data: datosIAD,
             tooltip: {
                 valueSuffix: '%'
             },  
