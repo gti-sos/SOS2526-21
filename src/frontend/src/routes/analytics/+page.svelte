@@ -89,7 +89,11 @@
 	async function getDatosIAD(){
 		const res=await fetch(BASE_API+`/religious-believes-stats?entity=${filtro}&year=2010`,{method:'GET'});
 		const data=await res.json();
-		datosIAD=data;
+		let musulman=[];
+		for (let i of data){
+			musulman=[parseFloat(i.muslim)];
+		}
+		datosIAD=musulman;
 	}
 
 
@@ -99,6 +103,7 @@
 		await getDatosIAD();
 		console.log('SIDA:', datosDDLRF);
     	console.log('Colera:', datosMTC);
+		console.log('Creencia', datosIAD)
         chart = Highcharts.chart('container', {
         chart: {
             type: 'column'
@@ -130,7 +135,7 @@
         yAxis: [{
             min: 0,
             title: {
-                text: '% Poblacion Creyente'
+                text: '% Poblacion Creyente Musulmana'
             }
         }, {
             title: {

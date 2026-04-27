@@ -1,6 +1,9 @@
 <script>
     import Highcharts from "highcharts";  
     import { onMount } from 'svelte';
+    
+
+
    
     
     let BASE_API="/api/v1/religious-believes-stats";
@@ -30,13 +33,13 @@
     
         const data=await res.json();
         
-        let cristiano=parseFloat(data.christian);
-        let judio=parseFloat(data.jew);
-        let musulman=parseFloat(data.muslim);
-        let indu=parseFloat(data.hindu);
-        let budista=parseFloat(data.budhist);
-        let otro=parseFloat(data.other);
-        let sinreligion=parseFloat(data.no_religion);
+        let cristiano=["Cristianos",parseFloat(data.christian),1];
+        let judio=["Judíos",parseFloat(data.jew),1];
+        let musulman=["Musulmanes",parseFloat(data.muslim),1];
+        let indu=["Indues",parseFloat(data.hindu),1];
+        let budista=["Budistas",parseFloat(data.budhist),1];
+        let otro=["Otros",parseFloat(data.other),1];
+        let sinreligion=["Sin Religión",parseFloat(data.no_religion),1];
 
         datosGrafico=[cristiano,judio,musulman,indu,budista,otro,sinreligion];
 
@@ -65,12 +68,13 @@
   
 
     onMount(async ()=>{
+        const VariwideModule = (await import('highcharts/modules/variwide')).default;
+        
 
 chart= Highcharts.chart('container', {
 
     chart: {
-        type: 'column',
-        styledMode: true
+        type: 'variwide'
     },
 
     title: {
@@ -80,37 +84,31 @@ chart= Highcharts.chart('container', {
     
 
     xAxis: {
-        categories: ['Cristianos', 'Judíos', 'Musulmanes', 'Indues', 'Budistas', 'Otros', 'Sin Religión']
+        type: 'religión'
     },
 
-    yAxis: [{ // Primary axis
-        className: 'highcharts-color-0',
-        title: {
-            text: 'Porcentage'
-        }
-    }, { // Secondary axis
-        className: 'highcharts-color-1',
-        opposite: true,
-        title: {
-            text: 'BMI'
-        }
-    }],
+    
 
-    plotOptions: {
-        column: {
-            borderRadius: 5
-        }
+    legend: {
+        enabled: false
     },
 
     series: [{
         name: 'Creyentes',
         data: datosGrafico,
+        dataLabels: {
+            enabled: true,
+            format: '%{point.y:.0f}'
+        },
         tooltip: {
-            valueSuffix: ' %'
-        }
+            pointFormat: 'Creyentes: <b>% {point.y}</b><br>' 
+        },
+        borderRadius: 3,
+        colorByPoint: true
     }]
 
 });
+
 
 
 
