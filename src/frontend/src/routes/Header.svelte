@@ -22,6 +22,9 @@
       </div>
     </div>
 
+    <a href="/about">About</a>
+    
+
     <div class="dropdown">
       <a href="#">Analytics</a>
       <div class="submenu">
