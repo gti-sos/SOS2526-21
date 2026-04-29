@@ -11,6 +11,17 @@ function loadBackendApiIAD(app){
 let array_creencias=[]
 db.insert(array_creencias); //Innecesario?
 
+
+
+//CORS GATOS PROXY
+
+app.get(BASE_URL_API+'/catImage', async (req, res) => {
+  const response = await fetch('https://api.thecatapi.com/v1/images/search');
+  const data = await response.json();
+  res.status(200).send(JSON.stringify(data, null, 2));
+});
+
+
 //Redirect to POSTMAN Documentation
 
 app.get(BASE_URL_API+"/religious-believes-stats/docs",(req,res)=>{

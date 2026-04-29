@@ -62,10 +62,28 @@ async function getDatosFelicidad(){
 
 //--Gatitos
 
-let BASE_API_FACTS_GATOS="https://catfact.ninja/facts"; //usar limit
-let BASE_API_FOTOS_GATOS="https://cdn2.thecatapi.com/images/search";
+let BASE_API_FACTS_GATOS="https://catfact.ninja/fact";
+let BASE_API_FOTOS_GATOS="/api/v1/catImage";
+
+let fotoGato=$state("https://i.pinimg.com/736x/6d/28/48/6d2848a51c9e54685028e4f625cabeb9.jpg");
+let catFact=$state("Los gatos son curiosos");
+
+//--funcion gatitos 
+
+async function getDatosGatos(){
+
+    let res1=await fetch(BASE_API_FOTOS_GATOS,{method:'GET'});
+    let foto=await res1.json();
+    let res2=await fetch(BASE_API_FACTS_GATOS,{method:'GET'});
+    let fact=await res2.json();
 
 
+    fotoGato=foto[0].url;
+    catFact=fact.fact;
+
+    
+
+}
 
 //María
 
@@ -77,7 +95,7 @@ let BASE_API_FOTOS_GATOS="https://cdn2.thecatapi.com/images/search";
 onMount(async ()=>{
     const VariwideModule = (await import('highcharts/modules/variwide')).default;
 
-    wool_chart=Highcharts.chart('g20-wool-stats', {
+   /* wool_chart=Highcharts.chart('g20-wool-stats', {
     chart: {
         type: 'pie',
         zooming: {
@@ -127,14 +145,9 @@ onMount(async ()=>{
             data: wool_data
         }
     ]
-});
+});  */
 
-});
-
-//----------------------------------
-
-
-happines_chart=Highcharts.chart('container', {
+happines_chart=Highcharts.chart('g15-happiness-indices', {
 
     chart: {
         type: 'variwide'
@@ -177,23 +190,46 @@ happines_chart=Highcharts.chart('container', {
 
 
 
+});
+
+//----------------------------------
+
+
+
+
+
+
 </script>
 
 <h2>Integraciones de Iván Arriaza Domínguez</h2>
 
-
+<h3>Datos de Importación/Exportación de Lanas</h3>
 <div>
     <input bind:value={inputFlujo} placeholder="Import/Export">
     <input bind:value={inputAno} placeholder="2014/2015">
+    <button onclick={getDatosLana}>Buscar</button>
 </div>
 <div id="g20-wool-stats"></div>
 
-
+<h3>Datos de Felicidad</h3>
 <div>
     <input bind:value={inputAnoHappiness} placeholder="2020">
+    <button onclick={getDatosFelicidad}>Buscar</button>
 </div>
 <div id="g15-happiness-indices"></div>
 
+<h3>Datos de Gatitos</h3>
+
+<div id="almendra">
+    <article class="card">
+  <img src={fotoGato} alt={"Foto de gato"} />
+  <div class="content">
+    <p>{catFact}</p>
+    <button onclick={getDatosGatos}>Quiero más datos</button>
+  </div>
+</article>
+
+</div>
 
 
 <h2>Integraciones de María Torres Chacón</h2>
