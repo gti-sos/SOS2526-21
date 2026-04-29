@@ -23,6 +23,7 @@
     </div>
 
     <a href="/about">About</a>
+    <a href="/integrations">Integraciones</a>
     
 
     <div class="dropdown">
