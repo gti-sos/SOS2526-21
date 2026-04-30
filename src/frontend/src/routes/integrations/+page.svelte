@@ -586,10 +586,26 @@ cargarGraficoAlcohol();
 
 <div id="g11-alcohol"></div>
 
+<h2>Integraciones de Daniel de la Rosa Fernández</h2>
+
+
 
 <h2>Integraciones de María Torres Chacón</h2>
 
-<h2>Integraciones de Daniel de la Rosa Fernández</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
