@@ -70,7 +70,7 @@ let BASE_API_FOTOS_GATOS="/api/v1/catImage";
 let fotoGato=$state("https://i.pinimg.com/736x/6d/28/48/6d2848a51c9e54685028e4f625cabeb9.jpg");
 let catFact=$state("Los gatos son curiosos");
 
-//--funcion gatitos 
+//-----funcion gatitos 
 
 async function getDatosGatos(){
 
@@ -199,6 +199,15 @@ async function decidePregunta(primero){
     }
     getDatosPokemone();
 }
+
+
+
+
+
+
+
+
+
 
 
 
