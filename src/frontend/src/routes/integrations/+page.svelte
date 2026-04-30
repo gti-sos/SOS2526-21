@@ -83,6 +83,7 @@ async function getDatosGatos(){
     fotoGato=foto[0].url;
     catFact=fact.fact;
 
+
     
 
 }
@@ -362,8 +363,9 @@ happines_chart=Highcharts.chart('g15-happiness-indices', {
 
 <h3>Preguntas de Pokemones</h3>
 
-<button onclick={getDatosPokemone}>Quiero Jugar ^^</button>
-
+<div>
+    <button onclick={getDatosPokemone}>Quiero Jugar ^^</button>
+</div>
 <div>¿Qué Pokémon tiene más {statElegida}?</div>
 
 <div>
@@ -393,3 +395,214 @@ happines_chart=Highcharts.chart('g15-happiness-indices', {
 <h2>Integraciones de María Torres Chacón</h2>
 
 <h2>Integraciones de Daniel de la Rosa Fernández</h2>
+
+
+
+
+<style>
+  /* ── Base ── */
+  :global(body) {
+    font-family: system-ui, sans-serif;
+    background: #fafaf8;
+    color: #1a1a1a;
+  }
+
+  /* ── Títulos de autor ── */
+  h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    margin-bottom: 0.25rem;
+  }
+
+  h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ── Inputs ── */
+  input {
+    height: 36px;
+    padding: 0 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1.5px solid #ddd;
+    outline: none;
+    background: #fff;
+    transition: box-shadow 0.15s;
+  }
+
+  input:focus {
+    box-shadow: 0 0 0 2px #c8b8a2;
+  }
+
+  /* ── Botones base ── */
+  button {
+    height: 36px;
+    padding: 0 16px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: filter 0.15s, transform 0.1s;
+  }
+
+  button:hover { filter: brightness(0.93); }
+  button:active { transform: scale(0.97); }
+
+  /* ══════════════════════════════════
+     SECCIÓN LANA — tierra y cañamo
+  ══════════════════════════════════ */
+  h2:first-of-type {
+    background: #f0e6d3;
+    color: #6b4c2a;
+    border-left: 4px solid #c8935a;
+  }
+
+  /* h3 de lana y felicidad (primeros dos) */
+  h3:nth-of-type(1),
+  h3:nth-of-type(2) {
+    color: #7a5230;
+  }
+
+  div:has(> input):nth-of-type(1) button,
+  div:has(> input):nth-of-type(2) button {
+    background: #c8935a;
+    color: #fff;
+  }
+
+  #g20-wool-stats,
+  #g15-happiness-indices {
+    border: 1.5px solid #e0c9a6;
+    border-radius: 12px;
+    overflow: hidden;
+    min-height: 300px;
+    background: #fffcf7;
+  }
+
+  /* ══════════════════════════════════
+     SECCIÓN GATITOS — rosa + crema
+  ══════════════════════════════════ */
+  h3:nth-of-type(3) {
+    color: #b05070;
+  }
+
+  #almendra {
+    background: #fff0f4;
+    border-radius: 14px;
+    padding: 1rem;
+    border: 1.5px solid #f5c6d5;
+    max-width: 500px;
+  }
+
+  #almendra .card {
+    display: flex;
+    border-radius: 10px;
+    overflow: hidden;
+    border: none;
+    background: #fff;
+    box-shadow: 0 1px 6px rgba(180, 80, 100, 0.1);
+  }
+
+  #almendra .card img {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  #almendra .card .content {
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    justify-content: center;
+  }
+
+  #almendra .card .content p {
+    font-size: 14px;
+    color: #7a4a5a;
+    line-height: 1.6;
+  }
+
+  #almendra .card .content button {
+    background: #e87a9a;
+    color: #fff;
+    align-self: flex-start;
+  }
+
+  /* ══════════════════════════════════
+     SECCIÓN POKÉMON — rojo + amarillo
+  ══════════════════════════════════ */
+  h3:nth-of-type(4) {
+    color: #cc2200;
+  }
+
+  /* Botón "Quiero Jugar" */
+  h3:nth-of-type(4) + button {
+    background: #cc2200;
+    color: #fff;
+    border-radius: 20px;
+    padding: 0 20px;
+    height: 38px;
+  }
+
+  /* Pregunta y racha */
+  h3:nth-of-type(4) ~ div:not(.card) {
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+    margin: 0.15rem 0;
+  }
+
+  /* Tarjeta Pokémon */
+  .card:has(> div > img[alt="pkmn1 aquí"]) {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    background: transparent;
+  }
+
+  .card > div {
+    flex: 1;
+    min-width: 160px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.25rem 1rem;
+    border-radius: 14px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: capitalize;
+    background: #fff8e1;
+    border: 2px solid #f5c400;
+    color: #7a5800;
+  }
+
+  .card > div img {
+    width: 96px;
+    height: 96px;
+    image-rendering: pixelated;
+  }
+
+  .card > div button {
+    background: #f5c400;
+    color: #5a3e00;
+    border-radius: 20px;
+    margin-top: 0.25rem;
+  }
+
+  /* ── Headings de María y Daniel ── */
+  h2:nth-of-type(2),
+  h2:nth-of-type(3) {
+    background: #f0f0f0;
+    color: #888;
+    border-left: 4px solid #ccc;
+    font-style: italic;
+  }
+</style>
