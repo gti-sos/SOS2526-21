@@ -9,28 +9,49 @@ import { onMount } from 'svelte';
 
 //Iván
 
+//--Mi API
+let BASE_API_RELIGION="/api/v1/religious-believes-stats";
+let religious_data=$state();
+
+async function getDatosReligion(){
+  
+  let res=await fetch(BASE_API_RELIGION+"?year=2020",{method:'GET'});
+  let data=await res.json();
+  return data;
+}
+
+
+
+
 //--Lana 
-let BASE_API_WOOL="/api/v2/wool-stats"; //esperar al sitio en render
+let BASE_API_WOOL="https://sos2526-20-stable.onrender.com/api/v2/wool-stats"; //esperar al sitio en render
 let wool_chart=$state();
-let wool_data=$state();
+let wool_data=$state(0);
 
 //-----Filtros lana
-let inputFlujo=$state("export");
+let inputFlujo=$state("Export");
 let inputAno=$state(2014);
 
 //-----Funciones Lana
 
 async function getDatosLana(){
 
-    let res=await fetch(BASE_API_WOOL + `?flowdesc=${inputFlujo}&period=${inputAno}`,{method:'GET'});
+    let res=await fetch(BASE_API_WOOL + `?flowdesc=${inputFlujo}&from=${inputAno}&to=${inputAno}`,{method:'GET'});
     const data=await res.json();
     let aux=[];
-    for(let w of data){
-        aux.push({name:`${w.reporterdesc}`,y:`${w.qty}`}) //qty son kilos
+    for(let w of data.data){
+        aux.push({name:`${w.reporterdesc}`,y:w.qty}) //qty son kilos
     }
     wool_data=aux;
+    console.log(wool_data);
     wool_chart.series[0].setData(wool_data);
 
+
+}
+
+async function cargarDatosLana(){
+  let res=await fetch(BASE_API_WOOL+"/loadInitialData");
+  console.log("Datos de Lana cargados");
 }
 
 //--Indices de Felicidad
@@ -59,6 +80,16 @@ async function getDatosFelicidad(){
 
     happines_chart.series[0].setData(happiness_data);
 
+    
+
+
+
+}
+
+async function loadDatosFelicidad(){
+  let res=await fetch(BASE_API_HAPPINESS+"/loadInitialData",{method:'GET'});
+  console.log("datos cargados");
+  
 }
 
 
@@ -74,17 +105,15 @@ let catFact=$state("Los gatos son curiosos");
 
 async function getDatosGatos(){
 
-    let res1=await fetch(BASE_API_FOTOS_GATOS,{method:'GET'});
-    let foto=await res1.json();
     let res2=await fetch(BASE_API_FACTS_GATOS,{method:'GET'});
     let fact=await res2.json();
+    let res1=await fetch(BASE_API_FOTOS_GATOS,{method:'GET'});
+    let foto=await res1.json();
+    
 
 
     fotoGato=foto[0].url;
     catFact=fact.fact;
-
-
-    
 
 }
 
@@ -170,8 +199,7 @@ async function getDatosPokemone(){
    statpk2=stat2;
    gritopk2=grito2;
 
-   console.log("stat1:",statpk1);
-   console.log("stat2:",statpk2);
+   
 
 }
 
@@ -233,7 +261,7 @@ function randomItem(array) {
 onMount(async ()=>{
     const VariwideModule = (await import('highcharts/modules/variwide')).default;
 
-   /* wool_chart=Highcharts.chart('g20-wool-stats', {
+    wool_chart=Highcharts.chart('g20-wool-stats', {
     chart: {
         type: 'pie',
         zooming: {
@@ -283,7 +311,7 @@ onMount(async ()=>{
             data: wool_data
         }
     ]
-});  */
+});  
 
 happines_chart=Highcharts.chart('g15-happiness-indices', {
 
@@ -314,15 +342,17 @@ happines_chart=Highcharts.chart('g15-happiness-indices', {
         data: happiness_data,
         dataLabels: {
             enabled: true,
-            format: '€{point.y:.0f}'
+            format: '{point.y:.0f}'
         },
         tooltip: {
-            pointFormat: 'Labor Costs: <b>€ {point.y}/h</b><br>' +
-                'GDP: <b>€ {point.z} million</b><br>'
+            pointFormat: 'Índice Felicidad: <b>{point.y}</b><br>' +
+                'Apoyo Social: <b>{point.z}</b><br>'
         },
         borderRadius: 3,
         colorByPoint: true
-    }]
+    },
+  
+  ]
 
 });
 
@@ -346,6 +376,7 @@ happines_chart=Highcharts.chart('g15-happiness-indices', {
     <input bind:value={inputFlujo} placeholder="Import/Export">
     <input bind:value={inputAno} placeholder="2014/2015">
     <button onclick={getDatosLana}>Buscar</button>
+    <button onclick={cargarDatosLana}>Cargar Datos de Lana</button>
 </div>
 <div id="g20-wool-stats"></div>
 
@@ -353,6 +384,7 @@ happines_chart=Highcharts.chart('g15-happiness-indices', {
 <div>
     <input bind:value={inputAnoHappiness} placeholder="2020">
     <button onclick={getDatosFelicidad}>Buscar</button>
+    <button onclick={loadDatosFelicidad}>Cargar Datos de Felicidad</button>
 </div>
 <div id="g15-happiness-indices"></div>
 
@@ -404,6 +436,15 @@ happines_chart=Highcharts.chart('g15-happiness-indices', {
 <h2>Integraciones de María Torres Chacón</h2>
 
 <h2>Integraciones de Daniel de la Rosa Fernández</h2>
+
+
+
+
+
+
+
+
+
 
 
 
