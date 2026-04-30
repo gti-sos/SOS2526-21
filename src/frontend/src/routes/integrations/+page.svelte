@@ -87,11 +87,54 @@ async function getDatosFelicidad(){
 
 }
 
+
+
 async function loadDatosFelicidad(){
   let res=await fetch(BASE_API_HAPPINESS+"/loadInitialData",{method:'GET'});
   console.log("datos cargados");
   
 }
+
+
+
+//--Estadísticas de Alcohol
+
+let BASE_API_ALCOHOL="https://sos2526-11.onrender.com/api/v2/alcohol-consumptions-per-capita";
+let alcohol_data=$state();
+
+
+async function getDatosAlcohol(){
+  let res=await fetch(BASE_API_ALCOHOL,{method:'GET'});
+  const data=await res.json();
+
+  let aux=[];
+  for(let a of data){
+    aux.push()
+
+  }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //--Gatitos
@@ -431,7 +474,9 @@ happines_chart=Highcharts.chart('g15-happiness-indices', {
     
 </div>
 
+<h3>Estadísticas de Alcohol</h3>
 
+<div id="g11-alcohol"></div>
 
 <h2>Integraciones de Daniel de la Rosa Fernández</h2>
 
