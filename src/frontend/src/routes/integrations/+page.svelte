@@ -1,5 +1,6 @@
 <script>
 import Highcharts from "highcharts";
+import ApexCharts from 'apexcharts';
 import { dev } from '$app/environment';
 import { onMount } from 'svelte';
 	import { randomBytes } from "node:crypto";
