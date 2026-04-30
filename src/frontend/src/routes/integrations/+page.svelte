@@ -5,6 +5,7 @@ import { dev } from '$app/environment';
 import { onMount } from 'svelte';
 	import { randomBytes } from "node:crypto";
 	import { listen } from "node:quic";
+	import { rmSync } from "node:fs";
 
 
 
@@ -97,24 +98,122 @@ async function loadDatosFelicidad(){
 
 
 
-//--Estadísticas de Alcohol
+//--Estadísticas de Alcohol (INTEGRACION)
+//Aclaracion: Usare mis datos de 2010 para la integracion, al ser mas razonables para datos de 2016 como los que ofrece la API
+
 
 let BASE_API_ALCOHOL="https://sos2526-11.onrender.com/api/v2/alcohol-consumptions-per-capita";
 let alcohol_data=$state();
+let cristianoXalcohol_data=$state();
+let sinReligionXalcohol_data=$state();
+
+let paisesAlcohol=['Armenia','Belgium','Chile','Australia','Argentina', 'Brazil','Canada',
+            'Angola','Austria','Albania'];
+            
+paisesAlcohol.sort();
+
 
 
 async function getDatosAlcohol(){
-  let res=await fetch(BASE_API_ALCOHOL,{method:'GET'});
-  const data=await res.json();
+  let aux=[]
+  for(let p of paisesAlcohol){
+    let res=await fetch(BASE_API_ALCOHOL+`/${p}/2016`,{method:'GET'});
+    const data=await res.json();
 
-  let aux=[];
-  for(let a of data){
-    aux.push()
+    aux.push(data.alcohol_litre);
 
   }
 
+  alcohol_data=aux;
 
+  //Datos religion 
+  let auxCristiano=[];
+  let auxNoCreyente=[];
+  for(let p of paisesAlcohol){
+    let res2=await fetch(BASE_API_RELIGION + `/${p}/2010`);
+    const data2=await res2.json();
+
+    auxCristiano.push(data2.christian);
+    auxNoCreyente.push(data2.no_religion);
+
+
+  }
+  cristianoXalcohol_data=auxCristiano;
+  sinReligionXalcohol_data=auxNoCreyente;
 }
+
+async function cargarGraficoAlcohol(){
+
+  await getDatosAlcohol();
+  const options = {
+          series: [{
+          name: 'Poblacion cristiana (%)',
+          data: cristianoXalcohol_data
+        }, {
+          name: 'Población no creyente (%)',
+          data: sinReligionXalcohol_data
+        }, {
+          name: 'consumo de alcohol (Litro per-capita)',
+          data: alcohol_data
+        }],
+          chart: {
+          type: 'bar',
+          height: 350,
+          id: 'g11-alcohol'
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: '55%',
+            borderRadius: 5,
+            borderRadiusApplication: 'end'
+          },
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ['transparent']
+        },
+        xaxis: {
+          categories: paisesAlcohol,
+        },
+        yaxis: {
+          title: {
+            text: ''
+          }
+        },
+        fill: {
+          opacity: 1
+        },
+        tooltip: {
+          y: {
+            formatter: function (val) {
+              return val;
+            }
+          }
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#g11-alcohol"), options);
+        chart.render();
+}
+
+
+//Estadisticas de Fertilidad
+
+let BASE_API_FERTILLITY="https://sos2526-12.onrender.com/api/v2/age-specific-fertility-rates";
+
+let fertility_data=$state();
+
+
+
+
+
+
+
 
 
 
@@ -305,6 +404,8 @@ function randomItem(array) {
 onMount(async ()=>{
     const VariwideModule = (await import('highcharts/modules/variwide')).default;
 
+
+//Gráfico de LANA
     wool_chart=Highcharts.chart('g20-wool-stats', {
     chart: {
         type: 'pie',
@@ -357,6 +458,8 @@ onMount(async ()=>{
     ]
 });  
 
+//Gráfico de Felicidad
+
 happines_chart=Highcharts.chart('g15-happiness-indices', {
 
     chart: {
@@ -399,6 +502,11 @@ happines_chart=Highcharts.chart('g15-happiness-indices', {
   ]
 
 });
+
+//Grafico alcohol
+
+cargarGraficoAlcohol();
+
 
 
 
