@@ -433,10 +433,26 @@ happines_chart=Highcharts.chart('g15-happiness-indices', {
 
 
 
+<h2>Integraciones de Daniel de la Rosa Fernández</h2>
+
+
 
 <h2>Integraciones de María Torres Chacón</h2>
 
-<h2>Integraciones de Daniel de la Rosa Fernández</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
