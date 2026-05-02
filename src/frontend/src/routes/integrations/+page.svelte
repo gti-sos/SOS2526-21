@@ -96,8 +96,6 @@ async function loadDatosFelicidad(){
 }
 
 
-<<<<<<< HEAD
-=======
 
 //--Estadísticas de Alcohol (INTEGRACION)
 //Aclaracion: Usare mis datos de 2010 para la integracion, al ser mas razonables para datos de 2016 como los que ofrece la API
@@ -284,7 +282,6 @@ async function cargarDatosFertilidad(){
 
 
 
->>>>>>> 857928d9108be8e7be678368d5691145654d316f
 //--Gatitos
 
 let BASE_API_FACTS_GATOS="https://catfact.ninja/fact";
@@ -882,112 +879,6 @@ happines_chart=Highcharts.chart('g15-happiness-indices', {
 
 });
 
-<<<<<<< HEAD
-//maria-picante--------------------------------------------------------------------
-const c3 = (await import('c3')).default;
-console.log("mi picante mount");
-await get_paises_spice_stats();
-await get_spice_stats();
-
-console.log("paises:", paises_spice_stats);
-console.log("datos:", spice_stats_data);
-console.log("años:", años_spice_stats);
-console.log("elemento:", chartElement_spice);
-
-chart_spice_stats = c3.generate({
-    bindto: chartElement_spice,
-    data: {
-        columns: [['Consumo', ...spice_stats_data]]     
-        ,
-        type: 'bar'
-    },
-    axis: {
-        x: {
-          type: 'category',
-          categories: años_spice_stats, 
-          label: { text: 'Año', position: 'outer-center' }
-        },
-        y: {
-          label: { text: 'Consumo', position: 'outer-middle' }
-        }
-      },
-    bar: {
-        width: {
-            ratio: 0.5 // this makes bar width 50% of length between ticks
-        }
-        // or
-        //width: 100 // this makes bar width 100px
-    }
-
-});
-
-//maria-espacio-------------------------------------------------------------------------------------
-    const { TabulatorFull } = await import('tabulator-tables');
-    await import('tabulator-tables/dist/css/tabulator.min.css');
-
-    await get_space_launches();
-
-    tabla_space_launches = new TabulatorFull("#table-space", {
-    height:"311px",
-    width: "100%",
-    data: space_launches_data,
-    columns:[
-    {title:"mission_id", field:"mission_id"},
-    {title:"company_name", field:"company_name"},
-    {title:"location", field:"location"},
-    {title:"year", field:"year"},
-    {title:"rocket_name", field:"rocket_name"},
-    {title:"mission_status", field:"mission_status"},
-    {title:"country", field:"country"},
-    ],
-});
-
-//maria-colera-alfabetismo
-await get_cholera_stats();
-await get_literacy_rates();
-get_paises_comunes();
-filtro_pais_cholera_alfabetismo = paises_colera_alfabetismo[paises_colera_alfabetismo.length -1];
-render_colera_alfabetismo();
-
-console.log("paises comunes:", paises_colera_alfabetismo);
-
-
-
-//maria-colera-energia
-
-  await import('billboard.js/dist/billboard.css');
-  const { default: bb, bar } = await import('billboard.js');
-
-
-  await get_cholera_stats();
-  await get_renewable_energy_consumptions();
-
-  procesar_cholera_renewable();
-
-  var chart = bb.generate({
-  data: {
-    x: "x",
-    columns: [
-      cholera_renewable_paises,
-      cholera_data_fatality,
-      renewable_data_hidro
-    ],
-    type: bar(), 
-  },
- axis: {
-    x: {
-      type: "category",
-      tick: { rotate: 45, multiline: false }
-    },
-    y: {
-      label: { text: "Media (%)", position: "outer-middle" }
-    }},
-  bindto: "#chartElement_cholera_renewable"
-});
-
-
-
-=======
 //Grafico alcohol
 
 cargarGraficoAlcohol();
@@ -1057,7 +948,6 @@ fertility_chart= Highcharts.chart('g12-fertility', {
         data: fertility_religious_data
     }]
 });
->>>>>>> 857928d9108be8e7be678368d5691145654d316f
 
 
 });
@@ -1129,11 +1019,9 @@ fertility_chart= Highcharts.chart('g12-fertility', {
     
 </div>
 
-<<<<<<< HEAD
-=======
 <h3>Estadísticas de Alcohol (Integración)</h3>
->>>>>>> 857928d9108be8e7be678368d5691145654d316f
 
+<div id="g11-alcohol"></div>
 
 <h3>Estadísticas de Fertilidad (Integración)</h3>
 
