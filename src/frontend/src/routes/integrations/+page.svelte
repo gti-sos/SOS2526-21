@@ -6,6 +6,7 @@ import { dev } from '$app/environment';
 import { onMount } from 'svelte';
 	import { randomBytes } from "node:crypto";
 	import { listen } from "node:quic";
+	import { rmSync } from "node:fs";
 
 
 
@@ -95,6 +96,195 @@ async function loadDatosFelicidad(){
 }
 
 
+<<<<<<< HEAD
+=======
+
+//--Estadísticas de Alcohol (INTEGRACION)
+//Aclaracion: Usare mis datos de 2010 para la integracion, al ser mas razonables para datos de 2016 como los que ofrece la API
+
+
+let BASE_API_ALCOHOL="https://sos2526-11.onrender.com/api/v2/alcohol-consumptions-per-capita";
+let alcohol_data=$state();
+let cristianoXalcohol_data=$state();
+let sinReligionXalcohol_data=$state();
+
+let paisesAlcohol=['Armenia','Belgium','Chile','Australia','Argentina', 'Brazil','Canada',
+            'Angola','Austria','Albania'];
+            
+paisesAlcohol.sort();
+
+
+
+async function getDatosAlcohol(){
+  let aux=[]
+  for(let p of paisesAlcohol){
+    let res=await fetch(BASE_API_ALCOHOL+`/${p}/2016`,{method:'GET'});
+    const data=await res.json();
+
+    aux.push(data.alcohol_litre);
+
+  }
+
+  alcohol_data=aux;
+
+  //Datos religion 
+  let auxCristiano=[];
+  let auxNoCreyente=[];
+  for(let p of paisesAlcohol){
+    let res2=await fetch(BASE_API_RELIGION + `/${p}/2010`);
+    const data2=await res2.json();
+
+    auxCristiano.push(data2.christian);
+    auxNoCreyente.push(data2.no_religion);
+
+
+  }
+  cristianoXalcohol_data=auxCristiano;
+  sinReligionXalcohol_data=auxNoCreyente;
+}
+
+async function cargarGraficoAlcohol(){
+
+  await getDatosAlcohol();
+  const options = {
+          series: [{
+          name: 'Poblacion cristiana (%)',
+          data: cristianoXalcohol_data
+        }, {
+          name: 'Población no creyente (%)',
+          data: sinReligionXalcohol_data
+        }, {
+          name: 'consumo de alcohol (Litro per-capita)',
+          data: alcohol_data
+        }],
+          chart: {
+          type: 'bar',
+          height: 350,
+          id: 'g11-alcohol'
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: '55%',
+            borderRadius: 5,
+            borderRadiusApplication: 'end'
+          },
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ['transparent']
+        },
+        xaxis: {
+          categories: paisesAlcohol,
+        },
+        yaxis: {
+          title: {
+            text: ''
+          }
+        },
+        fill: {
+          opacity: 1
+        },
+        tooltip: {
+          y: {
+            formatter: function (val) {
+              return val;
+            }
+          }
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#g11-alcohol"), options);
+        chart.render();
+}
+
+
+//Estadisticas de Fertilidad
+
+let BASE_API_FERTILLITY="https://sos2526-12.onrender.com/api/v2/age-specific-fertility-rates";
+
+let fertility_data_15_19=$state();
+let fertility_data_20_24=$state();
+let fertility_chart=$state();
+let fertility_paises=$state();
+let fertility_religious_data=$state();
+
+
+async function getDatosFertilidad(){
+
+  let res=await fetch(BASE_API_FERTILLITY+'?year=2020');
+  const data=await res.json();
+
+  let paises=[] 
+  let auxFertility_15_19=[];
+  let auxFertility_20_24=[];
+
+  for (let f of data){
+    paises.push(f.country_name);
+    auxFertility_15_19.push(f.fert_15_19);
+    auxFertility_20_24.push(f.fert_20_24);
+
+  }
+
+  fertility_data_15_19=auxFertility_15_19;
+  fertility_data_20_24=auxFertility_20_24;
+
+  fertility_paises=paises;
+
+  let auxReligious=[];
+
+  for(let p of fertility_paises){
+    let res2=await fetch(BASE_API_RELIGION + `/${p}/2020`);
+    const data2=await res2.json();
+
+    auxReligious.push(parseFloat(data2.hindu));
+  }
+
+  fertility_religious_data=auxReligious;
+  console.log(fertility_religious_data);
+
+  fertility_chart.xAxis[0].setCategories(fertility_paises);
+  fertility_chart.series[0].setData(fertility_data_15_19);
+  fertility_chart.series[1].setData(fertility_data_20_24);
+  fertility_chart.series[2].setData(fertility_religious_data);
+
+}
+
+async function cargarDatosFertilidad(){
+  let res=await fetch(BASE_API_FERTILLITY+'/loadInitialData');
+  console.log("datos cargados");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> 857928d9108be8e7be678368d5691145654d316f
 //--Gatitos
 
 let BASE_API_FACTS_GATOS="https://catfact.ninja/fact";
@@ -593,6 +783,8 @@ onMount(async ()=>{
   console.log("el mount");
     const VariwideModule = (await import('highcharts/modules/variwide')).default;
 
+
+//Gráfico de LANA
     wool_chart=Highcharts.chart('g20-wool-stats', {
     chart: {
         type: 'pie',
@@ -645,6 +837,8 @@ onMount(async ()=>{
     ]
 });  
 
+//Gráfico de Felicidad
+
 happines_chart=Highcharts.chart('g15-happiness-indices', {
 
     chart: {
@@ -688,6 +882,7 @@ happines_chart=Highcharts.chart('g15-happiness-indices', {
 
 });
 
+<<<<<<< HEAD
 //maria-picante--------------------------------------------------------------------
 const c3 = (await import('c3')).default;
 console.log("mi picante mount");
@@ -792,6 +987,77 @@ console.log("paises comunes:", paises_colera_alfabetismo);
 
 
 
+=======
+//Grafico alcohol
+
+cargarGraficoAlcohol();
+
+//Grafico Fertilidad
+fertility_chart= Highcharts.chart('g12-fertility', {
+    chart: {
+        type: 'bar'
+    },
+    title: {
+        text: 'Ratio de fertilidad por edad y estadisticas religiosas en 2020'
+    },
+    
+    xAxis: {
+        categories: fertility_paises,
+        title: {
+            text: null
+        },
+        gridLineWidth: 1,
+        lineWidth: 0
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: '',
+            align: 'high'
+        },
+        labels: {
+            overflow: 'justify'
+        },
+        gridLineWidth: 0
+    },
+    tooltip: {
+        valueSuffix: ''
+    },
+    plotOptions: {
+        bar: {
+            borderRadius: '50%',
+            dataLabels: {
+                enabled: true
+            },
+            groupPadding: 0.1
+        }
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'top',
+        x: -40,
+        y: 80,
+        floating: true,
+        borderWidth: 1,
+        backgroundColor: 'var(--highcharts-background-color, #ffffff)',
+        shadow: true
+    },
+    credits: {
+        enabled: false
+    },
+    series: [{
+        name: '% Fertilidad Edad 15-19',
+        data: fertility_data_15_19
+    }, {
+        name: '% Fertilidad Edad 20-24',
+        data: fertility_data_20_24
+    }, {
+        name: '% Poblacion Indu',
+        data: fertility_religious_data
+    }]
+});
+>>>>>>> 857928d9108be8e7be678368d5691145654d316f
 
 
 });
@@ -863,7 +1129,17 @@ console.log("paises comunes:", paises_colera_alfabetismo);
     
 </div>
 
+<<<<<<< HEAD
+=======
+<h3>Estadísticas de Alcohol (Integración)</h3>
+>>>>>>> 857928d9108be8e7be678368d5691145654d316f
 
+
+<h3>Estadísticas de Fertilidad (Integración)</h3>
+
+<button onclick={cargarDatosFertilidad}>Cargar Datos Fertilidad</button>
+<button onclick={getDatosFertilidad}>Mostrar Gráfico</button>
+<div id="g12-fertility"></div>
 
 <h2>Integraciones de Daniel de la Rosa Fernández</h2>
 
