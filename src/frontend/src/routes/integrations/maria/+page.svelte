@@ -6,6 +6,45 @@ import Highcharts from 'highcharts';
 
 //María-----------------------------------------------------------------------------------------------------------
 
+//api kakapo
+let BASE_URL_KAKAPO = "https://api.inaturalist.org/v1/observations?taxon_name=Strigops+habroptilus&quality_grade=research&only_id=false&fields=id,uri,observed_on,place_guess,description,taxon";
+let kakapo_data= $state([]);
+let kakapo_card= $state();
+
+async function get_kakapo(){
+  let res= await fetch(BASE_URL_KAKAPO, {method: 'GET'});
+  let data = await res.json();
+  let kakapos = [];
+
+  for (let obs of data.results) {
+    kakapos.push({
+      id: obs.id,
+      url: obs.uri,
+      observed_on: obs.observed_on,
+      place: obs.place_guess,
+      description: obs.description,
+      species: obs.taxon?.preferred_common_name,
+      scientific_name: obs.taxon?.name,
+      conservation_status: obs.taxon?.conservation_status?.status_name,
+      image: obs.photos?.[0]?.url?.replace("square", "medium") ?? obs.taxon?.default_photo?.medium_url,
+    });
+  }
+  kakapo_data=kakapos;
+  kakapo_random();
+}
+function kakapo_random() {
+  let i = Math.floor(Math.random() * kakapo_data.length);
+  kakapo_card = kakapo_data[i];
+}
+
+
+
+
+
+
+
+
+
 //api cholera-stats
 
 let BASE_URL_CHOLERA_STATS= "/api/v1/cholera-stats"
@@ -373,7 +412,7 @@ function render_colera_alfabetismo() {
 
 
 onMount(async ()=>{
-
+get_kakapo();
 
 //maria-colera-alfabetismo
 await get_cholera_stats();
@@ -524,6 +563,30 @@ chart_donut = c3.generate({
 </script>
 
 <h2>Integraciones de María Torres Chacón</h2>
+
+<h2>KAKAPO ALEATORIO</h2>
+    <button onclick={kakapo_random}>Otro kākāpō</button>
+{#if kakapo_card}
+  <div class="card">
+    <img src={kakapo_card.image} alt={kakapo_card.species} />
+    <div class="info">
+      <h3>Especie: {kakapo_card.species}</h3>
+      <p>Nombre científico: {kakapo_card.scientific_name}</p>
+      <p>Ubicación: {kakapo_card.place ?? "Ubicación desconocida"}</p>
+      <p>fecha del avistamiento: {kakapo_card.observed_on}</p>
+      <p>Estado de conservación: {kakapo_card.conservation_status}</p>
+      {#if kakapo_card.description}
+        <p>Descripcion: {kakapo_card.description}</p>
+      {/if}
+      <a href={kakapo_card.url} target="_blank">Ver en iNaturalist</a>
+    </div>
+   
+  </div>
+{:else}
+  <p>Cargando...</p>
+{/if}
+
+
 
 <!-- maria-picante-chart -->
 <h3>Estadísticas de consumo de picante en Afghanistan (tipo bar de libreria c3)</h3>
