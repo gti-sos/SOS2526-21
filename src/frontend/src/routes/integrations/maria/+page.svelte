@@ -114,24 +114,70 @@ async function load_space_launches(){
 
 //api mid-population-ages
 
-let BASE_URL_MID_POPULATION_AGES= "";
-let mid_population_ages_data= $state();
-
+let BASE_URL_MID_POPULATION_AGES= "https://sos2526-12.onrender.com/api/v2/mid-population-ages";
+let mid_population_ages_data= $state([]);
+let chart_donut;
+let chartElement_mid_ages_population;  
+let filtro_año_mid_population_ages=$state(1979);
+let filtro_pais_mid_population_ages=$state("Afghanistan");
+let paises_mid_population_ages=$state([]);
+let años_mid_population_ages=$state([]);
+let filtro_sexo_mid_population_ages = $state("Male");
+let sin_datos_mid_population_ages = $state(false);
 
 async function get_mid_population_ages(){
+  let res = await fetch(BASE_URL_MID_POPULATION_AGES+`?country_name=${filtro_pais_mid_population_ages}`+`&year=${filtro_año_mid_population_ages}`+`&sex=${filtro_sexo_mid_population_ages}`, {method:'GET'});
+  let data = await res.json();
+  mid_population_ages_data=data; 
+  console.log("datos de poblacion media", data);
+}
 
+async function get_paises_años_mid_population_ages(){
   let res = await fetch(BASE_URL_MID_POPULATION_AGES, {method:'GET'});
   let data = await res.json();
+  let años=[];
+  let paises=[];
+  for(let d of data){
+    if(!años.includes(d.year)) años.push(d.year);
+    if(!paises.includes(d.country_name)) paises.push(d.country_name);
+  }
+  paises_mid_population_ages=paises;
+  años_mid_population_ages=años;
+}
 
-  return data;
 
-  
+
+async function render_mid_population_ages() {
+  await get_mid_population_ages();
+  if(!mid_population_ages_data || mid_population_ages_data.length === 0) {
+    sin_datos_mid_population_ages = true;
+    console.log("no hay datos para esa combinacion");
+    return;
+  }sin_datos_mid_population_ages = false;
+  let d = mid_population_ages_data[0];
+  chart_donut.load({
+    columns: [
+      ['0-25 años', d.population_age_0],
+      ['25-50 años', d.population_age_25],
+      ['50-75 años', d.population_age_50],
+      ['75-100 años', d.population_age_75],
+      ['100+ años', d.population_age_100],
+    ]
+  });
+  chart_donut.internal.main.select('.c3-chart-arcs-title')
+  .text(`${filtro_pais_mid_population_ages} ${filtro_año_mid_population_ages}`);
+}
+
+async function load_mid_population_ages(){
+  console.log("el load");
+  let res = await fetch(BASE_URL_MID_POPULATION_AGES+"/loadInitialData", {method:'GET'});
+  console.log("los datos de edad media:", res);
 }
 
 
 //api renewable-energy-consumptions
 
-let BASE_URL_RENEWABLE_ENERGY_COMSUMPTIONS="https://sos2526-17.onrender.com/api/v1/renewable-energy-consumptions";
+let BASE_URL_RENEWABLE_ENERGY_COMSUMPTIONS="https://api-sos.pablogamero.com/api/v1/renewable-energy-consumptions?limit=1000";
 let renewable_energy_consumptions_data= $state([]);
 let cholera_renewable_paises= $state([]);
 let renewable_data_hidro = $state([]);
@@ -313,9 +359,6 @@ function procesar_colera_alfabetismo() {
       puntos_alfabetismo.push([y, null]);
     }
   
-  
-  
-  
   }
 
   return { puntos_colera, puntos_alfabetismo };
@@ -358,19 +401,6 @@ colera_alfabetismo_chart = Highcharts.chart('colera-alfabetismo-chart', {
   ]
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-  console.log("el mount");
 
 //maria-picante--------------------------------------------------------------------
 const c3 = (await import('c3')).default;
@@ -464,7 +494,28 @@ chart_spice_stats = c3.generate({
   bindto: "#chartElement_cholera_renewable"
 });
 
-console.log("felicidad ok");
+//maria-edad-media
+await get_paises_años_mid_population_ages();
+await get_mid_population_ages(); 
+
+
+let d = mid_population_ages_data[0]; //por que devuelve un array con los resultados q coinciden con el filtro pero solo debo tomar el objeto que tiene
+chart_donut = c3.generate({
+  bindto: chartElement_mid_ages_population,
+  data: {
+    columns: [
+      ['0-25 años', d.population_age_0],
+      ['25-50 años', d.population_age_25],
+      ['50-75 años', d.population_age_50],
+      ['75-100 años', d.population_age_75],
+      ['100+ años', d.population_age_100],
+    ],
+    type: 'donut'
+  },
+  donut: {
+    title: `${filtro_pais_mid_population_ages} ${filtro_año_mid_population_ages}`
+  }
+});
 
 });
 
@@ -477,21 +528,19 @@ console.log("felicidad ok");
 <!-- maria-picante-chart -->
 <h3>Estadísticas de consumo de picante en Afghanistan (tipo bar de libreria c3)</h3>
 <button onclick={load_spice_stats}>cargar datos iniciales</button>
-<button onclick={get_spice_stats}>recargar grafico</button>
 
 <div bind:this={chartElement_spice}></div>
   
 <!-- maria-espacio-chart -->
 <h3>Visualizacion de lanzamientos espaciales (table de libreria tabulator)</h3>
 <button onclick={load_space_launches}>cargar datos iniciales</button>
-<button onclick={get_space_launches}>recargar grafico</button>
 
 <div id="table-space"></div>
 
 <!-- maria-cholera-alfabetismo -->
 <h3>INTEGRACIÓN: relacion entre porcentaje de fatalidad por cólera y alfabetismo (tipo area de hightcharts)</h3>
 <button onclick={load_cholera_literacy}>cargar datos iniciales</button>
-<button onclick={render_colera_alfabetismo}>recargar grafico</button>
+
 <select bind:value={filtro_pais_cholera_alfabetismo} onchange={render_colera_alfabetismo}>
   {#each paises_colera_alfabetismo as pais}
     <option value={pais}>{pais}</option>
@@ -505,10 +554,37 @@ console.log("felicidad ok");
 <h3>INTEGRACIÓN: relacion entre porcentaje de fatalidad por cólera y consumo de energia renobables (tipo bar de libreria billboard)</h3>
 
 <button onclick={load_cholera_renewable}>cargar datos iniciales</button>
-<button onclick={() => { get_cholera_stats(); get_renewable_energy_consumptions(); }}>recargar grafico</button>
 
 <div id="chartElement_cholera_renewable"></div>
 
 <!-- maria-edad-media -->
-
 <h3>estadisticas de edad media (tipo donut de c3)</h3>
+
+<button onclick={load_mid_population_ages}>cargar datos iniciales</button>
+
+<select bind:value={filtro_pais_mid_population_ages} onchange={render_mid_population_ages}>
+  {#each paises_mid_population_ages as pais}
+    <option value={pais}>{pais}</option>
+  {/each}
+</select>
+
+<select bind:value={filtro_año_mid_population_ages} onchange={render_mid_population_ages}>
+  {#each años_mid_population_ages as año}
+    <option value={año}>{año}</option>
+  {/each}
+</select>
+
+<select bind:value={filtro_sexo_mid_population_ages} onchange={render_mid_population_ages}>
+  <option value="Male">Male</option>
+  <option value="Female">Female</option>
+</select>
+
+  <p>(probar con spain 2022 por ejemplo para que la combinacion exista)</p>
+
+{#if sin_datos_mid_population_ages}
+  <br>
+  <p>No hay datos para esa combinación de país, año y sexo</p>
+  <br>
+{/if}
+
+<div bind:this={chartElement_mid_ages_population}></div>
