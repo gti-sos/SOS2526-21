@@ -33,6 +33,7 @@
     "apexcharts": "^5.10.6",
     "auth0": "^5.7.0",
     "bcrypt": "^6.0.0",
+    "billboard": "^1.0.0",
     "billboard.js": "^3.18.0",
     "body-parser": "^2.2.2",
     "c3": "^0.7.20",

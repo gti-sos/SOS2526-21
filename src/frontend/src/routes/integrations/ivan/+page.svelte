@@ -259,11 +259,42 @@ async function cargarDatosFertilidad(){
 
 
 
+//Broma
+
+let BASE_API_BROMA="https://official-joke-api.appspot.com/random_joke";
+let broma_data=$state("");
+
+async function cargaBroma(){
+  let res=await fetch(BASE_API_BROMA,{method:'GET'});
+  const data=await res.json();
+  broma_data=data;
+}
 
 
+//Dato inútil
 
+let BASE_API_INUTIL="https://uselessfacts.jsph.pl/api/v2/facts/random";
+let inutil_data=$state("");
 
+async function cargaInutil(){
+  let res=await fetch(BASE_API_INUTIL,{method:'GET'});
+  const data=await res.json();
+  
+  inutil_data=data.text;
+}
 
+//Predecir nacionalidad por nombre
+
+let BASE_API_NACIONALIDAD="https://api.nationalize.io/";
+let nacionalidad_data=$state([]);
+let nacionalidad_nombre=$state("");
+
+async function cargarNacionalidad(nombre){
+  let res=await fetch(BASE_API_NACIONALIDAD+`?name=${nombre}`);
+  const data=await res.json();
+
+  nacionalidad_data=data.country; //Array con codigo pais y probabilidad
+}
 
 
 
@@ -441,334 +472,8 @@ function randomItem(array) {
 }
 
 
-//Daniel---------------------------------------------------------------------------------------------------------
 
 
-console.log("felicidad ok");
-
-//María-----------------------------------------------------------------------------------------------------------
-
-//api cholera-stats
-
-let BASE_URL_CHOLERA_STATS= "/api/v1/cholera-stats"
-let cholera_stats_data=$state();
-let años_cholera_stats=$state();
-let cholera_data_fatality = $state([]);
-
-async function get_cholera_stats(){
-  let res = await fetch(BASE_URL_CHOLERA_STATS, {method:'GET'});
-  let data = await res.json();
-  cholera_stats_data = data;
-  console.log("cholera ejemplo:", data[0]);
-}
-
-
-console.log("donde el cholera");
-
-//api spice-stats
-
-let BASE_URL_SPICE_STATS="https://sos2526-20-stable.onrender.com/api/v2/spice-stats/";
-let spice_stats_data = $state([]);
-let filtroPais = $state("Afghanistan");
-
-let paises_spice_stats = $state([]);
-let chartElement_spice;  
-let chart_spice_stats;        
-let años_spice_stats = $state([]);
-
-console.log("antes del picante");
-
-
-async function get_spice_stats(){
-  let res = await fetch(BASE_URL_SPICE_STATS + `?area=${filtroPais}&limit=10`, {method:'GET'});
-  let json = await res.json();
-  let data = json.data;
-
-  // Acumular consumo por año
-  let porAño = {};
-  for (let d of data){
-    if (porAño[d.year]){
-      porAño[d.year] += d.consumption;
-    } else {
-      porAño[d.year] = d.consumption;
-    }
-  }
-
-  let añosOrdenados = [];
-  for (let año in porAño){
-    añosOrdenados.push(año);
-  }
-  añosOrdenados.sort((a, b) => a - b);  
-
-  //ordenar consumo por año
-  let consumos = [];
-  for (let año of añosOrdenados){
-    consumos.push(porAño[año]);
-  }
-
-  años_spice_stats = añosOrdenados;
-  spice_stats_data = consumos;
-}
-
-async function load_spice_stats(){
-  console.log("el load");
-  let res = await fetch(BASE_URL_SPICE_STATS+"loadInitialData", {method:'GET'})
-  console.log("éxito");
-}
-
-async function get_paises_spice_stats(){
-  console.log("coge paises");
-  let res = await fetch(BASE_URL_SPICE_STATS+ `?limit=10`, {method:'GET'});
-  let json = await res.json();
-  let data = json.data.sort((a, b) => a.year - b.year);
-  
-
-  let aux=[];
-  for (let d of data){
-     if (!aux.includes(d.area)) {  
-      aux.push(d.area);
-    }
-  }
-  paises_spice_stats=aux;
-  
-}
-
-
-//api space-launches
-
-let BASE_URL_SPACE_LAUNCHES="https://space-launches-8cix.onrender.com/api/v2/space-launches";
-let space_launches_data= $state();
-let tabla_space_launches;
-
-async function get_space_launches(){
-   let res = await fetch(BASE_URL_SPACE_LAUNCHES + "?limit=100", {method:'GET'})
-  let json = await res.json();
-  space_launches_data =json;
-  console.log("espacio:", space_launches_data);
-}
-
-
-async function load_space_launches(){
-  console.log("el load");
-  let res = await fetch("https://space-launches-8cix.onrender.com/api/v2/space-launches/loadInitialData", {method:'GET'})
-  console.log("espacio array obj:", res);
-}
-
-//api mid-population-ages
-
-let BASE_URL_MID_POPULATION_AGES= "";
-let mid_population_ages_data= $state();
-
-
-async function get_mid_population_ages(){
-
-  let res = await fetch(BASE_URL_MID_POPULATION_AGES, {method:'GET'});
-  let data = await res.json();
-
-  return data;
-
-  
-}
-
-
-//api renewable-energy-consumptions
-
-let BASE_URL_RENEWABLE_ENERGY_COMSUMPTIONS="https://sos2526-17.onrender.com/api/v1/renewable-energy-consumptions";
-let renewable_energy_consumptions_data= $state([]);
-let cholera_renewable_paises= $state([]);
-let renewable_data_hidro = $state([]);
-
-async function load_cholera_renewable(){
-  console.log("el load");
-  let colera = await fetch(BASE_URL_CHOLERA_STATS+"/loadInitialData", {method:'GET'});
-  let energia = await fetch(BASE_URL_RENEWABLE_ENERGY_COMSUMPTIONS+"/loadInitialData", {method:'GET'});
-
-  console.log("colera:", colera);
-  console.log("energia:", energia);
-
-
-}
-
-async function get_renewable_energy_consumptions(){
-
-  let res = await fetch(BASE_URL_RENEWABLE_ENERGY_COMSUMPTIONS, {method:'GET'});
-  let data = await res.json();
-  console.log("IMPRIME LOS DATOS QUE COGE DE ENERGIA PORFA", data);
-
-  renewable_energy_consumptions_data=data;
-
-  
-}
-//funcion para construir las columnas de forma que se haga la media de todos los años del pais
-function procesar_cholera_renewable() {
-  console.log("cholera_stats_data length:", cholera_stats_data.length);
-  console.log("renewable_energy_consumptions_data length:", renewable_energy_consumptions_data.length);
-  // media por pais del colera
-  let fatality_suma = {};
-  let fatality_count = {};
-  for (let d of cholera_stats_data) {
-    if (d.fatalityRate != null) {
-      if (fatality_suma[d.country]=== undefined) {
-        fatality_suma[d.country] = 0;
-        fatality_count[d.country] = 0;
-      }
-      fatality_suma[d.country] += d.fatalityRate;
-      fatality_count[d.country] += 1;
-    }
-  }
-
-  let fatality_media = {};
-  for (let pais in fatality_suma) {
-    fatality_media[pais] = fatality_suma[pais] / fatality_count[pais];
-  }
-
-  // media por pais del renewable
-  let hidro_suma = {};
-  let hidro_count = {};
-  for (let d of renewable_energy_consumptions_data) {
-    if (d.hydro != null) {
-      if (hidro_suma[d.country]===undefined) {
-        hidro_suma[d.country] = 0;
-        hidro_count[d.country] = 0;
-      }
-      hidro_suma[d.country] += d.hydro;
-      hidro_count[d.country] += 1;
-    }
-  }
-
-  let hidro_media = {};
-  for (let pais in hidro_suma) {
-    hidro_media[pais] = hidro_suma[pais] / hidro_count[pais];
-  }
-
-  // tomar los paises en comun
-  let paises_comunes = [];
-  for (let pais in fatality_media) {
-    if (hidro_media[pais] !== undefined) {
-      paises_comunes.push(pais);
-    }
-  }
-  paises_comunes.sort();
-
-  
-  let col_paises = ["x"];
-  let col_fatality = ["Fatalidad Cólera (%)"];
-  let col_hidro = ["Consumo Hidroeléctrico (%)"];
-
-  for (let pais of paises_comunes) {
-    col_paises.push(pais);
-    col_fatality.push(fatality_media[pais]);
-    col_hidro.push(hidro_media[pais]);
-  }
-
-  cholera_renewable_paises = col_paises;
-  cholera_data_fatality = col_fatality;
-  renewable_data_hidro = col_hidro;
-
-  console.log("los paises columnas:", cholera_renewable_paises);
-  console.log("las medias colera:", cholera_data_fatality);
-  console.log("las medias energia:", renewable_data_hidro);
-
-}
-
-//api literacy-rates
-
-let BASE_URL_LITERACY_RATES="https://sos2526-11.onrender.com/api/v1/literacy-rates";
-let literacy_rates_data= $state([]);
-let colera_alfabetismo_chart;
-let años_literacy_rates=$state([]);
-let filtro_pais_cholera_alfabetismo=$state("Spain");
-let paises_colera_alfabetismo = $state([]);
-
-//load de colera y alfabetismo 
-
-async function load_cholera_literacy(){
-  console.log("el load");
-  let colera = await fetch(BASE_URL_CHOLERA_STATS+"/loadInitialData", {method:'GET'})
-  let alfabetismo = await fetch(BASE_URL_LITERACY_RATES+"/loadInitialData", {method:'GET'})
-  console.log("espacio array obj:", colera);
-  console.log("espacio array obj:", alfabetismo);
-}
-
-async function get_literacy_rates(){
-  let res = await fetch(BASE_URL_LITERACY_RATES, {method:'GET'});
-  let data = await res.json();
-  literacy_rates_data = data;
-  console.log("literacy ejemplo:", data[0]);
-}
-
-//para pillar los paises comunes de ambos para el desplegable 
-
-function get_paises_comunes() {
-  let paises_literacy = [];
-  for (let d of literacy_rates_data) {
-    if(!paises_literacy.includes(d.country)){
-    paises_literacy.push(d.country);
-    }
-  }
-  let aux = [];
-  for (let d of cholera_stats_data) {
-    if (paises_literacy.includes(d.country) && !aux.includes(d.country)) {
-      aux.push(d.country);
-    }
-  }
-  aux.sort();
-  paises_colera_alfabetismo = aux;
-}
-
-//crear el chart cada vez que se actualice el pais
-function render_colera_alfabetismo() {
-  let colera_por_año = {};
-  for (let d of cholera_stats_data) {
-    if (d.country === filtro_pais_cholera_alfabetismo && d.fatalityRate != null) {
-      colera_por_año[d.year] = d.fatalityRate;
-    }
-  }
-
-  let alfabetismo_por_año = {};
-  for (let d of literacy_rates_data) {
-    if (d.country === filtro_pais_cholera_alfabetismo && d.total != null) {
-      alfabetismo_por_año[d.year] = d.total;
-    }
-  }
-
-  let todos_años = [];
-  for (let y of Object.keys(colera_por_año)) {
-    if (!todos_años.includes(Number(y))) todos_años.push(Number(y));
-  }
-  for (let y of Object.keys(alfabetismo_por_año)) {
-    if (!todos_años.includes(Number(y))) todos_años.push(Number(y));
-  }
-  todos_años.sort((a, b) => a - b);
-
-  let puntos_colera = [];
-  let puntos_alfabetismo = [];
-  for (let y of todos_años) {
-    puntos_colera.push([y, colera_por_año[y] !== undefined ? colera_por_año[y] : null]);
-    puntos_alfabetismo.push([y, alfabetismo_por_año[y] !== undefined ? alfabetismo_por_año[y] : null]);
-  }
-
-  Highcharts.chart('colera-alfabetismo-chart', {
-    chart: { type: 'area' },
-    title: { text: `Fatalidad cólera vs Alfabetismo — ${filtro_pais_cholera_alfabetismo}` },
-    xAxis: { allowDecimals: false },
-    yAxis: [
-      { title: { text: 'Fatalidad cólera (%)' }, labels: { format: '{value}%' } },
-      { title: { text: 'Alfabetismo (%)' }, labels: { format: '{value}%' }, opposite: true }
-    ],
-    tooltip: { shared: true, pointFormat: '{series.name}: <b>{point.y:.2f}%</b><br/>' },
-    plotOptions: {
-      area: {
-        connectNulls: false,
-        marker: { enabled: true }
-      }
-    },
-    series: [
-      { name: 'Fatalidad cólera', yAxis: 0, data: puntos_colera },
-      { name: 'Alfabetismo', yAxis: 1, data: puntos_alfabetismo }
-    ]
-  });
-}
 
 
 
@@ -977,6 +682,49 @@ fertility_chart= Highcharts.chart('g12-fertility', {
 </div>
 <div id="g15-happiness-indices"></div>
 
+<h3>Una Broma Mala</h3>
+<article class="joke-card">
+  <button onclick={cargaBroma}>Hazme reir</button>
+  <h2 class="joke-title">Una broma para ponerte de buen humor</h2>
+  <p class="joke-text">
+    {broma_data.setup}
+  </p>
+
+  <p class="joke-text">
+    {broma_data.punchline}
+  </p>
+
+</article>
+
+
+<h3>Un Dato Inútil</h3>
+<article>
+  <button onclick={cargaInutil}>Dato inútil aquí</button>
+  <p>{inutil_data}</p>
+</article>
+
+
+<h3>Predecir Nacionalidad segun Nombre</h3>
+
+<article>
+  <div>
+    <input bind:value={nacionalidad_nombre} placeholder="Tu Nombre">
+  </div>
+  <div>
+    <button onclick={()=>cargarNacionalidad(nacionalidad_nombre)}>Busca Tu Nacionalidad</button>
+  </div>
+
+  <div>
+    {#each nacionalidad_data as nacion}
+    <p>País: {nacion.country_id}</p>
+    <p>Probabilidad: {nacion.probability}</p>
+    {/each}
+
+  </div>
+</article>
+
+
+
 <h3>Datos de Gatitos</h3>
 
 <div id="almendra">
@@ -1029,51 +777,19 @@ fertility_chart= Highcharts.chart('g12-fertility', {
 <button onclick={getDatosFertilidad}>Mostrar Gráfico</button>
 <div id="g12-fertility"></div>
 
-<h2>Integraciones de Daniel de la Rosa Fernández</h2>
 
 
 
-<h2>Integraciones de María Torres Chacón</h2>
-
-<!-- maria-picante-chart -->
-<h3>Estadísticas de consumo de picante en Afghanistan (tipo bar de libreria c3)</h3>
-<button onclick={load_spice_stats}>cargar datos iniciales</button>
-<button onclick={get_spice_stats}>recargar grafico</button>
-
-<div bind:this={chartElement_spice}></div>
-  
-<!-- maria-espacio-chart -->
-<h3>Visualizacion de lanzamientos espaciales (table de libreria tabulator)</h3>
-<button onclick={load_space_launches}>cargar datos iniciales</button>
-<button onclick={get_space_launches}>recargar grafico</button>
-
-<div id="table-space"></div>
-
-<!-- maria-cholera-alfabetismo -->
-<h3>INTEGRACIÓN: relacion entre porcentaje de fatalidad por cólera y alfabetismo (tipo area de hightcharts)</h3>
-<select bind:value={filtro_pais_cholera_alfabetismo} onchange={render_colera_alfabetismo}>
-  {#each paises_colera_alfabetismo as pais}
-    <option value={pais}>{pais}</option>
-  {/each}
-</select>
-
-
-<div id="colera-alfabetismo-chart"></div>
-
-<!-- maria-colera-energia -->
-
-<h3>INTEGRACIÓN: relacion entre porcentaje de fatalidad por cólera y consumo de energia renobables (tipo bar de libreria billboard)</h3>
-
-<button onclick={load_cholera_renewable}>cargar datos iniciales</button>
-<button onclick={() => { get_cholera_stats(); get_renewable_energy_consumptions(); }}>recargar grafico</button>
-
-<div id="chartElement_cholera_renewable"></div>
 
 
 
-<!-- maria-edad-media -->
 
-<h3>estadisticas de edad media (tipo donut de c3)</h3>
+
+
+
+
+
+
 
 
 
@@ -1294,4 +1010,29 @@ fertility_chart= Highcharts.chart('g12-fertility', {
     border-left: 4px solid #ccc;
     font-style: italic;
   }
+
+   .joke-card {
+    max-width: 360px;
+    padding: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    font-family: Arial, sans-serif;
+  }
+
+  .joke-title {
+    margin: 0 0 12px;
+    font-size: 1.25rem;
+    color: #222;
+  }
+
+  .joke-text {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #444;
+  }
+
+
 </style>
