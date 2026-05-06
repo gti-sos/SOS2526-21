@@ -146,7 +146,25 @@ async function get_cerveza(){
 
 // maria-divisas
 
+let BASE_URL_DIVISAS= "https://api.frankfurter.dev/v1/latest";
+let divisas_data=$state([]);
+let filtro_cantidad_divisa=$state(1);
+let divisas=$state([]);
+let filtro_divisa=$state("USD");
 
+async function get_divisas(){
+  let res= await fetch(BASE_URL_DIVISAS+`?amount=${filtro_cantidad_divisa}`, {method: 'GET'});
+  let data = await res.json();
+  
+  let aux=[];
+ for (let [codigo, valor] of Object.entries(data.rates)){ //para iterar un objeto
+    aux.push({ codigo, valor });
+  }
+
+  divisas_data=data;
+  divisas=aux;
+
+}
 
 
 
@@ -519,6 +537,7 @@ function render_colera_alfabetismo() {
 
 
 onMount(async ()=>{
+await get_divisas();
 await get_kakapo();
 
 
@@ -776,6 +795,25 @@ chart_donut = c3.generate({
 <h3>BUBBLE DE CERVEZA (bubble de la libreria c3)</h3>
 
 <div id="bubbleChart_cerveza"></div>
+
+<!--maria-divisas-->
+
+
+<h2>CONVERSOR EURO A OTRAS DIVISAS </h2>
+
+<p>Introduzca la cantidad de euros y seleccione una divisa</p>
+
+<input type="number" bind:value={filtro_cantidad_divisa} oninput={get_divisas} />
+
+<select bind:value={filtro_divisa}>
+  {#each divisas as d}
+    <option value={d.valor}>{d.codigo}</option>
+  {/each}
+</select>
+
+{#if filtro_divisa}
+  <p>{filtro_cantidad_divisa} EUR = {filtro_divisa} </p>
+{/if}
 
 
 
