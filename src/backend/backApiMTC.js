@@ -5,7 +5,26 @@ let db = new dataStore({ filename: './data/db/cholera-stats.db', autoload: true 
 let BASE_URL_API = "/api/v1";
 let DOCS_URL= "https://documenter.getpostman.com/view/52370283/2sBXiesZo6";
 
+
+
+
+
+
 export function loadBackendApiMTC(app){
+
+    
+//cargar fotos de la nasa 
+//api_key=WHxd7uYYfILcmHqbQiyzsIUwogFLSriiuHXVSAcy
+
+
+app.get(BASE_URL_API+'/nasa-fotos', async (req, res) => {
+  const response = await fetch('https://api.nasa.gov/planetary/apod?api_key=WHxd7uYYfILcmHqbQiyzsIUwogFLSriiuHXVSAcy&count=10');
+  const data = await response.json();
+  res.status(200).send(JSON.stringify(data, null, 2));
+});
+
+
+
 
     let cholera_stats_array=[];
     

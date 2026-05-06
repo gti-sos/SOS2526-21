@@ -6,6 +6,7 @@ import Highcharts from 'highcharts';
 
 //María-----------------------------------------------------------------------------------------------------------
 
+
 //api kakapo
 let BASE_URL_KAKAPO = "https://api.inaturalist.org/v1/observations?taxon_name=Strigops+habroptilus&quality_grade=research&only_id=false&fields=id,uri,observed_on,place_guess,description,taxon";
 let kakapo_data= $state([]);
@@ -165,6 +166,16 @@ async function get_divisas(){
   divisas=aux;
 
 }
+
+//maria-nasa
+let nasa_data = $state([]);
+
+async function get_nasa(){
+  let res = await fetch('/api/v1/nasa-fotos');
+  let data = await res.json();
+  nasa_data = data;
+}
+
 
 
 
@@ -549,6 +560,7 @@ await get_cerveza();
 
 await get_preguntas();
 
+await get_nasa();
 
 let ratings = ["rating"];
 let prices  = ["price"];
@@ -882,3 +894,22 @@ chart_donut = c3.generate({
 {/if}
 
 <div bind:this={chartElement_mid_ages_population}></div>
+
+
+
+<!--maria-nasa-->
+
+<h2>GALERÍA NASA</h2>
+
+<div class="galeria">
+  {#each nasa_data as foto}
+    {#if foto.media_type === "image"}
+      <div class="foto-card">
+        <img src={foto.url} alt={foto.title} />
+        <h3>{foto.title}</h3>
+        <p>{foto.date}</p>
+        <p>{foto.explanation}</p>
+      </div>
+    {/if}
+  {/each}
+</div>
