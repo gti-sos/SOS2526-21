@@ -150,7 +150,7 @@ let BASE_URL_DIVISAS= "https://api.frankfurter.dev/v1/latest";
 let divisas_data=$state([]);
 let filtro_cantidad_divisa=$state(1);
 let divisas=$state([]);
-let filtro_divisa=$state("USD");
+let filtro_divisa=$state();
 
 async function get_divisas(){
   let res= await fetch(BASE_URL_DIVISAS+`?amount=${filtro_cantidad_divisa}`, {method: 'GET'});
