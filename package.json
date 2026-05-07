@@ -37,6 +37,7 @@
     "billboard.js": "^3.18.0",
     "body-parser": "^2.2.2",
     "c3": "^0.7.20",
+    "chart.js": "^4.5.1",
     "cors": "^2.8.6",
     "csv-parser": "^3.2.0",
     "express": "^5.2.1",
