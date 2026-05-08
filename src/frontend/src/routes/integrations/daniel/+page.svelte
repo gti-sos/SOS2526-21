@@ -293,6 +293,7 @@
 
 <section class="card table-card">
 	<h3>Exportación de Café vs Muertes por SIDA (1990)</h3>
+	<a href="https://sos2526-20-stable.onrender.com/api/v2/coffee-stats/loadinitialdata">LoadInitialData Cafe</a>
 	<div class="table-wrapper">
 		<canvas id="miGrafica"></canvas>
 	</div>
