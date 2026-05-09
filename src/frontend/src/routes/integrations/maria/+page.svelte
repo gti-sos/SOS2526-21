@@ -913,3 +913,56 @@ chart_donut = c3.generate({
     {/if}
   {/each}
 </div>
+
+<style>
+  /* separador entre integraciones */
+  h2 {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid #ccc;
+  }
+
+  /* controles */
+  button, select, input {
+    margin: 0.25rem 0.25rem 0.5rem 0;
+  }
+
+  /* tarjeta kakapo */
+  .card {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-top: 0.75rem;
+  }
+  .card img {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 6px;
+  }
+
+  /* galería nasa */
+  .galeria {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .foto-card h3 {
+    font-size: 0.85rem;
+    margin: 0.4rem 0 0.2rem;
+    border-top: none;
+    padding-top: 0;
+  }
+  .foto-card p {
+    font-size: 0.75rem;
+    margin: 0;
+    color: #666;
+  }
+  .foto-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+</style>
