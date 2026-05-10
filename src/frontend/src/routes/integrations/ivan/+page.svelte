@@ -106,8 +106,8 @@ let alcohol_data=$state();
 let cristianoXalcohol_data=$state();
 let sinReligionXalcohol_data=$state();
 
-let paisesAlcohol=['Armenia','Belgium','Chile','Australia','Argentina', 'Brazil','Canada',
-            'Angola','Austria','Albania'];
+let paisesAlcohol=['Chile','Argentina', 'Brazil',
+            'Angola','Albania'];
             
 paisesAlcohol.sort();
 
