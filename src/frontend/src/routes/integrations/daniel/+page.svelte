@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { dev } from '$app/environment';
-	import Highcharts from 'highcharts';
+	//import Highcharts from 'highcharts';
 	import Chart from 'chart.js/auto';
 
 	let chartInstance;
@@ -129,7 +129,7 @@
 		const data2 = await res2.json();
 		const porPaises1 = {};
 		for (const dato of data1) {
-            const pais1 = normalizarPais(dato.country);
+			const pais1 = normalizarPais(dato.country);
 			if (!porPaises1[dato.country]) {
 				porPaises1[dato.country] = { country: pais1, total: 0 };
 			}
@@ -142,7 +142,7 @@
 		}
 		const porPaises2 = {};
 		for (const dato of data2.data) {
-			const pais = normalizarPais(dato.country); 
+			const pais = normalizarPais(dato.country);
 			if (!porPaises2[pais]) {
 				porPaises2[pais] = { country: pais, total: 0 };
 			}
@@ -153,11 +153,13 @@
 			.filter((d) => porPaises2[d.country])
 			.sort((a, b) => a.country.localeCompare(b.country));
 		datosCoffe = Object.values(porPaises2).sort((a, b) => a.country.localeCompare(b.country));
-		console.log(datosCoffe);
-		console.log(datosAids2);
 	}
 
+	let topology = $state();
+	let poblacion = $state();
+
 	onMount(async () => {
+		const Highcharts = window.Highcharts;
 		await getDatosRoad();
 		await getDatosCereales();
 		await getDatosStock();
@@ -283,8 +285,39 @@
 				}
 			}
 		});
+
+		const topology = await fetch('https://code.highcharts.com/mapdata/custom/world.topo.json').then(
+			(r) => r.json()
+		);
+		const res = await fetch('https://restcountries.com/v3.1/all?fields=cca3,population,name').then(
+			(r) => r.json()
+		);
+		const poblacion = res.map((p) => ({
+			'iso-a3': p.cca3,
+			value: p.population,
+			name: p.name.common
+		}));
+
+		Highcharts.mapChart('containerMapa', {
+			chart: { map: topology },
+			title: { text: 'Población por país', align: 'left' },
+			mapNavigation: { enabled: true, buttonOptions: { verticalAlign: 'bottom' } },
+			colorAxis: { min: 0 },
+			tooltip: { valueSuffix: ' habitantes' },
+			series: [{ name: 'Población', joinBy: 'iso-a3', data: poblacion }]
+		});
 	});
 </script>
+
+<svelte:head>
+	<script src="https://code.highcharts.com/maps/highmaps.js"></script>
+	<script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+	<script src="https://code.highcharts.com/maps/modules/data.js"></script>
+	<script src="https://code.highcharts.com/maps/modules/accessibility.js"></script>
+	<script src="https://code.highcharts.com/themes/adaptive.js"></script>
+</svelte:head>
+
+<div id="containerMapa"></div>
 
 <a href="https://sos2526-11.onrender.com/api/v2/road-fatalities/loadinitialdata"
 	>LoadInitialData Road</a
@@ -293,7 +326,9 @@
 
 <section class="card table-card">
 	<h3>Exportación de Café vs Muertes por SIDA (1990)</h3>
-	<a href="https://sos2526-20-stable.onrender.com/api/v2/coffee-stats/loadinitialdata">LoadInitialData Cafe</a>
+	<a href="https://sos2526-20-stable.onrender.com/api/v2/coffee-stats/loadinitialdata"
+		>LoadInitialData Cafe</a
+	>
 	<div class="table-wrapper">
 		<canvas id="miGrafica"></canvas>
 	</div>

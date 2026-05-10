@@ -38,6 +38,7 @@
     "body-parser": "^2.2.2",
     "c3": "^0.7.20",
     "chart.js": "^4.5.1",
+    "chartjs-chart-geo": "^4.3.6",
     "cors": "^2.8.6",
     "csv-parser": "^3.2.0",
     "express": "^5.2.1",
@@ -50,7 +51,8 @@
     "passport-github2": "^0.1.12",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
-    "tabulator-tables": "^6.4.0"
+    "tabulator-tables": "^6.4.0",
+    "topojson-client": "^3.1.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",
