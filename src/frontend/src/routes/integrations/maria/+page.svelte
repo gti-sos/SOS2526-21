@@ -6,6 +6,7 @@ import Highcharts from 'highcharts';
 
 //María-----------------------------------------------------------------------------------------------------------
 
+
 //api kakapo
 let BASE_URL_KAKAPO = "https://api.inaturalist.org/v1/observations?taxon_name=Strigops+habroptilus&quality_grade=research&only_id=false&fields=id,uri,observed_on,place_guess,description,taxon";
 let kakapo_data= $state([]);
@@ -17,6 +18,7 @@ async function get_kakapo(){
   let kakapos = [];
 
   for (let obs of data.results) {
+    respuesta_respuesta = undefined;
     kakapos.push({
       id: obs.id,
       url: obs.uri,
@@ -37,8 +39,142 @@ function kakapo_random() {
   kakapo_card = kakapo_data[i];
 }
 
+//api-preguntas
+let BASE_URL_PREGUNTAS = "https://opentdb.com/api.php?amount=20&type=boolean";
+let pregunta_data=$state();
+let pregunta_rd = $state();
+let filtro_cantidad_preguntas=$state(10);
+let filtro_categoria=$state(18);
+let respuesta_respuesta=$state();
+let filtro_dificultad=$state("medium");
 
 
+const categorias = {
+  9:  "Conocimiento general",
+  10: "Libros",
+  11: "Cine",
+  12: "Música",
+  13: "Musicales y teatro",
+  14: "Televisión",
+  15: "Videojuegos",
+  16: "Juegos de mesa",
+  17: "Naturaleza",
+  18: "Informática",
+  19: "Matemáticas",
+  20: "Mitología",
+  21: "Deportes",
+  22: "Geografía",
+  23: "Historia",
+  24: "Política",
+  25: "Arte",
+  26: "Celebridades",
+  27: "Animales",
+  28: "Vehículos",
+  29: "Cómics",
+  30: "Gadgets",
+  31: "Anime y manga",
+  32: "Dibujos animados",
+};
+
+
+
+
+async function get_preguntas(){
+  let res= await fetch(BASE_URL_PREGUNTAS+`&category=${filtro_categoria}`+`&difficulty=${filtro_dificultad}`, {method: 'GET'});
+  let json = await res.json();
+  let data = json.results;
+  let aux=[]
+  for (let d of data){
+    aux.push({
+      categoria: d.category,
+      pregunta: d.question,
+      respuesta: d.correct_answer,
+
+    });
+  }
+  pregunta_data=aux;
+  pregunta_random();
+  
+  
+}
+
+
+async function comprobar_true(){
+  if(pregunta_rd.respuesta === "True"){
+    console.log("RESPUESRA CORRECTA")
+    respuesta_respuesta="RESPUESRA CORRECTA";
+  }else{
+    console.log("RESPUESRA INCORRECTA")
+    respuesta_respuesta="RESPUESRA INCORRECTA";
+  }
+
+
+}
+
+async function comprobar_false(){
+  if(pregunta_rd.respuesta === "False"){
+    console.log("RESPUESRA CORRECTA")
+    respuesta_respuesta="RESPUESRA CORRECTA";
+  }else{
+    console.log("RESPUESRA INCORRECTA")
+    respuesta_respuesta="RESPUESRA INCORRECTA";
+  }
+
+
+
+}
+
+
+function pregunta_random() {
+  let i = Math.floor(Math.random() * pregunta_data.length);
+  pregunta_rd= pregunta_data[i];
+}
+
+
+//maria-cerveza
+
+let BASE_URL_CERVEZA="https://api.sampleapis.com/beers/ale";
+let cerveza_data=$state();
+
+
+async function get_cerveza(){
+  let res= await fetch(BASE_URL_CERVEZA, {method: 'GET'});
+  let data = await res.json();
+  cerveza_data=data;
+
+}
+
+
+// maria-divisas
+
+let BASE_URL_DIVISAS= "https://api.frankfurter.dev/v1/latest";
+let divisas_data=$state([]);
+let filtro_cantidad_divisa=$state(1);
+let divisas=$state([]);
+let filtro_divisa=$state();
+
+async function get_divisas(){
+  let res= await fetch(BASE_URL_DIVISAS+`?amount=${filtro_cantidad_divisa}`, {method: 'GET'});
+  let data = await res.json();
+  
+  let aux=[];
+ for (let [codigo, valor] of Object.entries(data.rates)){ //para iterar un objeto
+    aux.push({ codigo, valor });
+  }
+
+  divisas_data=data;
+  divisas=aux;
+
+}
+
+//maria-nasa
+let nasa_data = $state([]);
+
+async function get_nasa(){
+  let res = await fetch('/api/v1/nasa-fotos');
+  let data = await res.json();
+  nasa_data = data;
+}
 
 
 
@@ -412,7 +548,58 @@ function render_colera_alfabetismo() {
 
 
 onMount(async ()=>{
-get_kakapo();
+await get_divisas();
+await get_kakapo();
+
+
+  await import('billboard.js/dist/billboard.css');
+  const { default: bb, bar, bubble } = await import('billboard.js');
+
+
+await get_cerveza();
+
+await get_preguntas();
+
+await get_nasa();
+
+let ratings = ["rating"];
+let prices  = ["price"];
+const nombres = [];
+
+for(let i = 0; i < 20; i++){
+  let cerveza = cerveza_data[i];
+  if(cerveza.price != null && cerveza.rating != null && cerveza.rating.average != null){
+    ratings.push(Number(cerveza.rating.average));
+    prices.push(parseFloat(String(cerveza.price).replace("$", "")));
+    nombres.push(cerveza.name);
+  }
+}
+console.log("ratings:", ratings);
+console.log("prices:", prices);
+
+bb.generate({
+  data: {
+    columns: [
+      ratings,
+      prices
+    ],
+    type: bubble(),
+    
+    labels: false
+  },
+  bubble: { maxR: 30 },
+  axis: {
+    x: { type: "category", categories: nombres },
+    y: { max: 100 }
+  },
+  bindto: "#bubbleChart_cerveza"
+});
+
+
+
+
+
+
 
 //maria-colera-alfabetismo
 await get_cholera_stats();
@@ -503,9 +690,6 @@ chart_spice_stats = c3.generate({
 
 //maria-colera-energia
 
-  await import('billboard.js/dist/billboard.css');
-  const { default: bb, bar } = await import('billboard.js');
-
 
   await get_cholera_stats();
   await get_renewable_energy_consumptions();
@@ -564,8 +748,9 @@ chart_donut = c3.generate({
 
 <h2>Integraciones de María Torres Chacón</h2>
 
+<!-- maria-kakapo -->
 <h2>KAKAPO ALEATORIO</h2>
-    <button onclick={kakapo_random}>Otro kākāpō</button>
+    <button onclick={kakapo_random}>Otro kakapo</button>
 {#if kakapo_card}
   <div class="card">
     <img src={kakapo_card.image} alt={kakapo_card.species} />
@@ -585,6 +770,64 @@ chart_donut = c3.generate({
 {:else}
   <p>Cargando...</p>
 {/if}
+
+
+<!-- maria-preguntas -->
+<h2>PREGUNTAS ALEATORIAS</h2>
+<button onclick={pregunta_random}>Otra pregunta</button>
+
+<select bind:value={filtro_categoria} onchange={get_preguntas}>
+  {#each Object.entries(categorias) as [id, nombre]}
+    <option value={Number(id)}>{nombre}</option>
+  {/each}
+</select>
+<select bind:value={filtro_dificultad} onchange={get_preguntas}>
+  <option value="easy">Fácil</option>
+  <option value="medium">Media</option>
+  <option value="hard">Dificil</option>
+</select>
+
+
+{#if pregunta_rd}
+<p>Dificultad: media</p>
+<h3>CATEGORIA: {pregunta_rd.categoria}</h3>
+<h4>{pregunta_rd.pregunta}</h4>
+{:else}
+  <p>Cargando...</p>
+{/if}
+
+<button onclick={comprobar_true}>VERDADERO</button>
+<button onclick={comprobar_false}>FALSO</button>
+
+<p>{respuesta_respuesta}</p>
+
+
+<!-- maria-cerveza -->
+
+<h3>BUBBLE DE CERVEZA (bubble de la libreria c3)</h3>
+
+<div id="bubbleChart_cerveza"></div>
+
+<!--maria-divisas-->
+
+
+<h2>CONVERSOR EURO A OTRAS DIVISAS </h2>
+
+<p>Introduzca la cantidad de euros y seleccione una divisa</p>
+
+<input type="number" bind:value={filtro_cantidad_divisa} oninput={get_divisas} />
+
+<select bind:value={filtro_divisa}>
+  {#each divisas as d}
+    <option value={d.valor}>{d.codigo}</option>
+  {/each}
+</select>
+
+{#if filtro_divisa}
+  <p>{filtro_cantidad_divisa} EUR = {filtro_divisa} </p>
+{/if}
+
+
 
 
 
@@ -651,3 +894,75 @@ chart_donut = c3.generate({
 {/if}
 
 <div bind:this={chartElement_mid_ages_population}></div>
+
+
+
+<!--maria-nasa-->
+
+<h2>GALERÍA NASA</h2>
+
+<div class="galeria">
+  {#each nasa_data as foto}
+    {#if foto.media_type === "image"}
+      <div class="foto-card">
+        <img src={foto.url} alt={foto.title} />
+        <h3>{foto.title}</h3>
+        <p>{foto.date}</p>
+        <p>{foto.explanation}</p>
+      </div>
+    {/if}
+  {/each}
+</div>
+
+<style>
+  /* separador entre integraciones */
+  h2 {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid #ccc;
+  }
+
+  /* controles */
+  button, select, input {
+    margin: 0.25rem 0.25rem 0.5rem 0;
+  }
+
+  /* tarjeta kakapo */
+  .card {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-top: 0.75rem;
+  }
+  .card img {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 6px;
+  }
+
+  /* galería nasa */
+  .galeria {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .foto-card h3 {
+    font-size: 0.85rem;
+    margin: 0.4rem 0 0.2rem;
+    border-top: none;
+    padding-top: 0;
+  }
+  .foto-card p {
+    font-size: 0.75rem;
+    margin: 0;
+    color: #666;
+  }
+  .foto-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+</style>

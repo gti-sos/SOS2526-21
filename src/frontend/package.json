@@ -33,6 +33,11 @@
 	},
 	"dependencies": {
 		"@auth0/auth0-spa-js": "^2.19.0",
-		"highcharts": "^12.6.0"
+		"apexcharts": "^5.10.6",
+		"billboard.js": "^3.18.0",
+		"c3": "^0.7.20",
+		"d3": "^7.9.0",
+		"highcharts": "^12.6.0",
+		"tabulator-tables": "^6.4.0"
 	}
 }
