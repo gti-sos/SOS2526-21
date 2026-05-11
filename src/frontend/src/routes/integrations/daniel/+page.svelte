@@ -158,13 +158,51 @@
 	let topology = $state();
 	let poblacion = $state();
 
+	let pajaro = $state();
+
+	async function getPajaroRandom() {
+		const paginaRandom = Math.floor(Math.random() * 50) + 1;
+		const data = await fetch(`/api/v1/pajaros?page=${paginaRandom}`, {
+			method: 'GET'
+		}).then(r => r.json());
+		const grabaciones = data.recordings;
+		pajaro = grabaciones[Math.floor(Math.random() * grabaciones.length)];
+	}
+
+	let biblia = $state();
+	async function getBibliaRandom(){
+		const versiculo = await fetch(`https://bible-api.com/data/web/random`, {
+			method: 'GET'
+		}).then(r => r.json());
+		biblia = versiculo
+	}
+	let receta = $state();
+
+	async function getRecetaRandom() {
+		const data = await fetch('https://jellybellywikiapi.onrender.com/api/Recipes?pageSize=100').then(r => r.json());
+		const recetas = data.items;
+		receta = recetas[Math.floor(Math.random() * recetas.length)];
+	}
+
+	let cocktail = $state();
+
+	async function getCocktailRandom() {
+		const data = await fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php')
+			.then(r => r.json());
+		cocktail = data.drinks[0];
+	}
+
 	onMount(async () => {
 		const Highcharts = window.Highcharts;
+		await getRecetaRandom();
+		await getBibliaRandom();
+		await getPajaroRandom();
+		await getDatosCoffe();
 		await getDatosRoad();
 		await getDatosCereales();
 		await getDatosStock();
 		await getDatosBirth();
-		await getDatosCoffe();
+		
 		Highcharts.chart('container', {
 			chart: {
 				type: 'areaspline'
@@ -316,6 +354,69 @@
 	<script src="https://code.highcharts.com/maps/modules/accessibility.js"></script>
 	<script src="https://code.highcharts.com/themes/adaptive.js"></script>
 </svelte:head>
+
+<section class="card table-card">
+    <h3>🍹 Cóctel aleatorio</h3>
+    <button class="btn btn-primary" onclick={getCocktailRandom}>🎲 Generar cóctel</button>
+
+    {#if cocktail}
+        <div style="margin-top: 1rem;">
+            <h4>{cocktail.strDrink}</h4>
+            <img src={cocktail.strDrinkThumb + '/small'} alt={cocktail.strDrink} style="border-radius: 8px;" />
+            <p><b>Categoría:</b> {cocktail.strCategory} · {cocktail.strAlcoholic}</p>
+            <p><b>Vaso:</b> {cocktail.strGlass}</p>
+            <p>{cocktail.strInstructionsES ?? cocktail.strInstructions}</p>
+        </div>
+    {/if}
+</section>
+
+<section class="card table-card">
+    <h3>🍬 Receta aleatoria de Jelly Belly</h3>
+    <button class="btn btn-primary" onclick={getRecetaRandom}>🎲 Generar receta</button>
+
+    {#if receta}
+        <div style="margin-top: 1rem;">
+            <h4>{receta.name}</h4>
+            <p>{receta.description}</p>
+            <img src={receta.imageUrl} alt={receta.name} style="max-width: 300px; border-radius: 8px;" />
+            <p><b>⏱ Tiempo:</b> {receta.totalTime || 'No especificado'}</p>
+            <p><b>🍽 Cantidad:</b> {receta.makingAmount}</p>
+            <h5>Ingredientes:</h5>
+            <ul>
+                {#each receta.ingredients as ingrediente}
+                    <li>{ingrediente}</li>
+                {/each}
+            </ul>
+        </div>
+    {/if}
+</section>
+
+<section class="card table-card">
+    <h3>📖 Versículo aleatorio</h3>
+    <button class="btn btn-primary" onclick={getBibliaRandom}>🎲 Generar versículo</button>
+
+    {#if biblia}
+        <div style="margin-top: 1rem;">
+            <small>{biblia.translation.name} · {biblia.random_verse.book} {biblia.random_verse.chapter}:{biblia.random_verse.verse}</small>
+            <p><i>"{biblia.random_verse.text}"</i></p>
+        </div>
+    {/if}
+</section>
+
+
+<section class="card table-card">
+    <h3>🐦 Pájaro aleatorio</h3>
+    <button class="btn btn-primary" onclick={getPajaroRandom}> Generar pájaro</button>
+
+    {#if pajaro}
+        <div style="margin-top: 1rem;">
+            <h4>{pajaro.en} ({pajaro.gen} {pajaro.sp})</h4>
+            <p> {pajaro.loc}, {pajaro.cnt}</p>
+            <p> Tipo: {pajaro.type}</p>
+            <audio controls src={pajaro.file}></audio>
+        </div>
+    {/if}
+</section>
 
 <div id="containerMapa"></div>
 
