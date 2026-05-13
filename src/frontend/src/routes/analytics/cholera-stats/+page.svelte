@@ -45,36 +45,63 @@
         ratiosFatalidad = data.map(d => d.fatalityRate);
         regiones = data.map(d => d.whoRegion);
     }  
-    //p
+    //
+function getDatosChart() {
+    let valores;
 
-    function getDatosChart() {
-        let valores;
-        if (metricaSeleccionada === 'reportedCases') valores = casosReportados;
-        else if (metricaSeleccionada === 'reportedDeaths') valores = muertesReportadas;
-        else valores = ratiosFatalidad;
-
-        return todosLosPaises.map(pais => {
-            const idx = paises.indexOf(pais);
-            return idx !== -1
-                ? { y: valores[idx] || 0, region: regiones[idx] || '', name: pais }  
-        : { y: 0, region: '', name: pais }
-        });
+    if (metricaSeleccionada === 'reportedCases') {
+        valores = casosReportados;
+    } else if (metricaSeleccionada === 'reportedDeaths') {
+        valores = muertesReportadas;
+    } else {
+        valores = ratiosFatalidad;
     }
 
-    async function update() {
+    const resultado = [];
+
+    for (const pais of todosLosPaises) {
+        const idx = paises.indexOf(pais);
+
+        if (idx !== -1) {
+            resultado.push({
+                y: valores[idx] || 0,
+                region: regiones[idx] || '',
+                name: pais
+            });
+        } else {
+            resultado.push({
+                y: 0,
+                region: '',
+                name: pais
+            });
+        }
+    }
+
+    return resultado;
+}
+
+    async function update() { 
         await getDatos(añoSeleccionado);
         chart.setTitle({ text: `Cólera ${añoSeleccionado}` });
         chart.series[0].setData(getDatosChart(), true);
     }
 
-    async function onRangeChange(e) {
-        const año = Number(e.target.value);
-        const cercano = ListaAños.reduce((prev, curr) =>
-            Math.abs(curr - año) < Math.abs(prev - año) ? curr : prev
-        );
-        añoSeleccionado = cercano;
-        await update();
+    async function onRangeChange(e) { //salta al año mas cercano en caso de que el año no tenga datos
+    const año = Number(e.target.value); //e es el evento y target.value es el valor en el que numerico que se selecciona
+    let cercano = ListaAños[0];
+
+    for (const actual of ListaAños) {
+        const distanciaAct = Math.abs(actual - año);
+        const distanciaCercano = Math.abs(cercano - año);
+
+        if (distanciaAct < distanciaCercano) {
+            cercano = actual;
+        }
     }
+
+    añoSeleccionado = cercano;
+    await update();
+}
 
     onMount(async () => {
         await getAños();
