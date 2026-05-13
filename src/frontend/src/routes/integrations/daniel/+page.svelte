@@ -158,13 +158,52 @@
 	let topology = $state();
 	let poblacion = $state();
 
+	let pajaro = $state();
+
+	async function getPajaroRandom() {
+		const paginaRandom = Math.floor(Math.random() * 50) + 1;
+		const data = await fetch(`/api/v1/pajaros?page=${paginaRandom}`, {
+			method: 'GET'
+		}).then(r => r.json());
+		const grabaciones = data.recordings;
+		pajaro = grabaciones[Math.floor(Math.random() * grabaciones.length)];
+	}
+
+	let biblia = $state();
+	async function getBibliaRandom(){
+		const versiculo = await fetch(`https://bible-api.com/data/web/random`, {
+			method: 'GET'
+		}).then(r => r.json());
+		biblia = versiculo
+	}
+	let receta = $state();
+
+	async function getRecetaRandom() {
+		const data = await fetch('https://jellybellywikiapi.onrender.com/api/Recipes?pageSize=100').then(r => r.json());
+		const recetas = data.items;
+		receta = recetas[Math.floor(Math.random() * recetas.length)];
+	}
+
+	let cocktail = $state();
+
+	async function getCocktailRandom() {
+		const data = await fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php')
+			.then(r => r.json());
+		cocktail = data.drinks[0];
+	}
+
 	onMount(async () => {
 		const Highcharts = window.Highcharts;
+		await getCocktailRandom();
+		await getRecetaRandom();
+		await getBibliaRandom();
+		await getPajaroRandom();
+		await getDatosCoffe();
 		await getDatosRoad();
 		await getDatosCereales();
 		await getDatosStock();
 		await getDatosBirth();
-		await getDatosCoffe();
+		
 		Highcharts.chart('container', {
 			chart: {
 				type: 'areaspline'
@@ -317,156 +356,197 @@
 	<script src="https://code.highcharts.com/themes/adaptive.js"></script>
 </svelte:head>
 
+<section class="card table-card">
+    <h3>🍹 Cóctel aleatorio</h3>
+    <button class="btn btn-primary" onclick={getCocktailRandom}>🎲 Generar cóctel</button>
+
+    {#if cocktail}
+        <div style="margin-top: 1rem;">
+            <h4>{cocktail.strDrink}</h4>
+            <img src={cocktail.strDrinkThumb + '/small'} alt={cocktail.strDrink} style="border-radius: 8px;" />
+            <p><b>Categoría:</b> {cocktail.strCategory} · {cocktail.strAlcoholic}</p>
+            <p><b>🥃 Vaso:</b> {cocktail.strGlass}</p>
+            <p><b>📋 Instrucciones:</b> {cocktail.strInstructionsES ?? cocktail.strInstructions}</p>
+        </div>
+    {/if}
+</section>
+
+<section class="card table-card">
+    <h3>🍬 Receta aleatoria de Jelly Belly</h3>
+    <button class="btn btn-primary" onclick={getRecetaRandom}>🎲 Generar receta</button>
+
+    {#if receta}
+        <div style="margin-top: 1rem;">
+            <h4>{receta.name}</h4>
+            <img src={receta.imageUrl} alt={receta.name} style="max-width: 300px; border-radius: 8px;" />
+            <p>{receta.description}</p>
+            <p><b>⏱ Tiempo:</b> {receta.totalTime || 'No especificado'} &nbsp;·&nbsp; <b>🍽 Cantidad:</b> {receta.makingAmount}</p>
+            <h5>🧾 Ingredientes:</h5>
+            <ul>
+                {#each receta.ingredients as ingrediente}
+                    <li>{ingrediente}</li>
+                {/each}
+            </ul>
+        </div>
+    {/if}
+</section>
+
+<section class="card table-card">
+    <h3>📖 Versículo aleatorio</h3>
+    <button class="btn btn-primary" onclick={getBibliaRandom}>🎲 Generar versículo</button>
+
+    {#if biblia}
+        <div style="margin-top: 1rem;">
+            <small>📚 {biblia.translation.name} · {biblia.random_verse.book} {biblia.random_verse.chapter}:{biblia.random_verse.verse}</small>
+            <p><i>"{biblia.random_verse.text}"</i></p>
+        </div>
+    {/if}
+</section>
+
+<section class="card table-card">
+    <h3>🐦 Pájaro aleatorio</h3>
+    <button class="btn btn-primary" onclick={getPajaroRandom}>🎲 Generar pájaro</button>
+
+    {#if pajaro}
+        <div style="margin-top: 1rem;">
+            <h4>{pajaro.en}</h4>
+            <p><i>{pajaro.gen} {pajaro.sp}</i></p>
+            <p>📍 {pajaro.loc}, {pajaro.cnt} &nbsp;·&nbsp; 🎵 Tipo: {pajaro.type}</p>
+            <audio controls src={pajaro.file}></audio>
+        </div>
+    {/if}
+</section>
+
 <div id="containerMapa"></div>
 
-<a href="https://sos2526-11.onrender.com/api/v2/road-fatalities/loadinitialdata"
-	>LoadInitialData Road</a
->
-<div id="container"></div>
+<hr />
 
 <section class="card table-card">
-	<h3>Exportación de Café vs Muertes por SIDA (1990)</h3>
-	<a href="https://sos2526-20-stable.onrender.com/api/v2/coffee-stats/loadinitialdata"
-		>LoadInitialData Cafe</a
-	>
-	<div class="table-wrapper">
-		<canvas id="miGrafica"></canvas>
-	</div>
-</section>
-<section class="card table-card">
-	<a href="https://sos2526-18-cereal-productions-stable.onrender.com/cereal-productions">
-		Frontend Cereales</a
-	>
-	<div class="table-wrapper">
-		<table>
-			<thead>
-				<tr>
-					<th>País</th>
-					<th>Código</th>
-					<th>Año</th>
-					<th>Tierra usada (ha)</th>
-					<th>Producción cereal (t)</th>
-					<th>Rendimiento cereal</th>
-					<th>Población</th>
-				</tr>
-			</thead>
-			<tbody>
-				{#each datosCereales as dato (dato.country + dato.year)}
-					<tr data-testid="dataRow">
-						<td>{dato.country}</td>
-						<td>{dato.country_code}</td>
-						<td>{dato.year}</td>
-						<td>{dato.land_used.toLocaleString()}</td>
-						<td>{dato.cereal_production.toLocaleString()}</td>
-						<td>{dato.cereal_yield.toLocaleString()}</td>
-						<td>{dato.population.toLocaleString()}</td>
-					</tr>
-				{/each}
-			</tbody>
-		</table>
-	</div>
-
-	<div class="filtros-actions" style="padding: 0.75rem 1rem;">
-		<button
-			class="btn btn-ghost"
-			disabled={paginaCereales === 0}
-			onclick={() => irACereales(paginaCereales - 1)}
-		>
-			‹ Anterior
-		</button>
-		<span style="font-size: 0.85rem; color: #64748b; align-self: center;">
-			Página {paginaCereales + 1}
-		</span>
-		<button class="btn btn-ghost" onclick={() => irACereales(paginaCereales + 1)}>
-			Siguiente ›
-		</button>
-	</div>
+    <p>
+        <a href="https://sos2526-11.onrender.com/api/v2/road-fatalities/loadinitialdata">⬆️ LoadInitialData Road</a>
+    </p>
+    <div id="container"></div>
 </section>
 
 <section class="card table-card">
-	<a href="https://mi-api-estable-sos.onrender.com/daily-global-stock-market-indicators">
-		Frontend Stock</a
-	>
-	<div class="table-wrapper">
-		<table>
-			<thead>
-				<tr>
-					<th>Indice</th>
-					<th>Region</th>
-					<th>Fecha</th>
-					<th>Apertura</th>
-					<th>Max</th>
-					<th>Min</th>
-					<th>Cierre</th>
-					<th>Volumen</th>
-					<th>Cambio</th>
-				</tr>
-			</thead>
-			<tbody>
-				{#each datosStock as dato (dato.date + dato.region + dato.index_name)}
-					<tr data-testid="dataRow">
-						<td>{dato.index_name}</td>
-						<td><span class="badge">{dato.region}</span></td>
-						<td>{dato.date}</td>
-						<td>{dato.open.toLocaleString()}</td>
-						<td>{dato.high.toLocaleString()}</td>
-						<td>{dato.low.toLocaleString()}</td>
-						<td>{dato.close.toLocaleString()}</td>
-						<td>{dato.volume.toLocaleString()}</td>
-						<td>{dato.daily_change_percent}%</td>
-					</tr>
-				{/each}
-			</tbody>
-		</table>
-	</div>
-
-	<div class="filtros-actions" style="padding: 0.75rem 1rem;">
-		<button
-			class="btn btn-ghost"
-			disabled={paginaStock === 0}
-			onclick={() => irAStock(paginaStock - 1)}
-		>
-			‹ Anterior
-		</button>
-		<span style="font-size: 0.85rem; color: #64748b; align-self: center;">
-			Página {paginaStock + 1}
-		</span>
-		<button class="btn btn-ghost" onclick={() => irAStock(paginaStock + 1)}> Siguiente › </button>
-	</div>
+    <h3>☕ Exportación de Café vs Muertes por SIDA (1990)</h3>
+    <p><a href="https://sos2526-20-stable.onrender.com/api/v2/coffee-stats/loadinitialdata">⬆️ LoadInitialData Café</a></p>
+    <div class="table-wrapper">
+        <canvas id="miGrafica"></canvas>
+    </div>
 </section>
 
 <section class="card table-card">
-	<a href="https://sos2526-12.onrender.com/api/v2/birth-death-growth-rates/loadinitialdata">
-		Frontend Birth</a
-	>
-	<div class="table-wrapper">
-		<table>
-			<thead>
-				<tr>
-					<th>País</th>
-					<th>Código</th>
-					<th>Año</th>
-					<th>Tasa natalidad</th>
-					<th>Tasa mortalidad</th>
-					<th>Migración neta</th>
-					<th>Tasa crecimiento natural</th>
-					<th>Tasa de crecimiento</th>
-				</tr>
-			</thead>
-			<tbody>
-				{#each datosBirth as dato (dato.country_code + dato.year)}
-					<tr data-testid="dataRow">
-						<td>{dato.country_name}</td>
-						<td>{dato.country_code}</td>
-						<td>{dato.year}</td>
-						<td>{dato.crude_birth_rate}</td>
-						<td>{dato.crude_death_rate}</td>
-						<td>{dato.net_migration}</td>
-						<td>{dato.rate_natural_increase}</td>
-						<td>{dato.growth_rate}%</td>
-					</tr>
-				{/each}
-			</tbody>
-		</table>
-	</div>
+    <h3>🌾 Producción de Cereales</h3>
+    <p><a href="https://sos2526-18-cereal-productions-stable.onrender.com/cereal-productions">🔗 Frontend Cereales</a></p>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>País</th>
+                    <th>Código</th>
+                    <th>Año</th>
+                    <th>Tierra usada (ha)</th>
+                    <th>Producción cereal (t)</th>
+                    <th>Rendimiento cereal</th>
+                    <th>Población</th>
+                </tr>
+            </thead>
+            <tbody>
+                {#each datosCereales as dato (dato.country + dato.year)}
+                    <tr data-testid="dataRow">
+                        <td>{dato.country}</td>
+                        <td>{dato.country_code}</td>
+                        <td>{dato.year}</td>
+                        <td>{dato.land_used.toLocaleString()}</td>
+                        <td>{dato.cereal_production.toLocaleString()}</td>
+                        <td>{dato.cereal_yield.toLocaleString()}</td>
+                        <td>{dato.population.toLocaleString()}</td>
+                    </tr>
+                {/each}
+            </tbody>
+        </table>
+    </div>
+    <div class="filtros-actions" style="padding: 0.75rem 1rem;">
+        <button class="btn btn-ghost" disabled={paginaCereales === 0} onclick={() => irACereales(paginaCereales - 1)}>‹ Anterior</button>
+        <span style="font-size: 0.85rem; color: #64748b; align-self: center;">Página {paginaCereales + 1}</span>
+        <button class="btn btn-ghost" onclick={() => irACereales(paginaCereales + 1)}>Siguiente ›</button>
+    </div>
+</section>
+
+<section class="card table-card">
+    <h3>📈 Indicadores del Mercado de Valores</h3>
+    <p><a href="https://mi-api-estable-sos.onrender.com/daily-global-stock-market-indicators">🔗 Frontend Stock</a></p>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Índice</th>
+                    <th>Región</th>
+                    <th>Fecha</th>
+                    <th>Apertura</th>
+                    <th>Máx</th>
+                    <th>Mín</th>
+                    <th>Cierre</th>
+                    <th>Volumen</th>
+                    <th>Cambio</th>
+                </tr>
+            </thead>
+            <tbody>
+                {#each datosStock as dato (dato.date + dato.region + dato.index_name)}
+                    <tr data-testid="dataRow">
+                        <td>{dato.index_name}</td>
+                        <td><span class="badge">{dato.region}</span></td>
+                        <td>{dato.date}</td>
+                        <td>{dato.open.toLocaleString()}</td>
+                        <td>{dato.high.toLocaleString()}</td>
+                        <td>{dato.low.toLocaleString()}</td>
+                        <td>{dato.close.toLocaleString()}</td>
+                        <td>{dato.volume.toLocaleString()}</td>
+                        <td>{dato.daily_change_percent}%</td>
+                    </tr>
+                {/each}
+            </tbody>
+        </table>
+    </div>
+    <div class="filtros-actions" style="padding: 0.75rem 1rem;">
+        <button class="btn btn-ghost" disabled={paginaStock === 0} onclick={() => irAStock(paginaStock - 1)}>‹ Anterior</button>
+        <span style="font-size: 0.85rem; color: #64748b; align-self: center;">Página {paginaStock + 1}</span>
+        <button class="btn btn-ghost" onclick={() => irAStock(paginaStock + 1)}>Siguiente ›</button>
+    </div>
+</section>
+
+<section class="card table-card">
+    <h3>👶 Tasas de Natalidad, Mortalidad y Crecimiento</h3>
+    <p><a href="https://sos2526-12.onrender.com/api/v2/birth-death-growth-rates/loadinitialdata">⬆️ LoadInitialData Birth</a></p>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>País</th>
+                    <th>Código</th>
+                    <th>Año</th>
+                    <th>Tasa natalidad</th>
+                    <th>Tasa mortalidad</th>
+                    <th>Migración neta</th>
+                    <th>Crec. natural</th>
+                    <th>Tasa de crecimiento</th>
+                </tr>
+            </thead>
+            <tbody>
+                {#each datosBirth as dato (dato.country_code + dato.year)}
+                    <tr data-testid="dataRow">
+                        <td>{dato.country_name}</td>
+                        <td>{dato.country_code}</td>
+                        <td>{dato.year}</td>
+                        <td>{dato.crude_birth_rate}</td>
+                        <td>{dato.crude_death_rate}</td>
+                        <td>{dato.net_migration}</td>
+                        <td>{dato.rate_natural_increase}</td>
+                        <td>{dato.growth_rate}%</td>
+                    </tr>
+                {/each}
+            </tbody>
+        </table>
+    </div>
 </section>

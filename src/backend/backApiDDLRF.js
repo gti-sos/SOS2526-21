@@ -14,6 +14,13 @@ export function loadBackendApiDDLRF(app){
     let arrayMuertes = [];
     db.insert(arrayMuertes);
 
+    
+    app.get(BASE_URL_API + '/pajaros', async (req, res) => {
+        const page = req.query.page || 1;
+        const response = await fetch(`https://www.xeno-canto.org/api/3/recordings?query=type:song&page=${page}&key=e9db939f1f6e1b6749c735ddac81e58f932550b8`);
+        const data = await response.json();
+        res.status(200).json(data);
+    });
     //GET DATOS
     app.get(BASE_URL_API+'/aids-deaths-stats', (req, res) => {
         
