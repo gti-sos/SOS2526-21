@@ -356,6 +356,8 @@
 	<script src="https://code.highcharts.com/themes/adaptive.js"></script>
 </svelte:head>
 
+<h1>APIS EXTERNAS</h1>
+<h2>USOS DE APIS EXTERNAS</h2>
 <section class="card table-card">
     <h3>🍹 Cóctel aleatorio</h3>
     <button class="btn btn-primary" onclick={getCocktailRandom}>🎲 Generar cóctel</button>
@@ -404,7 +406,7 @@
 </section>
 
 <section class="card table-card">
-    <h3>🐦 Pájaro aleatorio</h3>
+    <h3>🐦 Pájaro aleatorio (PROXY)</h3>
     <button class="btn btn-primary" onclick={getPajaroRandom}>🎲 Generar pájaro</button>
 
     {#if pajaro}
@@ -416,11 +418,12 @@
         </div>
     {/if}
 </section>
-
+<h2>INTEGRACION API EXTERNA: Poblacion por paises</h2>
 <div id="containerMapa"></div>
 
 <hr />
-
+<h1>APIS DE ALUMNOS DE SOS</h1>
+<h2>INTEGRACIONES:</h2>
 <section class="card table-card">
     <p>
         <a href="https://sos2526-11.onrender.com/api/v2/road-fatalities/loadinitialdata">⬆️ LoadInitialData Road</a>
@@ -435,7 +438,7 @@
         <canvas id="miGrafica"></canvas>
     </div>
 </section>
-
+<h2>USOS: </h2>
 <section class="card table-card">
     <h3>🌾 Producción de Cereales</h3>
     <p><a href="https://sos2526-18-cereal-productions-stable.onrender.com/cereal-productions">🔗 Frontend Cereales</a></p>
