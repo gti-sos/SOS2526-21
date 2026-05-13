@@ -2,7 +2,6 @@
 
 
 
-<h2>Religious-believes-stats</h2>
 
 <h2>Religious-believes-stats</h2> <a href= "https://drive.google.com/file/d/1Yj0QWZD0L5V9S_T-YKYKfk9-ovja_RV8/view?usp=sharing">VIDEO religious-believes-stats</a>
 
