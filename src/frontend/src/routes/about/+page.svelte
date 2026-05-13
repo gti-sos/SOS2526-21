@@ -4,4 +4,8 @@
 
 <h2>María Torres Chacón:</h2> <a href="https://drive.google.com/file/d/1uVHmU-S9Bf_2-cP7EfrPClFAP4B222rI/view?usp=sharing">VIDEO Cholera-stats</a>
 
+<<<<<<< HEAD
 <h2>AIDS-deaths-stats</h2> 
+=======
+<h2>AIDS-deaths-stats</h2> <a href="https://drive.google.com/file/d/1zktpJChVwzyiCY8k_Wqu-EopP3rqyAoN/view?usp=sharing"> VIDEO AIDS-deaths-stats</a>
+>>>>>>> 5af2bb8de35344b82769a4ae202ed7a33cf46938
