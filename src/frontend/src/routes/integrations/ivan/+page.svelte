@@ -769,6 +769,8 @@ fertility_chart= Highcharts.chart('g12-fertility', {
 
 <h3>Estadísticas de Alcohol (Integración)</h3>
 
+<a href={BASE_API_ALCOHOL+"/loadInitialData"}>Cargar Datos Alcohol</a>
+
 <div id="g11-alcohol"></div>
 
 <h3>Estadísticas de Fertilidad (Integración)</h3>
