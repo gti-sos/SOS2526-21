@@ -65,8 +65,6 @@ app.get(BASE_URL_API+'/nasa-fotos', async (req, res) => {
                 }
                 )
                 .on("end", () => { // "end" -> salta cuando ya no quedan mas filas
-                     // mezclar aleatoriamente y coger 20
-                    const shuffled = csvData.sort(() => Math.random() - 0.5).slice(0, 20);
                     db.insert(csvData, (err, new_data)=>{
                         if(err){
                             return res.sendStatus(500, "Error reading csv");
