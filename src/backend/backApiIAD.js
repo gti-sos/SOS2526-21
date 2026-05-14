@@ -13,12 +13,14 @@ db.insert(array_creencias); //Innecesario?
 
 
 
+//Recordatorio, los métodos de NeDB son asincronos
+
 //CORS GATOS PROXY
 
 app.get(BASE_URL_API+'/catImage', async (req, res) => {
   const response = await fetch('https://api.thecatapi.com/v1/images/search');
   const data = await response.json();
-  res.status(200).send(JSON.stringify(data, null, 2));
+  res.status(200).send(JSON.stringify(data, null, 2)); //Devuelve los datos al frontend
 });
 
 
@@ -38,7 +40,7 @@ app.get(BASE_URL_API+"/religious-believes-stats",(req,res)=>{
 
     let filtro=req.query;
     delete filtro.limit;
-    delete filtro.offset;
+    delete filtro.offset; //Elimino limit y offset de la query
 
     db.find(filtro,(err,creencias)=>{
         if(err) return res.sendStatus(500);
@@ -48,7 +50,7 @@ app.get(BASE_URL_API+"/religious-believes-stats",(req,res)=>{
             return element;});
         
             
-        datos = datos.slice(offset, offset + limit);
+        datos = datos.slice(offset, offset + limit); //Parto el array de offset a offset+limit
 
         res.status(200).send(JSON.stringify(datos, null, 2));
 
@@ -69,12 +71,12 @@ app.get(BASE_URL_API+"/religious-believes-stats/loadInitialData",(req,res)=>{
         fs.createReadStream('./data/share-of-population-by-religious-affiliation.csv')
             .pipe(csv()) 
             .on('data', (row) => {
-                if (number_of_rows < 429) {
+                if (number_of_rows < 429) { //Cargo todos los datos
                     csv_datos.push(row);  
                     number_of_rows++;
                 }
             })
-            .on('end', () => { 
+            .on('end', () => {  //Al acabar lo mete en la bd
                 db.insert(csv_datos);
                 res.sendStatus(201, "CREATED");
             });
@@ -90,15 +92,15 @@ app.get(BASE_URL_API+"/religious-believes-stats/loadInitialData",(req,res)=>{
 app.post(BASE_URL_API+"/religious-believes-stats",(req,res)=>{
     if(!(req.body.entity && req.body.code && req.body.year && req.body.christian &&
         req.body.jew && req.body.muslim && req.body.hindu && req.body.budhist && req.body.other
-        && req.body.no_religion)){
+        && req.body.no_religion)){ //Si falta algun campo 400
             return res.sendStatus(400);
         }
     
     db.find({entity:req.body.entity,year:req.body.year},(err,dato)=>{
-        if(err) res.sendStatus(500);
+        if(err) res.sendStatus(500); 
 
         if(dato.length>0) return res.sendStatus(409);
-        db.insert(req.body);
+        db.insert(req.body); //Si coincide en entity year con otro registro 409
         res.sendStatus(201);
     })
     
@@ -117,13 +119,13 @@ app.put(BASE_URL_API+"/religious-believes-stats/:entity/:year",(req,res)=>{
     //Check if the body is correct
     if(!(req.body.entity && req.body.code && req.body.year && req.body.christian &&
         req.body.jew && req.body.muslim && req.body.hindu && req.body.budhist && req.body.other
-        && req.body.no_religion)){
+        && req.body.no_religion)){ //Si falta algun campo 400
             return res.sendStatus(400);
         }
     
     //Integrity check
     if(req.params.entity!==req.body.entity || 
-        req.params.year!==req.body.year){
+        req.params.year!==req.body.year){ //Si año pais del cuerpo distinto a la url 400
         return res.sendStatus(400);
     }
 
